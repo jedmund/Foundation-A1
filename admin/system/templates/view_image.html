@@ -1,0 +1,66 @@
+<div id="crop_values">
+	<input type="hidden" id="x" name="x" value="{{ crop.x }}">
+	<input type="hidden" id="x2" name="x2" value="{{ crop.x2 }}">
+	<input type="hidden" id="y" name="y" value="{{ crop.y }}">
+	<input type="hidden" id="y2" name="y2" value="{{ crop.y2 }}">
+	<input type="hidden" id="w" name="w" value="{{ crop.w }}">
+	<input type="hidden" id="h" name="h" value="{{ crop.h }}">
+	<input type="hidden" id="cw" value="{{ crop.cw }}">
+	<input type="hidden" id="ch" value="{{ crop.ch }}">
+</div>
+
+
+<div id="image_col1">
+	{% if image.large != '' %}
+		{% set source = image.large %}
+	{% elseif image.medium != '' %}
+		{% set source = image.medium %}
+	{% else %}
+		{% set source = image.small %}
+	{% endif %}
+	
+	<img data-id= "{{ image.id }}" data-sequence="{{ image.sequence }}" src="{{ source }}" style="width: {{ display.w }}px; height: {{ display.h }}px;">
+	
+	<div class="info">
+		<span class="image_filename">{{ image.filename }}</span>
+		<span class="image_width">({{ image.w }}</span>
+		&#x2715;
+		<span class="image_height">{{ image.h }})</span>
+		
+		<div class="delete">
+			<div class="icon"></div>
+			<p>Delete Image</p>
+		</div>
+	</div>
+</div>
+
+<div id="image_col2">
+	<div id="metadata">
+		
+	</div>
+	{% set ratio = crop.cw / 300 %}
+	{% set height = crop.ch/ratio %}
+	<div id="crop" style="width: 300px; height: {{ height }}px">
+		{% if image.thumb == '' %}
+			<div id="crop_empty">
+				<div id="inner">
+					<p>
+						<span class='inner_text' id="large">Image metadata disabled</span>
+<!-- 						<span class='inner_text' id="large">No crop selected</span> -->
+						<br>
+						<span class='inner_text'>
+							Available in A2
+<!-- 							{{ crop.cw }}&nbsp;&#x2715;&nbsp;{{ crop.ch }} -->
+						</span>
+					</p>
+				</div>
+			</div>
+		{% else %}
+			<img src="{{ image.thumb }}">
+		{% endif %}
+		<!-- 		<div id="crop_btn">Crop Image</div> -->
+	</div>
+
+	<input id="link" placeholder="Link this image to a separate page" type="text" disabled>
+	<textarea id="caption" name="caption" placeholder="Add a caption to this image" disabled></textarea>
+</div>

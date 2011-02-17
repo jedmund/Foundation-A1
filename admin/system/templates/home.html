@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+
+{% block content %}
+	Welcome back, 
+	{% if user.first_name != "" %}
+		{{ user.first_name }}.
+	{% else %}
+		{{ user.username }}.
+	{% endif %}	
+	<br><br>
+	<p>The Home screen shows you recent visitor statistics, social information, <br>and to-do items. It is a comprehensive dashboard for your portfolio and <br>allows you to quickly understand whats going on in your Foundation.</p>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- how do we get the title? -->
+		<title>{ site.pagename } on { site.title }</title>
+		
+		{ import "reset.css" from css as css }
+		{ import "style.css" from css as css }
+	</head>
+	
+	<body>
+		<div id="col1">
+			<div id="title"><a href="/index.php">{ site.title }</a></div>
+			<p id="subtitle">designer <span id="ampersand">&</span> developer</p>
+			<nav>
+				{ display nav as list }
+				<ul id="sub_nav">
+					<li><a href="{ site.about }">About</a></li>
+					<li><a class="contact" href="mailto:{ user.email }">Contact</a></li>
+				</ul>
+			</nav>
+		</div>

@@ -1,0 +1,220 @@
+/* -------------------------------------------------------------------
+// markItUp! Universal MarkUp Engine, JQuery plugin
+// By Jay Salvat - http://markitup.jaysalvat.com/
+// ------------------------------------------------------------------*/
+.markItUp * {
+	outline: none;
+  padding: 0px;
+	margin: 0px;
+	}
+	
+.markItUp a:link,
+.markItUp a:visited {
+	text-decoration: none;
+	color: #000000;
+	}
+	
+.markItUp  {
+	margin: 5px 0 5px 0;
+	width: 95%;
+	}
+	
+.markItUpContainer  {
+	font: 11px Helvetica, Arial, sans-serif;
+	}
+
+.markItUpEditor {
+	font: 11px Helvetica, Arial, sans-serif;
+	background: #EEEEEE;
+	padding: 14px 12px;
+	line-height: 16px;
+	color: #444444;
+	overflow: auto;
+	display: block;
+	height: 320px;
+	width: 95%;
+	border: none;
+	clear: both; 
+	}	
+	
+.markItUpPreviewFrame	{
+	background-color: #FFFFFF;
+	overflow: auto;
+	height: 300px;
+	margin: 5px 0;
+	width: 99.9%;
+	}
+	
+.markItUpFooter {
+	width: 100%;
+	}
+	
+.markItUpResizeHandle {
+	background-image: url(images/handle.png);
+	margin-right: auto;
+	margin-left: auto;
+	overflow: hidden;
+	cursor: n-resize;
+	height: 5px;
+	width: 22px; 
+}
+/***************************************************************************************/
+
+.markItUpHeader {
+	padding: 7px 17px 5px 7px;
+	background: #A5A5A5;
+	width: 100%;
+	float: left;
+	}
+
+/* first row of buttons */
+.markItUpHeader ul li.markItUpButton	{	
+	border-bottom: 1px solid #666666;
+	background: #EEEEEE;
+	background: -webkit-gradient(
+						    linear,
+						    left bottom,
+						    left top,
+						    color-stop(0.47, rgb(224,224,224)),
+						    color-stop(0.83, rgb(233,233,233))
+							);
+	background: -moz-linear-gradient(
+						    center bottom,
+						    rgb(224,224,224) 47%,
+						    rgb(233,233,233) 83%
+							);
+	position: relative;
+	margin-right: 3px;
+	list-style: none;
+	height: 23px;
+	width: 23px;
+	float: left;
+	}
+	
+
+.markItUpHeader ul li:hover {
+	background: #D3D3D3;
+	}
+	
+.markItUpHeader ul li a:hover .markItUpHeader ul li {
+	background: #666666;
+	}
+	
+.markItUpHeader ul li a {
+	margin: 3px 0 0 3px;
+	float: left;
+	}
+.markItUpHeader ul li:hover > ul{
+	display:block;
+}
+.markItUpHeader ul .markItUpDropMenu {
+	background: transparent url(images/menu.png) no-repeat 115% 50%;
+	margin-right: 5px;
+}
+.markItUpHeader ul .markItUpDropMenu li {
+	margin-right: 0px;
+}
+/* next rows of buttons */
+.markItUpHeader ul ul {
+	border: 1px solid #000;
+	background: #FFFFFF;
+	position: absolute;
+	display: none;
+	top: 18px; 
+	left: 0px;	
+	}
+	
+.markItUpHeader ul ul li {
+	border-bottom: 1px solid #000;
+	float: none;
+	}
+	
+.markItUpHeader ul ul .markItUpDropMenu {
+	background:#FFF url(images/submenu.png) no-repeat 100% 50%;
+	}
+
+.markItUpHeader ul .markItUpSeparator {
+	margin: -8px 6px -6px 3px;
+	text-indent: -9999px;
+	background: #CCCCCC;
+	position: relative;
+	overflow: hidden;
+	height: 38px;
+	float: left;
+	width: 1px;
+	}
+	
+.markItUpHeader ul ul .markItUpSeparator {
+	margin: 0px;
+	height: 1px;
+	width: auto;
+	}
+	
+/* next rows of buttons */
+.markItUpHeader ul ul ul {
+	position:absolute;
+	top:-1px; left:150px; 
+}
+
+.markItUpHeader ul ul ul li {
+	float:none;
+}
+
+.markItUpHeader ul a {
+	display:block;
+	width:16px; height:16px;
+	text-indent:-10000px;
+	background-repeat:no-repeat;
+	padding:3px;
+	margin:0px;
+}
+
+.markItUpHeader ul ul a {
+	display:block;
+	padding-left:0px;
+	text-indent:0;
+	width:120px; 
+	padding:5px 5px 5px 25px;
+	background-position:2px 50%;
+}
+
+.markItUpHeader ul ul a:hover  {
+	color:#FFF;
+	background-color:#000;
+}
+
+.markItUp .markItUpButton1 a {
+	background-image: url(/admin/system/markitup/sets/default/images/bold.png);
+	}
+
+.markItUp .markItUpButton2 a {
+	background-image: url(/admin/system/markitup/sets/default/images/italic.png);
+	}
+
+.markItUp .markItUpButton3 a {
+	background-image: url(/admin/system/markitup/sets/default/images/list-bullet.png);
+	}
+
+.markItUp .markItUpButton4 a {
+	background-image: url(/admin/system/markitup/sets/default/images/list-numeric.png); 
+	}
+
+.markItUp .markItUpButton5 a {
+	background-image: url(/admin/system/markitup/sets/default/images/picture.png);
+	}
+
+.markItUp .markItUpButton6 a {
+	background-image:url(/admin/system/markitup/sets/default/images/link.png);
+	}
+	
+.markItUp .markItUpButton7 a {
+	background-image:url(/admin/system/markitup/sets/default/images/quotes.png);
+	}
+	
+.markItUp .markItUpButton8 a {
+	background-image:url(/admin/system/markitup/sets/default/images/code.png);
+	}
+
+.markItUp .preview a {
+	background-image:url(/admin/system/markitup/sets/default/images/link.png);
+	}

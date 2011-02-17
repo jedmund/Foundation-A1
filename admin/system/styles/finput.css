@@ -1,0 +1,1063 @@
+	::-moz-selection {
+		background: #FCB9B2;
+		color: #FFFFFF;
+		color: rgba(255,255,255,.85);
+		}
+		
+	::selection {
+		background: #FCB9B2;
+		color: #FFFFFF;
+		color: rgba(255,255,255,.85);
+		}
+		
+	input.fsinput::-webkit-input-placeholder {
+		color: #666666;
+		}
+		
+	input.fsinput::-moz-placeholder {
+		color: #666666;
+		}
+		
+	input.finput::-webkit-input-placeholder {
+		color: #999999;
+		}
+		
+	input.finput::-moz-placeholder {
+		color: #999999;
+		}
+		
+	input.fsinput::webkit-input-placeholder {
+		color: #000000;
+		}
+		
+	input.finput.error::-webkit-input-placeholder {
+		color: #FFFFFF;
+		}
+		
+	input.finput.error::-moz-placeholder {
+		color: #FFFFFF;
+		}
+	
+	input, 
+	textarea {
+		outline: none;
+		}
+		
+	fieldset {
+		margin-bottom: 20px;
+		clear: both;
+		}
+		
+	div.clear {
+		clear: both;
+		}
+		
+	fieldset.user_photo,
+	fieldset.files {
+		float: left;
+		}
+	
+	fieldset.user_photo {
+		margin-top: 46px;
+		width: 282px;
+		}
+/**
+ * Foundation UI
+ * Content-Editable Elements
+ *
+ */	
+	h1[contenteditable="true"] {
+		border-bottom: 1px dotted #737373;
+		width: 98%;
+		}
+		
+	h1[contenteditable="true"]:focus {
+		background: #FCB9B2;
+		}
+
+/**
+ * Foundation UI
+ * Label
+ *
+ */
+	label { 
+		margin-bottom: 3px;
+		font-size: 14px;
+		display: inline;
+		color: #666666;
+		width: 90%;
+		float: left;
+		}
+		
+	label.login_label {
+		margin: 2px 0 0 5px;
+		display: inline;
+		font-size: 11px;
+		width: 100px;		
+		float: left;
+		}
+		
+ 	label[for="last_name"],
+ 	label[for="email"] {
+ 		margin-left: 101px;
+ 		float: left;
+ 		}
+
+/**
+ * Foundation UI 
+ * Input
+ *
+ */
+	/* Input wrapper div */ 
+	div.input {
+		margin-bottom: 20px;
+		display: block;
+		width: 100%;
+		float: left;
+		}
+		
+	input,	
+	input.finput {
+		padding: 8px 5px 2px 5px;
+		background: #EEEEEE;
+		font-size: 11px;
+		border: none;
+		width: 248px;
+		float: left;
+		}
+		
+	input.finput#client {
+		width: 45.5%;
+		}
+		
+	input.finput#first_name,
+	input.finput#last_name,
+	input.finput#email {
+		width: 140px;
+		}
+	
+	input.finput#first_name,
+	input.finput#last_name {
+		margin-right: 20px;
+		}
+		
+	div.finput input.finput {
+		width: 274px;
+		}
+		
+	input.finput.error {
+		background: #E5978E;
+		}
+		
+	input#submit {
+		background: #B2FCB2;
+		display: block;
+		height: 22px;
+		padding: 5px;
+		width: 282px;
+		float: left;
+		}
+	
+	input#submit:hover {
+		background: #48B948;
+		}
+		
+	input#nav_prev, 
+	input#nav_next,
+	input#delay {
+		display: inline;
+		width: 70px;
+		float: left;
+		}
+		
+	input#delay {
+		margin-left: 7px;
+		}
+		
+	input[type='checkbox'] {
+		display: inline;
+		width: 20px;
+		float: left;
+		clear: both;
+		}
+		
+	input.save {
+		text-indent: -9999px;
+		height: 23px;
+		width: 23px;
+		float: left;
+		}
+	
+	input#link {
+		margin-top: 4px;
+		}
+
+	p.nav_input {
+		margin: 7px 5px 0 5px;
+		font-size: 12px;
+		width: auto;
+		clear: none;
+		}
+		
+	p.unit {
+ 		margin: 8px 5px 0 5px;
+ 		font-weight: bold;
+ 		display: inline;
+		font-size: 9px;
+ 		color: #888888;
+ 		float: left;
+		}
+		
+/** 
+ * Foundation UI
+ * Textarea
+ *
+ */
+	 .textarea_wrapper {
+	 	float: left;
+	 	width: 95%;
+	 	}
+	 	
+	 textarea {
+		padding: 8px 14px 14px 8px;
+		background: #EEEEEE;
+		font-size: 11px;
+		color: #666666;
+		border: none;
+		width: 360px;
+		float: left;
+		}
+
+	textarea#blurb,
+	textarea#status {
+		height: 50px;
+		width: 95%;
+		}
+		
+	textarea#description,
+	textarea#bio {
+		height: 320px;
+		width: 100%;
+		}
+		
+	#caption textarea {
+		overflow: hidden;
+		padding: 5px;
+		height: 15px;
+		width: 98%;
+		}
+		
+	p#blurb_counter {
+		position: relative;
+		left: 5.7%;
+		top: 3px;
+		}
+		
+/**
+ * Foundation UI
+ * Button (Text)
+ *
+ */
+	button.fbtn {
+		padding: 4px 3px 6px 4px;
+		background: #EEEEEE;
+		margin-top: 2px;
+		color: #444444;
+		font-size: 9px;
+		height: 23px;
+		border: none;
+ 		float: left;
+ 		}
+ 		
+ 	button.fbtn:hover {
+ 		background: #CCCCCC;
+ 		color: #FFFFFF;
+ 		}
+ 	button.fbtn#reprocess {
+ 		float: right;
+ 		}
+/**
+ * Foundation UI 
+ * Button (Icon)
+ *
+ */	
+	div.fbtn {
+		display: inline-block;
+		margin: 2px 0 0 1px;
+		height: 23px;
+		width: 23px;
+		float: left;
+		}
+		
+	div.fbtn_clicked,
+	div.fbtn:hover {
+		cursor: pointer;
+		}
+		
+	div.fbtn_plus {
+		background: #FCB9B2 url('../img/ultrasprite.png') 0 -64px no-repeat;
+		}
+		
+	div.fbtn_plus:hover {
+		background: #E5978E url('../img/ultrasprite.png') 0 -88px no-repeat;
+		}
+		
+	li.btn_confirm {
+		background: url('../img/ultrasprite.png') -224px 0 no-repeat;
+		height: 32px;
+		width: 32px;
+		}
+		
+	li.btn_confirm:hover {
+		background: url('../img/ultrasprite.png') -224px -32px no-repeat;
+		}
+		
+	li.btn_delete {
+		background: url('../img/ultrasprite.png') -192px 0 no-repeat;
+		height: 32px;
+		width: 32px;
+		}
+		
+	li.btn_delete:hover {
+		background: url('../img/ultrasprite.png') -192px -32px no-repeat;
+		}
+		
+	.save {
+		background: #B2FCB2;
+		margin-right: 85px;
+		float: right;
+		width: 100px;
+		clear: both;
+		}
+		
+	.save .icon {
+		background: #B2FCB2 url('../img/ultrasprite.png') -119px -64px no-repeat;
+		margin-top: 1px;
+		height: 23px;
+		width: 18px;
+		float: left;
+		clear: both;
+		}
+		
+	.save p,
+	.save input {
+		text-shadow: 1px 0px 1px #FFFFFF;
+		background: transparent;
+		font-weight: bold;
+		padding-left: 4px;
+		margin-top: 6px;
+		color: #48B948;
+		}
+		
+	.save:hover {
+		background: #48B948;
+		cursor: pointer;
+		}
+		
+	.save:hover .icon {
+		background: #48B948 url('../img/ultrasprite.png') -143px -64px no-repeat;
+		}
+		
+	.save:hover p,
+	.delete:hover p,
+	.save:hover input {
+		text-shadow: none;
+		color: #FFFFFF;
+		}
+		
+	.delete {
+		background: #ff9090;
+		margin-right: 10px;
+		float: right;
+		width: 105px;
+		}
+		
+	.delete .icon {
+		background: #FF9090 url('../img/ultrasprite.png') -167px -64px no-repeat;
+		margin-top: 1px;
+		height: 23px;
+		width: 18px;
+		float: left;
+		clear: both;
+		}
+		
+	.delete p {
+		text-shadow: 1px 0px 1px #DDDDDD;
+		font-weight: bold;
+		padding-left: 4px;
+		margin-top: 6px;
+		color: #B92D2B;
+		}
+		
+	.delete:hover {
+		background: #B92D2B;
+		cursor: pointer;
+		}
+		
+	.delete:hover .icon {
+		background: #B92D2B url('../img/ultrasprite.png') -191px -64px no-repeat;
+		}
+		
+	.user .save {
+		float: left;
+		}
+	 
+	 #settings_col1 .save {
+	 	width: 110px;
+	 	float: left;
+	 	}
+/**
+ * Foundation UI 
+ * smallInput
+ *
+ */	 
+	div.fselect {
+		position: relative;
+		z-index: 5;
+		}
+		
+	input.fsinput {
+		padding: 6px 5px 6px 5px;
+		background: #FCB9B2;
+		font-size: 11px;
+		color: #111111;
+		height: 11px;
+		width: 248px; /* Same width */
+		border: none;
+		float: left;
+		}
+		
+/**
+ * Foundation UI 
+ * Button
+ *
+ */
+	div.fsselect_btn {
+		background: #FCB9B2 url('../img/ultrasprite.png') -48px -64px no-repeat;
+		margin-left: 1px;
+		display: inline;
+		height: 23px;
+		width: 23px;
+		float: left;
+		}
+	
+	div.fsselect_clicked,
+	div.fsselect_btn:hover {
+		background: #E5978E url('../img/ultrasprite.png') -48px -88px no-repeat;;
+		}
+		
+	div.fsselect_add_btn {
+		background: #FCB9B2 url('../img/ultrasprite.png') 0 -112px no-repeat;
+		margin-left: 1px;
+		display: inline;
+		height: 23px;
+		width: 23px;
+		float: left;
+		}
+	
+	div.fsselect_add_btn:hover {
+		background: #E5978E url('../img/ultrasprite.png') 0 -136px no-repeat;;
+		}
+
+/**
+ * Foundation UI 
+ * smallSelect::dropdown
+ *
+ */	 
+	/* For overlaps, the parent level div needs to have
+	 	 a position set to relative, z-index, and height. */
+	.fsselect { 
+		margin-top: 7px;
+		position: relative;
+		display: inline;
+		height: 21px;
+		width: 314px;
+		float: left;
+		}
+	 
+	.fsselect_dropdown { /* Reset */
+		padding: 0;
+		margin: 0;
+		}
+		
+	.fsselect_dropdown {
+		border-top: 1px dotted #E5978E;
+		background: #FCB9B2;
+		position: absolute;
+		font-size: 10px;
+		display: none;
+		z-index: 100;
+		width: 258px; /* Same width */
+		float: left;
+		clear: both;
+		top: 22px;
+		}
+		
+	.fsselect_dropdown li {
+		-moz-user-focus: ignore; 
+		-moz-user-input: disabled; 
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-o-user-select: none;
+		
+		padding: 4px 8px 6px 7px;
+		}
+		
+	.fsselect_dropdown li.fsselect_selectable:hover {
+		background: #E5978E;
+		color: white;
+		}
+		
+	.fsselect_dropdown li.fsselect_selected {
+		background: #E5978E;
+		color: white;
+		}
+		
+	.fsselect_dropdown li.fsselect_empty {
+		background: #FCB9B2;
+		font-style: italic;
+		}			
+
+/**
+ * Foundation UI 
+ * bigSelect::dropdown
+ *
+ */
+	.fbselect {
+		margin-bottom: 20px;
+		position: relative;
+		height: 20px;
+		float: left;
+		z-index: 4;
+		}
+		
+	.fbselect_btn {
+		background: #FCB9B2 url('../img/ultrasprite.png') -47px -64px no-repeat;
+		}
+	
+	.fbselect_btn:hover {
+		background: #E5978E url('../img/ultrasprite.png') -47px -88px no-repeat;
+		}
+	 
+	.fbselect_dropdown { /* Reset */
+		padding: 0;
+		margin: 0;
+		}
+		
+		
+	.fbselect .finput {
+		width: 298px;
+		}
+		
+	.fbselect_dropdown {
+		border-bottom: 1px solid #FFFFFF;
+		border-top: 1px dotted #A9A9A9;
+		background: #EEEEEE;
+		position: absolute;
+		margin-top: -2px;
+		display: none;
+		width: 265px; /* Same width */
+		float: left;
+		clear: both;
+		top: 26px;
+		}
+		
+	.fbselect_dropdown li {
+		-moz-user-focus: ignore; 
+		-moz-user-input: disabled; 
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-o-user-select: none;
+		padding: 5px 12px;
+		}
+		
+	.fbselect_dropdown li.fbselect_selectable:hover {
+		background: #A9A9A9;
+		color: white;
+		}
+		
+	.fbselect_dropdown li.fbselect_selected {
+		background: #D8D8D8;
+		}
+		
+	.fbselect_dropdown li.fbselect_empty {
+		background: #FCB9B2;
+		font-style: italic;
+		}			
+		
+	#slideshow .fbselect input {
+		width: 138px;
+		}
+	
+	#slideshow .fbselect_dropdown {
+		width: 148px;
+		}
+		
+/**
+ * Foundation UI
+ * Datepicker
+ *
+ */
+ 	label[for="datepicker"] {
+ 		margin-right: 210px;
+ 		float: right;
+ 		}
+ 
+ 	div.fdatepicker {
+ 		position: relative;
+ 		margin-left: 20px;
+ 		width: 240px;
+ 		float: right;
+ 		}
+ 		
+ 	div.fdatepicker_btn {
+ 		background: #FCB9B2;
+ 		margin-top: 2px;
+ 		display: inline;
+ 		height: 23px;
+ 		width: 8px;
+ 		float: left;
+ 		}
+ 		
+ 	div.fdatepicker_btn:hover,
+ 	div.fdatepicker_btn.selected {
+ 		background: #E5978E;
+ 		}
+ 		
+ 	input.fmonth {
+ 		float: left;
+ 		width: 65%;
+ 		}
+ 		
+ 	input.fyear {
+ 		padding-left: 10px;
+		float: left;
+ 		width: 20%;
+ 		}
+ 
+	ul.fdatepicker_values {
+		border-top: 1px dotted #999999;
+		background: #DDDDDD;
+		position: absolute;
+		display: none;
+		width: 69.5%;
+		z-index: 5;
+		top: 25px;
+		}
+		
+	ul.fdatepicker_values li {
+		padding: 5px;
+		}
+		
+	ul.fdatepicker_values li:hover {
+		background: #CCCCCC;
+		}
+		
+	ul.fdatepicker_values li.selected {
+		background: #CCCCCC;
+		}
+	
+/** 
+ * Foundation UI
+ * Free Input::Values
+ *
+ */
+	ul.ffinput_values {
+		margin: 0 0 0 15px;
+		display: block;
+		float: left;
+		clear: both;
+		}
+		
+	ul.ffinput_values li {
+		list-style-type: square;
+		min-height: 20px;
+		width: 240px; /* Width + Padding */
+		clear: both;
+		}
+		
+	ul.ffinput_values li:hover {
+		background: #FCB9B2;
+		cursor: pointer;
+		}
+
+/** 
+ * Foundation UI
+ * Structured Input::Values
+ *
+ */	
+	ul.fsinput_values {
+		margin-top: 1px;
+		display: block;
+		float: left;
+		clear: both;
+		}
+		
+	ul.fsinput_values li {
+		margin-bottom: 1px;
+		width: 258px; /* Width - Btn */
+		float: left;
+		clear: both;
+		}
+		
+	ul.fsinput_values li .fsinput_text {
+		background: #FCB9B2;
+		padding: 7px 0 3px 6px;
+		display: inline;
+		height: 14px;
+		width: 228px; /* Width - Btn*2 - Padding */
+		float: left;
+		}
+	
+	ul.fsinput_values li .fsinput_del {
+		background: #EEEEEE url('../img/ultrasprite.png') -24px -112px;
+		font-size: 10px;
+		display: inline;
+		color: #FFFFFF;
+		height: 24px;
+		width: 24px;
+		float: left;
+		}
+		
+	ul.fsinput_values li:hover .fsinput_del {
+		background: #A9A9A9 url('../img/ultrasprite.png') -24px -136px;
+		cursor: pointer;
+		}
+	
+/** 
+ * Foundation UI
+ * Autocomplete
+ *
+ */
+	.ac_results {
+		overflow: hidden;
+		color: #FFFFFF;
+		z-index: 99999;
+		padding: 0px;
+		}
+	
+	.ac_results ul {
+		list-style-position: outside;
+		list-style: none;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		}
+	
+	.ac_results li {
+		background: #A5A5A5;
+		margin: 1px 0 0 0;
+		padding: 4px 5px;
+		cursor: default;
+		display: block;
+		/* 
+		if width will be 100% horizontal scrollbar will apear 
+		when scroll mode will be used
+		*/
+		/*width: 100%;*/
+		font: menu;
+		font-size: 11px;
+		/* 
+		it is very important, if line-height not setted or setted 
+		in relative units scroll will be broken in firefox
+		*/
+		line-height: 16px;
+		overflow: hidden;
+		}
+	 
+	.ac_results .ac_over {
+		background: #FCB9B2;
+		}
+		
+	.ac_results li strong {
+		background: #FCB9B2;	
+		font-weight: bold;
+		}
+		
+	.ac_results .ac_over strong {
+		background: #E5978E;
+		font-weight: bold;
+		}
+	
+	.ac_loading {
+		background: white url('indicator.gif') right center no-repeat;
+		}
+	
+	.ac_odd {
+		background-color: #eee;
+		}
+		
+/** 
+ * Foundation UI
+ * Uploader
+ *
+ */	 
+	div.uploader {
+		position: relative;
+		margin-top: 20px;
+		}
+		
+	img.small_nothumb,
+	img.small_thumb {
+		margin-bottom: -3px;
+		left: 0;
+		}
+		
+	img.small_content {
+		margin-top: 25px;
+		height: 150px;
+		width: auto;
+		float: left;
+		}
+		
+	div.thumb_uploader_btn {
+		padding: 4px 2px 4px 7px;
+		background: #FCB9B2;
+		font-weight: bold;
+		margin-top: 3px;
+		color: #666666;
+		width: 273px;
+		clear: both;
+		}
+		
+	div.thumb_uploader_btn input {
+		font-size: 18px !important;
+		bottom: 0 !important;
+		top: auto !important;
+		height: 19px;
+		width: 100%;
+		left: 0;
+		}
+		
+	div.thumb_uploader_btn:hover {
+		cursor: pointer;
+		}
+		
+	div.uploader_btn {
+		padding: 4px 2px 4px 7px;
+		background: #FCB9B2;
+		font-weight: bold;
+		color: #777777;
+		width: 177px;
+		float: right;
+		}
+		
+	div.uploader_btn:hover,
+	div.thumb_uploader_btn:hover {
+		background: #E5978E;
+		cursor: pointer;
+		color: #FFFFFF;
+		}
+		
+	div.uploader_btn#crop {	
+		bottom: 0px;
+		left: 1px;
+		}
+		
+	div.uploader_btn input {
+		font-size: 12px !important;
+		width: 209px;
+		height: 20px;
+		right: 0px;
+		}
+	
+	textarea.add_caption {
+		height: 40px;
+		width: 95%;
+		float: left;
+		clear: both;
+		margin: 0;
+		}
+		
+	label[for="uploader"] { 
+		width: auto;
+		}
+		
+	label.inline {
+		width: auto;
+		}
+/** 
+ * Foundation UI
+ * Full Uploader
+ *
+ */	 
+	div.full_uploader {
+		border: 7px solid #EEEEEE;
+		margin-bottom: 10px;
+		background: #EEEEEE;
+		position: relative;
+		width: 100%;
+		float: left;
+		}
+		
+	img.nothumb {
+		position: relative;
+		height: auto;
+		width: 306px;
+		}
+		
+	img.small_content {
+		margin-top: 25px;
+		height: 150px;
+		width: auto;
+		float: left;
+		}
+		
+	div.full_uploader div.uploader_btn {
+		padding: 5px 2px 5px 7px;
+		background: #FCB9B2;
+		position: absolute;
+		font-weight: bold;
+		color: #777777;
+		height: 13px;
+		width: 165px;
+		bottom: -7px;
+		right: -7px;
+		}
+		
+	div.full_uploader div.uploader_btn:hover {
+		background: #E5978E;
+		cursor: pointer;
+		color: #FFFFFF;
+		}
+		
+/**
+ * Foundation UI
+ * jCrop Cropper
+ *
+ */
+ 
+	/* Fixes issue here http://code.google.com/p/jcrop/issues/detail?id=1 */
+	.jcrop-holder { 
+		border: 5px;
+		text-align: left;
+		top: 1px;
+		}
+	
+	.jcrop-vline, .jcrop-hline {
+		background: white url('/admin/system/img/jcrop.gif') top left repeat;
+		position: absolute;
+		font-size: 0;
+		}
+		
+	.jcrop-vline { 
+		width: 1px !important;
+		height: 100%;
+		}
+		
+	.jcrop-hline {
+		height: 1px !important; 
+		width: 100%;
+		}
+		
+	.jcrop-handle {
+		height: 7px !important;
+		border: 1px #eee solid;
+		background-color: #333;
+		width: 7px !important;
+		font-size: 1px;
+		*height: 9px;
+		*width: 9px;
+		}
+	
+	.jcrop-tracker { 
+		height: 100%;
+		width: 100%;
+		}
+	
+	.custom .jcrop-vline,
+	.custom .jcrop-hline {
+		background: yellow;
+		}
+	
+	.custom .jcrop-handle {
+		-webkit-border-radius: 3px;
+		background-color: #C7BB00;
+		-moz-border-radius: 3px;
+		border-color: black;
+		}
+	
+/** 
+ * Foundation UI
+ * Social Form
+ * 
+ */
+	fieldset#services li {
+		margin-right: 10px;
+		float: left;
+		width: 48.5%;
+		}
+	
+		
+	fieldset#services li:nth-child(2n) {
+		margin-right: 0;
+		}
+		
+	fieldset#services li input {
+		width: 86%;
+		}
+	
+	.icon {
+		padding-left: 6px;
+		margin-top: 2px;
+		height: 23px;
+		width: 16px;
+		float: left;
+		}
+		
+	.delicious {
+		background: #EEEEEE url('/admin/system/img/social/delicious-16x16.png') center center no-repeat;
+		}
+
+	.dribbble {
+		background: #EEEEEE url('/admin/system/img/social/dribbble-16x16.png') center center no-repeat;
+		}
+		
+	.facebook {
+		background: #EEEEEE url('/admin/system/img/social/facebook-16x16.png') center center no-repeat;
+		}
+		
+	.ffffound {
+		background: #EEEEEE url('/admin/system/img/social/ffffound-16x16.png') center center no-repeat;
+		}
+		
+	.flickr {
+		background: #EEEEEE url('/admin/system/img/social/flickr-16x16.png') center center no-repeat;
+		}
+		
+	.foursquare {
+		background: #EEEEEE url('/admin/system/img/social/foursquare-16x16.png') center center no-repeat;
+		}	
+
+	.github {
+		background: #EEEEEE url('/admin/system/img/social/github-16x16.png') center center no-repeat;
+		}
+		
+	.gowalla {
+		background: #EEEEEE url('/admin/system/img/social/gowalla-16x16.png') center center no-repeat;
+		}
+		
+	.lastfm {
+		background: #EEEEEE url('/admin/system/img/social/lastfm-16x16.png') center center no-repeat;
+		}
+		
+	.linkedin {
+		background: #EEEEEE url('/admin/system/img/social/linkedin-16x16.png') center center no-repeat;
+		}
+		
+	.posterous {
+		background: #EEEEEE url('/admin/system/img/social/posterous-16x16.png') center center no-repeat;
+		}
+	
+	.tumblr {
+		background: #EEEEEE url('/admin/system/img/social/tumblr-16x16.png') center center no-repeat;
+		}	
+		
+	.twitter {
+		background: #EEEEEE url('/admin/system/img/social/twitter-16x16.png') center center no-repeat;
+		}	
+	
+	.vimeo {
+		background: #EEEEEE url('/admin/system/img/social/vimeo-16x16.png') center center no-repeat;
+		}
+	

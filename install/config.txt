@@ -1,0 +1,94 @@
+ <?php
+
+/**
+ * Initialize.php
+ *
+ * This file tells visually its absolute path, requires all of the 
+ * necessary files for the application to work, and gives it other 
+ * information.
+ *
+ */
+
+// Application constants
+	defined('APP_NAME') ? null : 
+		define("APP_NAME", "foundation");
+		
+	defined('DOMAIN') ? null : 
+		define("DOMAIN", "sitedomain");
+
+// Directory constants	
+	defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
+	
+	defined('SITE_ROOT') ? null :
+		define('SITE_ROOT', siteroot);
+		
+	defined('LIB_PATH') ? null :
+		define('LIB_PATH', SITE_ROOT.DS.'lib');
+		
+	defined('PUBLIC_PATH') ? null :
+		define('PUBLIC_PATH', SITE_ROOT);	
+		
+	defined('CLASS_PATH') ? null :
+		define('CLASS_PATH', LIB_PATH.DS.'classes');
+		
+	defined('GLIB_PATH') ? null :
+		define('GLIB_PATH', CLASS_PATH.DS.'generics');
+
+	defined('FLIB_PATH') ? null :
+		define('FLIB_PATH', CLASS_PATH.DS.'foundation');
+	
+	defined('PLIB_PATH') ? null :
+		define('PLIB_PATH', CLASS_PATH.DS.'parsel');
+			
+	defined('LAYOUT') ? null : 
+		define('LAYOUT', PUBLIC_PATH.DS.'layout');
+	
+// Library constants
+
+	defined('DATABASE') ? null :
+		define('DATABASE', GLIB_PATH.DS.'database.php');
+	
+// generic libraries
+	require_once(GLIB_PATH.DS.'functions.php'); // Generic functions, not a class
+	
+	require_once(DATABASE);
+	require_once(GLIB_PATH.DS.'session.php');	
+	require_once(GLIB_PATH.DS.'html_form.php');
+	require_once(GLIB_PATH.DS.'uploader.php');
+	
+// debugging libraries
+	require_once(CLASS_PATH.DS.'debug'.DS.'dBug.php');
+	require_once(CLASS_PATH.DS.'debug'.DS.'profiler.php');
+	require_once(CLASS_PATH.DS.'debug'.DS.'PhpQuickProfiler.php');
+
+// Foundation libraries
+// require_once(FLIB_PATH.DS.'collaboration.php');
+// require_once(FLIB_PATH.DS.'content.php');
+	require_once(FLIB_PATH.DS.'field.php');
+	require_once(FLIB_PATH.DS.'foundation.php');
+	require_once(FLIB_PATH.DS.'image.php');
+	require_once(FLIB_PATH.DS.'project.php');
+	require_once(FLIB_PATH.DS.'setting.php');
+	require_once(FLIB_PATH.DS.'tag.php');
+  require_once(FLIB_PATH.DS.'tag_association.php');
+	require_once(FLIB_PATH.DS.'user.php');
+// require_once(FLIB_PATH.DS.'user_setting.php');
+// require_once(FLIB_PATH.DS.'video.php');
+
+// Parsel libraries
+	require_once(PLIB_PATH.DS.'parsel.php');
+	require_once(PLIB_PATH.DS.'markup.php');
+	require_once(PLIB_PATH.DS.'builder.php');
+
+// Markdown libraries
+	require_once(CLASS_PATH.DS.'markdown'.DS.'markdown.php');
+
+// Twig libraries
+	require_once(CLASS_PATH.DS.'Twig'.DS.'Autoloader.php');
+	Twig_Autoloader::register();
+	$loader = new Twig_Loader_Filesystem(PUBLIC_PATH . '/admin/system/templates');
+	$twig = new Twig_Environment($loader, false);
+	
+	// Autoescaper
+	$escaper = new Twig_Extension_Escaper(true);
+	$twig->addExtension($escaper);

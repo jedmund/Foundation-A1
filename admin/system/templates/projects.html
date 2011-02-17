@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block content %}
+	<div id="projects_top">
+		<h1>Works</h1>
+		<div class="action add"><a href="create">Add</a></li>
+	</div>
+	
+	<ul id="projects" class="connected">
+	{% for project in projects %}
+		<li class="active" data-pid="{{ project.id }}" data-sequence="{{ project.sequence }}" title="{{ project.title }}">
+			<div class="data">
+				<h3>{{ project.title|e }}</h3>
+				<ul class="actions">
+					<li class="action edit"><a href="edit?p={{ project.id }}">Edit</a></li>
+					<li class="action del">Delete</li>
+				</ul>
+			</div>
+			
+			<div class="thumb">
+				{% if project.thumb != '' %}
+					<img alt="{{ project.title }}" src="{{ project.thumb|e }}">
+				{% else %}
+					<div class="no_thumb">
+						<p>{{ project.title }}</p>
+					</div>
+				{% endif %}
+			</div>
+		</li>
+	{% else %}
+		<li class="empty">No projects</li>
+	{% endfor %}
+	</ul>
+	
+	<h1 style="clear: both;">Archives</h1>	
+	<ul id="archives" class="connected">
+	{% for archive in archives %}
+		<li class="archived" data-pid="{{ archive.id }}" data-sequence="{{ archive.sequence }}" title="{{ archive.title }}">
+			<div class="data">
+				<h3>{{ archive.title|e }}</h3>
+				<ul class="actions">
+					<li class="action edit"><a href="edit?p={{ archive.id }}">Edit</a></li>
+					<li class="action del">Delete</li>
+				</ul>
+			</div>
+			
+			<div class="thumb">
+				<!--<div class="overlay"></div>-->
+				{% if archive.thumb != '' %}
+					<img alt="{{ archive.title }}" src="{{ archive.thumb|e }}">
+				{% else %}
+					<div class="no_thumb">
+						<p>{{ archive.title }}</p>
+					</div>
+				{% endif %}
+			</div>
+		</li>
+	{% else %}
+		<li class="empty">No projects</li>
+	{% endfor %}	
+	</ul>
+	
+{% endblock %}
+
+
+{% block javascript %}
+	<script src="/admin/system/js/jquery/jquery-ui-1.8.6.custom.min.js" type="text/javascript"></script>
+	<script src="/admin/system/js/fpage/projects.js" type="text/javascript"></script>
+{% endblock %}

@@ -1,0 +1,233 @@
+	{% macro bigselect(name, id, label, placeholder, default, values) %}
+		<label for="{{ id }}">{{ label }}</label>
+		<div class="fbselect">
+			{% set text = "" %}
+			{% for value in values %}
+				{% if value.value == default %}
+				 {% set text = value.name %}
+				{% endif %}
+			{% endfor %}
+			<input class="finput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text" value="{{ text }}">
+			<div class="fbtn fbselect_btn"></div>
+			<ul class="fbselect_dropdown">
+				{% for value in values %}
+					{% if value.name == text %}
+						<li class="fbselect_selectable fbselect_selected" unselectable="on">{{ value.name }}</li>
+					{% else %}
+						<!-- These values should be loaded with PHP when you call the UI module -->
+						<li class="fbselect_selectable" unselectable="on">{{ value.name }}</li>
+					{% endif %}
+				{% endfor %}
+			</ul>	
+		</div>
+	{% endmacro %}
+
+	{% macro smallselect(name, id, placeholder, default, values) %}
+		<div class="fsselect">
+			<input class="fsinput" id="{{ id }}_value" name="{{ name }}" placeholder="{{ placeholder }}" type="hidden" value="{{ default }}">
+			<input class="fsinput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text" value="{{ default }}" disabled>
+			<div class="fsselect_btn"></div>
+			<div class="fsselect_add_btn"></div>
+			<ul class="fsselect_dropdown">
+				{% for value in values %}
+					<!-- These values should be loaded with PHP when you call the UI module -->
+					{% if value.name == default %}
+						<li class="fsselect_selectable fsselect_selected" unselectable="on">{{ value.name }}</li>
+					{% else %}
+						<li class="fsselect_selectable" unselectable="on">{{ value.name }}</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	{% endmacro %}
+
+	{% macro stinput(name, id, label, placeholder, data) %}
+		<label for="{{ id }}">{{ label }}</label>
+		<div class="fstinput">
+			<input class="data" value='{{ data }}' type="hidden">
+			<input class="finput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text">
+			<div class="fbtn fbtn_plus"></div>
+			<ul class="fsinput_values"></ul>
+		</div>
+	{% endmacro %}
+	
+	{% macro frinput(name, id, label, placeholder, values) %}
+		{% if label != '' %}
+			<label for="{{ id }}">{{ label }}</label>
+		{% endif %}
+		<div class="ffinput">
+			<input class="finput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text">
+			<input id="{{ id }}_values" name="{{ name }}_values" type="hidden">
+			<div class="fbtn fbtn_plus"></div>
+			<ul class="ffinput_values">
+			{% for value in values %}
+				<li>{{ value }}</li>
+			{% endfor %}
+			</ul>
+		</div>
+	{% endmacro %}
+
+	{% macro finput(name, id, label, placeholder, value, unit) %}
+		{% if label != '' %}
+			<label for="{{ id }}">{{ label }}</label>
+		{% endif %}
+		<input class="finput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text" value="{{ value }}">
+		{% if unit != '' %}
+			<p class="unit">{{ unit }}</p>
+		{% endif %}
+	{% endmacro %}
+	
+	{% macro datepicker(name, id, label, month, year) %}
+		{% if label != '' %}
+			<label for="{{ id }}">{{ label }}</label>
+		{% endif %}
+		<div class="fdatepicker" id="{{ id }}">
+			{% if month != "" %}
+				<input class="finput fmonth" id="{{ id }}_month" name="{{ name }}_month" placeholder="Select a month" type="text" value='{{ month }}' disabled>
+			{% else %} 
+				<input class="finput fmonth" id="{{ id }}_month" name="{{ name }}_month" placeholder="Select a month" type="text" disabled>
+			{% endif %}
+			
+			<ul class="fdatepicker_values">
+				{% if month == 'January' %}
+					<li class="selected">January</li>
+				{% else %}
+					<li>January</li>
+				{% endif %}
+				
+				{% if month == 'February' %}
+					<li class="selected">February</li>
+				{% else %}
+					<li>February</li>
+				{% endif %}
+				
+				{% if month == 'March' %}
+					<li class="selected">March</li>
+				{% else %}
+					<li>March</li>
+				{% endif %}
+				
+				{% if month == 'April' %}
+					<li class="selected">April</li>
+				{% else %}
+					<li>April</li>
+				{% endif %}
+				
+				{% if month == 'May' %}
+					<li class="selected">May</li>
+				{% else %}
+					<li>May</li>
+				{% endif %}
+				
+				{% if month == 'June' %}
+					<li class="selected">June</li>
+				{% else %}
+					<li>June</li>
+				{% endif %}
+				
+				{% if month == 'July' %}
+					<li class="selected">July</li>
+				{% else %}
+					<li>July</li>
+				{% endif %}
+				
+				{% if month == 'August' %}
+					<li class="selected">August</li>
+				{% else %}
+					<li>August</li>
+				{% endif %}
+				
+				{% if month == 'September' %}
+					<li class="selected">September</li>
+				{% else %}
+					<li>September</li>
+				{% endif %}
+				
+				{% if month == 'October' %}
+					<li class="selected">October</li>
+				{% else %}
+					<li>October</li>
+				{% endif %}
+				
+				{% if month == 'November' %}
+					<li class="selected">November</li>
+				{% else %}
+					<li>November</li>
+				{% endif %}
+				
+				{% if month == 'December' %}
+					<li class="selected">December</li>
+				{% else %}
+					<li>December</li>
+				{% endif %}
+			</ul>
+			<div class="fdatepicker_btn"></div>
+			{% if year > 0 %}
+				<input class="finput fyear" id="{{ id }}_year" name="{{ name }}_year" placeholder="Year" type="text" value='{{ year }}'>
+			{% else %}
+				<input class="finput fyear" id="{{ id }}_year" name="{{ name }}_year" placeholder="Year" type="text">
+			{% endif %}
+		</div>
+	{% endmacro %}
+	
+	{% macro uploader(name, id, label, button_text, thumbnail, crop, largetext, innertext) %}
+		<label for="{{ id }}">{{ label }}</label>
+		<input id="{{ id }}_value" name="{{ name }}_value" type="hidden" value="">
+		<div class="uploader">
+			{% if crop != '' %}
+				{% set ratio = crop.w/282 %}
+				{% set height = crop.h/ratio %}
+				<div id="crop_wrapper" style="width: 282px; height: {{ height }}px">
+			{% else %}
+				<div id="crop_wrapper" style="width: 282px;">
+			{% endif %}
+			
+			{% if thumbnail == "" %}
+				{% if crop != "" %}
+						<div id="crop_empty">
+							<div id="inner">
+								<p>
+									<span class='inner_text' id="large">No thumbnail</span>
+									<br>
+									<span class='inner_text'>
+										{{ crop.w }}&nbsp;&#x2715;&nbsp;{{ crop.h }}
+									</span>
+								</p>
+							</div>
+						</div>
+				{% else %}
+					<div id="crop_empty">
+						<div id="inner">
+							<p>
+								<span class='inner_text' id="large">No photo</span>
+								<br>
+								<span class='inner_text'></span>
+							</p>
+						</div>
+					</div>
+				{% endif %}
+			{% else %}
+				{% if crop != '' %}
+					<img alt="Thumbnail" class="small_thumb thumb" src="{{ thumbnail }}" style="width: 282px; height: {{ height }}px">
+				{% else %}
+					<img alt="Thumbnail" class="small_thumb thumb" src="{{ thumbnail }}" style="width: 282px; height: auto">
+				{% endif %}
+			{% endif %}
+			</div>
+			<div class="thumb_uploader_btn" id="{{ id }}">{{ button_text }}</div>
+			<div class="cropinfo"></div>
+		</div> 
+	{% endmacro %}
+	
+	{% macro smalluploader(name, id, label, button_text) %}
+		<label for="{{ id }}">{{ label }}</label>
+		<input id="{{ id }}_value" name="{{ name }}_value" type="hidden" value="">
+		<div class="uploader_btn add" id="uploader">{{ button_text }}</div>
+	{% endmacro %}
+	
+	{% macro social(service, value) %}
+	<li class="service">
+		<label class="icon {{ service }}" for="{{ service }}"></label>
+		<input class="finput" data-service="{{ service }}" id="{{ service }}" name="social_{{ service }}" value="{{ value }}">
+	</li>
+	{% endmacro %}

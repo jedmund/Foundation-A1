@@ -1,0 +1,27 @@
+{ include header.htm }
+
+<div id="col2">
+	<div id="top">
+		<!-- tag for permalink url: project.permalink -->
+		<a href="{ site.permalink }" rel="permalink">
+			<h1 class="title">{ project.title }</h1>
+		</a>
+		
+		<p>{ project.foundation }</p>
+		<p class="client">{ project.client }</p>
+		<p class="date">{ project.date }</p>
+		<a href='{ project.website }'>{ project.website }</a>
+	</div>
+	{ project.description.p1 }
+  { display images as slideshow }
+	{ project.description.p2 }
+	{ project.description.p3 }
+	{ project.description.p4 }
+
+<!--
+	<section id="images">
+		{ display images as slideshow }
+	</section>
+-->
+
+{ include footer.htm }

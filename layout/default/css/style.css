@@ -1,0 +1,209 @@
+/**
+ * Foundation Layout
+ * Tested with: A1
+ * Made by: Justin Edmund
+ * Theme Name: Building Blocks
+ * Layout version: 1.0
+ *
+ */
+ 
+/* Structure */
+	body { 
+		font: 12px/1.3 Georgia, Times, serif;
+		margin: 60px auto;
+		color: #444444;
+		width: 960px;
+		}
+		
+	#col1 {
+		margin-left: 20px;
+		width: 200px;
+		float: left;
+		}
+		
+	#col1 nav {
+		margin-top: 10px;
+		}
+		
+	#col1 nav #sub_nav {
+		margin-top: 20px;
+		float: left;
+		clear: both;
+		}
+	
+	#col2 {
+		position: relative;
+		width: 640px;
+		float: left;
+		}
+
+/* Navigation */
+	nav {
+		float: left;
+		}
+
+	nav ul li a,
+	nav ul li a:link,
+	nav ul li a:active {
+		color: #444444 !important;
+		}
+
+	div#title {
+		font-family: Times;
+		font-size: 18px;
+		}
+		
+	#ampersand {
+		font: italic 14px Baskerville, Palatino, Georgia, serif;
+		}
+
+/* Frontpage */
+	#frontpage_photo {
+		float: left;
+		}
+		
+/* Project Info */
+	#top {
+		margin-bottom: 20px;
+		float: left;
+		}
+	
+	h1.title {
+		font-weight: normal;
+		margin-bottom: 0;
+		font-size: 18px;
+		display: inline;
+		}
+		
+	p.client {
+		display: inline;
+		float: left;
+		}
+		
+	p.date {
+		font-style: italic;
+		margin-left: 3px;
+		color: #999999;
+		float: left;
+		clear: none;
+		}
+
+	p.parsel_description {
+		margin-bottom: 10px;
+		width: 400px;
+		float: left;
+		}
+		
+/* About */
+	#user_photo {
+		margin-right: 20px;
+		width: 200px;
+		float: left;
+		}
+		
+	#user_photo img {
+		width: 100%;
+		height: auto;
+		}
+	
+	#user_bio {
+		width: 300px;
+		float: left;
+		}
+		
+	#user_bio p {
+		margin-bottom: 10px;
+		}
+		
+/* Slideshow */
+	.parsel_slideshow {
+		width: 100% !important;
+		margin-bottom: 10px;
+		height: 400px;
+		float: left;
+		}
+		
+	.parsel_slideshow img {
+		height: 400px;
+		width: auto;
+		}
+		
+	.parsel_slideshow img:hover {
+		cursor: pointer;
+		}
+	
+/* Slideshow Controls */
+	nav.ss_nav {
+		margin-bottom: 5px;
+		width: 100%;
+		}
+	
+	nav.ss_nav ul {
+		margin-left: -5px;
+		float: left;
+		width: 77px;
+		}
+		
+	nav.ss_nav ul .ss_prev,
+	nav.ss_nav ul .ss_next {
+		margin-left: 4px;
+		display: inline;
+		font-size: 10px;
+		float: left;
+		}
+		
+	.ss_separator {
+		margin-left: 5px;
+		font-size: 10px;
+		float: left;
+		}
+	
+	nav.ss_nav ul *:hover {
+		cursor: pointer;
+		}
+		
+/* Footer */
+	footer {
+		margin: 10px 0 40px 0;
+		float: left;
+		clear: both;
+		}
+		
+/* Generics */
+	::-moz-selection { 
+		background: #e75d4f; 
+		}
+		
+	::selection { 
+		background: #e75d4f;
+		}
+
+	a, a:active, a:visited {
+		text-decoration: none;
+		color: #e75d4f;
+		}	
+	
+	a:hover,
+	a.contact:hover {
+		background: #e75d4f !important;
+		color: #FFFFFF !important;
+		}
+	
+	a[rel="permalink"] {
+		float: left;
+		}
+	
+	a[rel="permalink"]:hover {
+		background: transparent;
+		color: #222222;
+		}
+	
+	img {
+		margin-bottom: 10px;
+		float: left;
+		}
+	
+	p {
+		clear: both;
+		margin: 0;
+		}
