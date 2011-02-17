@@ -13,6 +13,9 @@
 	defined('APP_NAME') ? null : 
 		define("APP_NAME", "foundation");
 		
+	defined('VERSION') ? null :
+		define("VERSION", "A1");
+
 	defined('DOMAIN') ? null : 
 		define("DOMAIN", "sitedomain");
 
