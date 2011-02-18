@@ -10,7 +10,7 @@
 		$dbpassword = stripslashes($_POST['db_password']);
 		$dbname 		= stripslashes($_POST['db_name']);
 		
-		$constants = file_get_contents('constants.txt');		
+		$constants = file_get_contents('templates/constants.txt');		
 		$constants = str_replace('dbserver', '"' . $dbserver . '"', $constants);
 		$constants = str_replace('dbuser', '"' . $dbusername . '"', $constants);	
 		$constants = str_replace('dbpass', '"' . $dbpassword . '"', $constants);
@@ -32,7 +32,7 @@
 		$index = strpos($domain, "install");
 		$domain = substr($domain, 0, $index);		
 		
-		$config = file_get_contents('config.txt');
+		$config = file_get_contents('templates/config.txt');
 		$config = str_replace('siteroot', $path, $config);
 		$config = str_replace('sitedomain', $domain, $config);
 		
