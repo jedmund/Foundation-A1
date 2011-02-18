@@ -3,11 +3,17 @@
 		header('Location: install');
 	} else {
 		if (is_dir('install')) {
-			require_once('lib'.DS.'classes'.DS.'generics'.DS.'functions.php');
+			$ds = DIRECTORY_SEPARATOR;
+			require_once('lib'.$ds.'classes'.$ds.'generics'.$ds.'functions.php');
 			
-			if (rrmdir('install')) {
-				unlink('router.php');
-				header('Location: index.php');
+			$res = rrmdir('install');
+			if (!is_dir('install')) {
+				chmod('router.php', 0777);
+				if (unlink('router.php')) {
+					header('Location: index.php');
+				} else {
+					echo "Error. Please manually delete router.php";
+				}
 			} else {
 				echo "Error. Please manually delete the install folder and router.php";
 			}
