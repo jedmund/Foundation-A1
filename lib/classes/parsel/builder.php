@@ -48,6 +48,8 @@
 		 			} else {
 	 					$object->$param = stripslashes($object->$param);
 	 				}
+	 			} else if ($param == 'xlarge' || $param == 'large' || $param == 'medium') {
+	 				$object->$param = $object->full;
 				} else if ($param == 'name') {
 	 				$object->$param = $object->first_name . " " . $object->last_name;
 		 		} else if ($param == 'date') {
@@ -350,11 +352,11 @@
 			if (in_array("small", $options)) {
 				$data['src'] = $image->small;
 			} else if (in_array("medium", $options)) {
-				$data['src'] = $image->medium;
+				$data['src'] = (empty($image->medium)) ? $image->full : $image->medium;
 			} else if (in_array("large", $options)) {
-				$data['src'] = $image->large;
+				$data['src'] = (empty($image->large)) ? $image->full :$image->large;
 			} else if (in_array("xlarge", $options)) {
-				$data['src'] = $image->xlarge;
+				$data['src'] = (empty($image->xlarge)) ? $image->full : $image->xlarge;
 			} else if (in_array("full", $options)) {
 				$data['src'] = $image->full;
 			} else {
