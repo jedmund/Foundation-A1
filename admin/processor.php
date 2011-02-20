@@ -164,7 +164,29 @@
 					$project = Project::find_by_id($database->escape_value($_POST['id']));
 									
 					// Recursively remove the directory and all of its contents.
-					rrmdir(PUBLIC_PATH . $project->path);
+					$path = PUBLIC_PATH . $project->path;
+					
+					if (strpos($path, $project->slug)) {
+						rrmdir(PUBLIC_PATH . $project->path);
+					} else {
+						if (empty($project->path)) {
+							// Get the user
+							$user = User::find_by_id($project->uid);
+							
+							// Make a new project path and save the project.
+							$project->path = DS."content".DS.$user->username.DS.to_filename($project->slug).DS;
+							$project->save();
+							
+							// Make a notice.
+							$notice = new Notice;
+							$notice->type = 1;
+							$notice->text = "There might be a problem with the project path. Although Foundation has tried to fix the error, it will not continue deleting this project's files to preserve the contents of your web server in case the error persists. Please try again.";
+							$notice->save();
+						} else {
+							// I don't know what's wrong.
+						}
+						die();
+					}
 					
 					// Delete the project and alert the front-end of the result.
 					$result = $project->delete();
