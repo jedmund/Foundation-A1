@@ -36,7 +36,7 @@
 		// addslashes seems to work better.
 		$project->description			 = addslashes($_POST['desc']);
 		$project->client					 = $database->escape_value($_POST['client']);
-		$project->path 						 = DS."content".DS.$user->username.DS.to_filename($project->title).DS;
+		$project->path 						 = DS."content".DS.$user->username.DS.to_filename($project->slug).DS;
 		
 		// Convert dates to digits.
 		$month = month_to_digit($database->escape_value($_POST['month']));
