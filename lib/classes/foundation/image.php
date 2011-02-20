@@ -163,26 +163,45 @@
 		 *
 		 */
 		public function generate_sizes() {
+			$project= Project::find_by_id($this->pid);
+			$user = User::find_by_id($project->uid);
+			
 			list($sm, $md, $lg, $xl) = Setting::image_sizes();
 			list($width, $height) = getimagesize(PUBLIC_PATH.DS.$this->full);
 
 			if ($width > $sm) {
 				$this->small = $this->scale('sm', $sm);
+				
+				$search = strpos($this->small, $user->username);
+				$pos = $search - strlen('/content/');
+				
 				$this->small = substr($this->small, strpos($this->small, '/content'));
 			}
 			
 			if ($width > $md) {
 				$this->medium = $this->scale('md', $md);
+				
+				$search = strpos($this->medium, $user->username);
+				$pos = $search - strlen('/content/');
+
 				$this->medium = substr($this->medium, strpos($this->medium, '/content'));
 			}
 			
 			if ($width > $lg) {
 				$this->large = $this->scale('lg', $lg);
+				
+				$search = strpos($this->large, $user->username);
+				$pos = $search - strlen('/content/');
+
 				$this->large = substr($this->large, strpos($this->large, '/content'));
 			}
 			
 			if ($width > $xl) {
 				$this->xlarge = $this->scale('xl', $xl);
+				
+				$search = strpos($this->xlarge, $user->username);
+				$pos = $search - strlen('/content/');
+
 				$this->xlarge = substr($this->xlarge, strpos($this->xlarge, '/content'));
 			}
 		}

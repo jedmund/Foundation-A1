@@ -24,14 +24,15 @@
  			$object->$param = "";
  			
  			if (!empty($id)) {
-	 			$object = $class_name::find_by_id($id);
+	 			$object = call_user_func(array($class_name, 'find_by_id'), $id);
 	 			
 	 			if (strtolower($class_name) == "project") {
 	 				$object->set_foundation();
 	 				$object->make_thumb_path();
 	 			}
 	 			
-	 			if (!empty($object->$param) /* && strpos($object->$param, "\n") */) {
+	 			if (!empty($object->$param) /* && strpos($object->$pa
+	 			ram, "\n") */) {
 	 				if ($param == 'description') {
 		 				$object->$param = stripslashes(Markdown(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $object->$param)));
 		 				$object->$param = str_replace('<p>', '<p class="parsel_description">', $object->$param);
@@ -48,7 +49,7 @@
 		 			} else {
 	 					$object->$param = stripslashes($object->$param);
 	 				}
-	 			} else if ($param == 'xlarge' || $param == 'large' || $param == 'medium') {
+ 	 			} else if ($param == 'xlarge' || $param == 'large' || $param == 'medium') {
 	 				$object->$param = $object->full;
 				} else if ($param == 'name') {
 	 				$object->$param = $object->first_name . " " . $object->last_name;
@@ -75,7 +76,7 @@
 		 				$object->$param = '';
 		 			}
 	 			}
-	 			
+	 				 			
 	 			if (is_array(json_decode($object->$param))) {
 	 					$field = Field::find_by_name($param);
 		 				$keys = json_decode($object->$param);
@@ -102,12 +103,12 @@
  		}
  		
  		public function index($class_name, $index, $oid) {
- 			$object = $class_name::find_by_sequence($index, $oid);
+ 			$object = call_user_func(array($class_name, 'find_by_sequence'), $index, $oid);
 			return (!empty($object)) ? $object->id : false;
  		}
  		
  		public function sub($class_name, $params, $oid) {
- 			$object = $class_name::find_by_id($oid);
+ 			$object = call_user_func(array($class_name, 'find_by_id'), $oid);
  			$param = $params[0];
  			
 			$content = stripslashes(str_replace("\n\n", "\n", $object->$param));
@@ -186,8 +187,12 @@
  				$last = self::sub($tobject, $sub_params, $oid);
  				$param = '';
  			}
- 			
- 			return (!empty($param)) ? self::param($class_name, $param, $oid) : $last;
+ 			if (!empty($param)) {
+ 				return self::param($class_name, $param, $oid);
+ 			} else {
+ 				return $last;
+ 			}
+/* 	 			return (!empty($param)) ? self::param($class_name, $param, $oid) : $last; */
  		}
  		
  		public function social($param, $mode="", $uid=10) {
@@ -282,9 +287,9 @@
 	 			if (class_exists($pair[0])) {
 	 				if (is_numeric($pair[1])) {
 	 					if (!empty($id)) {
-		 					$object = $pair[0]::find_by_sequence($pair[1], $id);
+		 					$object = call_user_func(array($pair[0], 'find_by_sequence'), $pair[1], $id);
 						} else {
-							$object = $pair[0]::find_by_sequence($pair[1]);
+							$object = call_user_func(array($pair[0], 'find_by_sequence'), $pair[1]);
 						}
 	 				} else {
 		 				$object = new $pair[0];
@@ -292,11 +297,11 @@
 						
 		 				if (!in_array($pair[1], $object_vars)) {
 							if (in_array("name", $object_vars)) {
-								$object = $pair[0]::find_by_name($pair[1]);
+								$object = call_user_func(array($pair[0], 'find_by_name'), $pair[1]);
 							} else if (!empty($slug)) {
-								$object = $pair[0]::find_by_slug($pair[1]);
+								$object = call_user_func(array($pair[0], 'find_by_slug'), $pair[1]);
 							} else if (in_array("title", $object_vars)) {
-								$object = $pair[0]::find_by_title($pair[1]);
+								$object = call_user_func(array($pair[0], 'find_by_title'), $pair[1]);
 							}
 						}
 		 			}
@@ -375,8 +380,13 @@
  				$data['link'] = $image->link;
  			}
  			
-			$data['attributes'] = $this->style($mode, $options);
- 			
+ 			$data['attributes'] = $this->style($mode, $options);
+			if (empty($data['attributes'])) {
+				$data['attributes'] = array("class"=>"parsel_image");
+			} else {
+				$data['attributes']['class'] .= " parsel_image";
+			}
+
  			return $data;
  		}
  		
