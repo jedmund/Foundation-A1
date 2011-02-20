@@ -1,4 +1,4 @@
- <?php
+<?php
 
 /**
  * Initialize.php
@@ -23,7 +23,7 @@
 	defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
 	
 	defined('SITE_ROOT') ? null :
-		define('SITE_ROOT', siteroot);
+		define('SITE_ROOT', DS.siteroot);
 		
 	defined('LIB_PATH') ? null :
 		define('LIB_PATH', SITE_ROOT.DS.'lib');
