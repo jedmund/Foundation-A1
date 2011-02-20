@@ -42,6 +42,9 @@
 	
 	imagepng($dst_r, $dest);
 	
+	$search = strpos($dest, 'temp');
+	$pos = $search - strlen('/temp/');
+	
 	$dest = substr($dest, strpos($dest, "/content"));
 	echo json_encode($dest);
 	

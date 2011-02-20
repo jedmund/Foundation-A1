@@ -72,7 +72,7 @@
 		}		
 		
 		// Save the image order now that the user has saved.
-		$order = json_decode($_POST['image_order']);
+		$order = json_decode(stripslashes($_POST['image_order']));
 		foreach ($order as $obj) {
 			if (!empty($obj->iid) && !empty($obj->seq)) {
 				$image = Image::find_by_id($obj->iid);

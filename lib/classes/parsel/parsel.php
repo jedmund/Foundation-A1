@@ -594,6 +594,10 @@
 						$obj = Builder::chain($object, $param, $this->obj_id);
 						$function = "build_" . strtolower(get_class($obj)) . "s";
 						$contents = $builder->{$function}($mode, $options, 0, $obj->id);
+					} else if ($param[0] == 'image') {
+						$image = Image::find_by_sequence($param[1]);
+						$image = $builder->build_image($image, $mode, $options);
+						$contents = Markup::make_image($image['src'], $image['alt'], $image['attributes']);
 					}
 					
  					//$this->contents = str_replace($tag, $contents, $this->contents);

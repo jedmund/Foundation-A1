@@ -388,7 +388,7 @@
 	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (1, 'Newspaper');";
 	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (2, 'Poster');";
 	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (3, 'Magazine');";
-	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (3, 'Brochure');";
+	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (4, 'Brochure');";
 	
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (1, 'website', 'Website', 'What is this project\'s web address?', 'finput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (2, 'software', 'Software', 'What software was used?', 'fstinput');";
@@ -406,19 +406,19 @@
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (14, 'medium', 'Medium', 'What mediums were used?', 'fstinput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (15, 'usage', 'Usage', 'What was the project used for?', 'fstinput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (16, 'building_type', 'Building Type', 'What kind of building is this?', 'fstinput');";
-	
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (4, 1, 'Fashion Design', '[10,11]');";
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (3, 1, 'Interaction Design', '[1,2,3]');";
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (2, 1, 'Product Design', '[2,4,7,8]');";
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (5, 1, 'Interior Design', '');";
+
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (1, 1, 'Graphic Design', '[2,5,6,9]');";
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (2, 1, 'Product Design', '[2,4,7,8]');";
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (3, 1, 'Interaction Design', '[1,2,3]');";
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (4, 1, 'Fashion Design', '[10,11]');";
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (5, 1, 'Interior Design', '');";
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (6, 1, 'Motion Design', '[2,12,13]');";
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (11, 1, 'Architecture', '[16]');";
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (7, 1, 'Web Design', '[1,2,3]');";
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (8, 1, 'Fine Art', '[14,15]');";
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (9, 1, 'Illustration', '[14,15]');";
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (10, 1, 'Photography', '[2,12,13]');";
-	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (7, 1, 'Web Design', '[1,2,3]');";
-	
+	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (11, 1, 'Architecture', '[16]');";
+
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (1, 'title', '', 1);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (2, 'header', '', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (3, 'favicon', '', 0);";
@@ -436,5 +436,5 @@
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (15, 'slideshow_text_nav_prev', 'Previous', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (16, 'slideshow_text_nav_next', 'Next', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (17, 'slideshow_transition', 'fade', 0);";
-	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (19, 'layout', 'default', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (18, 'slideshow_pager', '0', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (19, 'layout', 'default', 0);";
