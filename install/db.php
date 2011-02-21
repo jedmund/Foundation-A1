@@ -282,7 +282,7 @@
 						  `photo` varchar(400) DEFAULT NULL,
 						  `status` varchar(400) DEFAULT NULL,
 						  PRIMARY KEY (`id`)
-						) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+						) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;";
 
 
 	// Insert default data
