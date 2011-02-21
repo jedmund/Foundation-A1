@@ -428,8 +428,12 @@
  		
  		public function process() {
  			// Add Javascript dependencies.
- 			$js = '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
- 						 <script>!window.jQuery && document.write(\'<script src="/resources/js/jquery-1.4.2.min.js"><\/script>\')</script>';
+ 			if (!strpos($this->contents, "<script")) {
+ 				$js = '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+ 							 <script>!window.jQuery && document.write(\'<script src="/resources/js/jquery-1.4.2.min.js"><\/script>\')</script>';
+ 			} else {
+ 				$js = "";
+ 			}
  			
  			$jq = '<script type="text/javascript">' . BR . '$(document).ready(function() {' . BR;
  			if (strstr($this->contents, "slideshow")) {

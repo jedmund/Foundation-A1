@@ -17,6 +17,9 @@
 	$return['text'] = ''	;
 	$return['fields'] = array();
 
+	// Switch to lowercase so that it doesn't break on uppercase files
+	$_GET['qqfile'] = strtolower($_GET['qqfile']);
+
 	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 	$allowed_extensions = array('jpeg', 'jpg', 'png', 'gif');
 	// max file size in bytes

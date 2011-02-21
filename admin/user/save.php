@@ -21,6 +21,7 @@
 			
 			$user->first_name = $database->escape_value($_POST['first_name']);
 			$user->last_name  = $database->escape_value($_POST['last_name']);
+			$user->email			= $database->escape_value($_POST['email']);
 			$user->status 	  = addslashes($_POST['status']);
 			$user->bio 			  = addslashes($_POST['bio']);
 			$user->photo 			= $database->escape_value($_POST['photo_value']);
