@@ -8,10 +8,12 @@
 {% block content %}
 {% import "forms.html" as forms %}
 	<div id="top">
+		<input id="title" name="title" type="hidden" value="{{ settings.title }}">
+		
 		{% if settings.title != "" %}
-		<h1 id="title" contenteditable="true" tabindex="1">{{ settings.title }}</h1>
+		<h1 id="site_title" contenteditable="true" tabindex="1">{{ settings.title }}</h1>
 		{% else %}
-		<h1 id="title" contenteditable="true" tabindex="1">Your Website's Title</h1>
+		<h1 id="site_title" contenteditable="true" tabindex="1">Your Website's Title</h1>
 		{% endif %}
 	</div>
 
@@ -113,6 +115,12 @@
 <script type="text/javascript">
 	$('input#image_sm_width, input#image_md_width, input#image_lg_width, input#image_xl_width, input#thumbnail_width, input#thumbnail_height').change(function() {
 		$('.alert').show();
+	});
+	
+	$('document').ready(function() {
+		$('h1#site_title').blur(function() {
+			$('input#title').val($(this).text());
+		});
 	});
 </script>
 {% endblock %}
