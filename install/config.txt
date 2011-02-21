@@ -23,7 +23,7 @@
 	defined('DS') ? null : define('DS', DIRECTORY_SEPARATOR);
 	
 	defined('SITE_ROOT') ? null :
-		define('SITE_ROOT', DS.siteroot);
+		define('SITE_ROOT', siteroot);
 		
 	defined('LIB_PATH') ? null :
 		define('LIB_PATH', SITE_ROOT.DS.'lib');
@@ -57,6 +57,8 @@
 	require_once(DATABASE);
 	require_once(GLIB_PATH.DS.'session.php');	
 	require_once(GLIB_PATH.DS.'html_form.php');
+	require_once(GLIB_PATH.DS.'notice.php');
+	require_once(GLIB_PATH.DS.'systask                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            .php');
 	require_once(GLIB_PATH.DS.'uploader.php');
 	
 // debugging libraries

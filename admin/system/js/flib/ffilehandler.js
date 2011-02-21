@@ -170,6 +170,8 @@
 	 		if (string.substr(0, 1) == '/') {
 	 			string = string.substr(1);
 	 			response.path = '../../' + string;
+	 		} else {
+	 			string = '/' + string;
 	 		}
 	 		
 	 		// Check if we're displaying the no content tag and hide it.
@@ -178,7 +180,8 @@
 	 		}
 	 		
 	 		var item  = "<li class='item'></li>";
-	 		var image = "<img data-id='" + response.id + "' data-sequence='" + ($('li.item').size()+1) + "' src='" + response.path + "'>";
+	 		
+	 		var image = "<img data-id='" + response.id + "' data-sequence='" + ($('li.item').size()+1) + "' src='/" + string + "'>";
 	 		$('ul#items').append(item);
 	 		$('li.item:last-child').append(image);
 	 		
