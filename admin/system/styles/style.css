@@ -701,14 +701,6 @@
 	input.finput.password {
 		width: 276px;
 		}
-		
-	input[type='submit'] {
-		background: transparent;
-		width: auto;
-		float: left;
-		padding: 0;
-		margin: 0;
-		}
 
 	div.fcheckbox {
 		background: #DEDEDE;
