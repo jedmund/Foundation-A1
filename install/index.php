@@ -35,8 +35,6 @@
 		$key = array_pop($path);
 		
 		$path = "DS.'" . implode("'.DS.'", $path) . "'";
-		$path = str_replace(array(".DS.", "DS."), DIRECTORY_SEPARATOR, $path);
-		$path = str_replace("'", "", $path);
 		
 		// Get the domain name and whatnot from the SERVER superglobal.
 		$domain = $_SERVER['HTTP_REFERER'];
@@ -63,7 +61,10 @@
 		include($fp);
 		include('db.php');
 
-
+		// Fix path so we can use it now.
+		$path = str_replace(array(".DS.", "DS."), DIRECTORY_SEPARATOR, $path);
+		$path = str_replace("'", "", $path);
+		
 		// Get the structure of the root .htaccess file and keep it in
 		// memory.
 		$htaccess = file_get_contents('htaccess.txt');
