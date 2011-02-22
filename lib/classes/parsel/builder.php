@@ -237,7 +237,7 @@
  			} else if ($param == 'adminlink') {
  				$value = "Built on <a href='http://getfoundation.com/'>Foundation</a> &bull; <a href='/admin'>admin</a>";
  			} else if ($param == 'about') {
- 				$value = "/about.php";
+ 				$value = "/about";
  			} else {
 	 			$object = Setting::find_by_name($param);
 	 			$value = $object->get_value();

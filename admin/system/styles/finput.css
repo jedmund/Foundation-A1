@@ -342,7 +342,7 @@
 	.save p,
 	.save input {
 		text-shadow: 1px 0px 1px #FFFFFF;
-		padding: 5px 5px 2px 4px;
+		padding: 6px 5px 2px 4px;
 		background: transparent;
 		font-weight: bold;
 		color: #48B948;

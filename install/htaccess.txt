@@ -1,5 +1,5 @@
 RewriteEngine on
 DirectoryIndex index.php
-RewriteRule ^index.php$ /home [L]
-RewriteRule ^about.php$ /about [L]
+RewriteRule ^home$ /index.php [L]
+RewriteRule ^about$ /about.php [L]
 RewriteRule ^projects/([^/]*)$ /project.php?p=$1 [L]
