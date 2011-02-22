@@ -54,7 +54,7 @@
 		public $materials;
 		
 		public function make_thumb_path($mode='thumb') {
-			if ($files = scandir(PUBLIC_PATH.DS.$this->path)) {
+			if ($files = @scandir(PUBLIC_PATH.DS.$this->path)) {
 				if ($mode == 'system') {
 					$grep = '/system_thumb/';
 				} else {
@@ -66,6 +66,12 @@
 				 	$grep = str_replace('/', '', $grep);
 					$this->thumb = $this->path . $grep . '.png';
 				}
+			} else {
+				$notice = new Notice;
+				$notice->type  = 1;
+				$notice->text  = "There was a problem accessing the folder for the project '" . $this->title . "'. ";
+				$notice->text .= "Please check that this project has a folder inside of the 'content' folder and try again.";
+				$notice->save();
 			}
 		}
 		
