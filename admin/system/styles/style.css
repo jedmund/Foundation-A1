@@ -713,9 +713,10 @@
 		
 	.submit {
 		background: #ECECEC url('../img/ultrasprite.png') -48px -112px no-repeat;
-		margin: 2px;
+		text-indent: -9999px;
 		height: 23px;
 		width: 22px;
+		margin: 2px;
 		float: left;
 		}
 		
