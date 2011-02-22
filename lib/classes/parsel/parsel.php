@@ -478,7 +478,8 @@
  				if ($object == 'site' && 
  						$param == 'pagename' && 
  						($_SERVER['REQUEST_URI'] == '/index.php' || 
- 						 $_SERVER['REQUEST_URI'] == '/')) {
+ 						 $_SERVER['REQUEST_URI'] == '/' ||
+ 						 $_SERVER['REQUEST_URI'] == '/home' )) {
  					$start = strpos($this->contents, "<title>");
  					$end = strpos($this->contents, "</title>") + strlen("</title>");
  					$old = substr($this->contents, $start, ($end-$start));
