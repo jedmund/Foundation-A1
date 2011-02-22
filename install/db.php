@@ -216,6 +216,8 @@
 						  `cameras` text,
 						  `film` text,
 						  `music` text,
+						  `apparel` text,
+						  `fabric` text,
 						  `product_type` varchar(200) DEFAULT NULL,
 						  `manufacturing_process` text,
 						  `product_materials` text,
@@ -419,7 +421,7 @@
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (10, 1, 'Photography', '[2,12,13]');";
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (11, 1, 'Architecture', '[16]');";
 
-	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (1, 'title', '', 1);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (1, 'title', 'My Portfolio', 1);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (2, 'header', '', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (3, 'favicon', '', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (4, 'start_page', 'first project', 0);";
