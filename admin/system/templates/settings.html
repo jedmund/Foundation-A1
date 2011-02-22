@@ -7,9 +7,7 @@
 
 {% block content %}
 {% import "forms.html" as forms %}
-	<div id="top">
-		<input id="title" name="title" type="hidden" value="{{ settings.title }}">
-		
+	<div id="top">		
 		{% if settings.title != "" %}
 		<h1 id="site_title" contenteditable="true" tabindex="1">{{ settings.title }}</h1>
 		{% else %}
@@ -23,6 +21,7 @@
 		{# {{ forms.bigselect("start_page", "start_page", "Start Page", "Select a start page", settings.start_page, start) }} #}
 
 		</div>-->
+		<input id="title" name="title" type="hidden" value="{{ settings.title }}">
 		
 		<div id="settings_col1">
 			<fieldset id="layouts">
