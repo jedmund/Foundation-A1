@@ -710,6 +710,18 @@
 		float: left;
 		clear: both;
 		}
+		
+	.submit {
+		background: #ECECEC url('../img/ultrasprite.png') -48px -112px no-repeat;
+		margin: 2px;
+		height: 23px;
+		width: 22px;
+		float: left;
+		}
+		
+	.submit:hover {
+		background: #A9A9A9 url('../img/ultrasprite.png') -48px -135px no-repeat;;
+		}
  		
 /** 
  * Foundation UI 

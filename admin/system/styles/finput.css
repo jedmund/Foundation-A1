@@ -342,11 +342,11 @@
 	.save p,
 	.save input {
 		text-shadow: 1px 0px 1px #FFFFFF;
+		padding: 5px 5px 2px 4px;
 		background: transparent;
 		font-weight: bold;
-		padding-left: 4px;
-		margin-top: 6px;
 		color: #48B948;
+		width: auto;
 		}
 		
 	.save:hover {
