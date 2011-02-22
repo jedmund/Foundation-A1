@@ -26,6 +26,13 @@
 		$foundation = Foundation::find_by_name($database->escape_value($_POST['foundation'])); 
 		$user = User::find_by_id($_SESSION['uid']);
 		
+		// Check if the title changed.
+		if ($project->title != $database->escape_value($_POST['title'])) {
+			$old_path = $project->path;
+		} else {
+			$old_path = false;
+		}
+		
 		$project->uid							 = $user->id;
 		$project->fid 				 	 	 = $foundation->id;
 		$project->title 			 		 = $database->escape_value($_POST['title']);
@@ -85,6 +92,12 @@
 		if (!$project->save()) {
 			message(ERROR, "There was an error saving your project.<br>Please try again.");
 		} else {
+			// If the name has changed, the path should change, and we need to 
+			// move the old files.
+			if ($old_path) {
+				rename(PUBLIC_PATH.$old_path, PUBLIC_PATH.DS."content".DS.$user->username.DS.to_filename($project->slug).DS);
+			}
+
 			if (!is_dir(PUBLIC_PATH.$project->path)) {
 				$project->id = ($project->id < 1) ? $database->insert_id() : $project->id;
 
