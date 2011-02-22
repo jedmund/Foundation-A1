@@ -102,10 +102,10 @@
 			$user->password = $password;
 			
 			$user->save();
-
 			// Also, create a user folder.
 			mkdir($path.'/content/'.$user->username);
 			chmod($path.'/content/'.$user->username, 0777);
+		}
 
 		// Recursively remove the installer folder and all of its contents.
 		rrmdir($path.DS."install");
