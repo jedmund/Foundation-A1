@@ -207,7 +207,7 @@
 			} else if ($mode == 'widget') {
 				if ($param == 'twitter') {
 					$twitter = new Twitter("jedmund");
-					$tweets = $twitter->get(4);
+					$tweets = $twitter->get(3);
 					$list = Markup::make_list("ul", $tweets, array("class"=>"parsel_twitter"), array("class"=>"parsel_tweet"));
 				} else if ($param == 'dribbble') {
 					$dribbble = new Dribbble("jedmund");

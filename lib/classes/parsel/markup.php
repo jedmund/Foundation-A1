@@ -129,7 +129,7 @@
 	 				if (!empty($item['title']) && $item['type'] != 'dribbble') {
 	 					$value .= "<h3>" . $item['title'] . "</h3>";
 	 				} else {
-	 					$title = "<h3>" . $item['title'] . "</h3>";
+	 					$title = "<h3>" . $item['value'] . "</h3>";
 	 				}
 	 				
 	 				if (!empty($item['blurb'])) {
