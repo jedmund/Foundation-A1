@@ -181,7 +181,7 @@
 	 		
 	 		var item  = "<li class='item'></li>";
 	 		
-	 		var image = "<img data-id='" + response.id + "' data-sequence='" + ($('li.item').size()+1) + "' src='/" + string + "'>";
+	 		var image = "<img data-id='" + response.id + "' data-sequence='" + ($('li.item').size()+1) + "' src='" + string + "'>";
 	 		$('ul#items').append(item);
 	 		$('li.item:last-child').append(image);
 	 		
