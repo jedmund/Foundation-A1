@@ -418,7 +418,7 @@
 			
 		// Reorder projects
 			case "reorder_projects":
-				$data = json_decode($_POST['projects']);
+				$data = json_decode(stripslashes($_POST['projects']));
 				foreach ($data as $id => $array) {
 					if (is_numeric($id) && is_array($array)) {
 						$project = Project::find_by_id($database->escape_value($id));
@@ -441,7 +441,7 @@
 			
 		// Reorder content
 			case "reorder_content":
-				$data = json_decode($_POST['data']);
+				$data = json_decode(stripslashes($_POST['data']));
 				print_r($data);
 				foreach ($data as $id => $sequence) {
 					if (is_numeric($id)) {
