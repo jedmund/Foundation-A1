@@ -1,89 +1,181 @@
 <?php
-
-/**
- * Parsel
- * builder.php
- *
- * Builder builds pages.
- *
- * TODO
- * -> Builder shouldn't have static functions. This way, we can keep pointers
- * 		for loops (ie. over images) and current page selectors (ie. for navs)
- *
- */
+	/**
+	 * Parsel R2
+	 *
+	 * builder.php
+	 * Builder builds content.
+	 *
+	 */
  
- 	require_once(LIB_PATH.DS."init".DS."config.php");
-
+ 	require_once("parsel.php");
+ 	
  	class Builder {
  		public $pointer; // The pointer in the current loop.
  										 // Nested loops shouldn't be common, but if they are, 
  										 // we can create a new Builder object to handle it.
  		public $current; // The current page.
  	
- 		public function param($class_name, $param, $id) {
- 			$object->$param = "";
+ 		/**
+		 * Builds inclusions.
+		 *
+		 * @param				$system				array			The system vars.
+  	 * @param				$parts				array			The parts of the tag.
+		 * @return										mixed			The result of the operation.
+		 *
+		 */
+  	public function build_include($system, $parts) {
+  		// Create a new Parsel object.
+  		$parsel = new Parsel($system['layout'], $parts['object'], $system['obj_id'], false);
+
+ 			// Return the results.
+			return $parsel->get_contents();
+  	}
+ 	
+ 		/**
+		 * Builds imports.
+		 *
+		 * @param				$system				array			The system vars.
+  	 * @param				$parts				array			The parts of the tag.
+		 * @return										mixed			The result of the operation.
+		 *
+		 */
+  	public function build_import($system, $parts) {
+ 			$import = "";
  			
- 			if (!empty($id)) {
-	 			$object = call_user_func(array($class_name, 'find_by_id'), $id);
-	 			
-	 			if (strtolower($class_name) == "project") {
+ 			// Create the path for the file.
+ 			$path = DS."layout".DS.$system['layout'].DS;
+ 			
+ 			// If the file to be imported is on the internet, then we want to
+ 			// unset the path and filter group so that we create a proper path.
+ 			// We put the DS inside of filter group otherwise to prevent a 
+ 			// leading slash on the web-sourced files.
+ 			if ($parts['filter_group'] == "web" ||
+ 					$parts['filter_group'] == "internet") {
+ 				$path = "";
+ 				$parts['filter_group'] = "";
+ 			} else {
+ 				$parts['filter_group'] .= DS;
+ 			}
+ 			
+ 			if (!empty($parts['mode'])) {
+ 				// If we're importing a CSS document...
+ 				if ($parts['mode'] == "css") {
+ 					// Why do we only import the path if object is empty?
+ 					if (empty($parts['object'])) {
+ 						$import = '<link href="' . $path . '" rel="stylesheet" type="text/css">';
+ 					} else {
+ 						$import = '<link href="' . $path . $parts['filter_group'] . $parts['object'] . '" rel="stylesheet" type="text/css">';
+ 					}
+ 				// If we're important a Javascript document...
+ 				} else if ($parts['mode'] == "js" || $parts['mode'] == "javascript") {
+ 					if (empty($parts['object'])) {
+ 						$import = '<script src="' . $path . '" type="text/javascript"></script>';
+ 					} else {
+ 						$import = '<script src="' . $path . $parts['filter_group'] . $parts['object'] . '" type="text/javascript"></script>';
+ 					}
+ 				// If we're importing an image...
+ 				} else if ($parts['mode'] == "img" || $parts['mode'] == "image") {
+ 					if (empty($parts['object'])) {
+ 						$import = '<img src="' . $path . '">';
+ 					} else {
+ 						$import = '<img src="' . $path . $parts['filter_group'] . $parts['object'] . '">';
+ 					}
+ 				}
+ 			} else {
+ 				$import = $path . $parts['filter_group'] . $parts['object'];
+ 			}
+ 			
+ 			return $import;
+  	}
+	
+		/**
+		 * Builds parameters.
+		 *
+		 * @param				$notes				array			Notes from the Operator.
+		 * @param				$system				array			The system vars.
+		 * @param				$parts				array			The parts of the tag.
+		 * @return										mixed			The result of the operation.
+		 *
+		 */
+ 		public function build_parameter($notes, $parts, $system) {
+ 			// Set the $parameter function for convenience.
+ 			$parameter = $parts['parameters'];
+ 			
+ 			// Initialize a result.
+ 			$result = "";
+ 			
+ 			// Check first to see if there is an index.
+ 			// If we don't, see if we have an object ID. 
+ 			// We can't get any parameter without one of the two.
+ 			if (!empty($parts['index'])) {
+ 				// If we're querying the Project object, then we know to use find_by_title().
+ 				if ($notes['class_name'] == "Project") {
+	 				$object = call_user_func(array($notes['class_name'], "find_by_title"), $parts['index']);
+	 			}
+ 			} else if (!empty($system['obj_id'])) {
+ 				// Get the parameter. If we are getting the parameter of a
+ 				// Project, also set it's Foundation and make it's thumb path.
+ 				$object = call_user_func(array($notes['class_name'], "find_by_id"), $system['obj_id']);
+			}
+			
+			if (!empty($object)) {
+	 			if (strtolower($notes['class_name']) == "project") {
 	 				$object->set_foundation();
 	 				$object->make_thumb_path();
 	 			}
 	 			
-	 			if (!empty($object->$param) /* && strpos($object->$pa
-	 			ram, "\n") */) {
-	 				if ($param == 'description') {
-		 				$object->$param = stripslashes(Markdown(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $object->$param)));
-		 				$object->$param = str_replace('<p>', '<p class="parsel_description">', $object->$param);
-		 			} else if ($param == 'bio') {
-		 				$object->$param = stripslashes(Markdown(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $object->$param)));
-		 				$object->$param = str_replace('<p>', '<p class="parsel_bio">', $object->$param);
-		 			} else if ($param == 'status') {
-		 				$object->$param = stripslashes(Markdown(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $object->$param)));
-		 				$object->$param = str_replace('<p>', '<p class="parsel_status">', $object->$param);
-		 			} else if ($param == 'blurb') {
-		 				$object->$param = stripslashes(Markdown(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $object->$param)));
-		 			} else if ($param == 'photo') {
-		 				$object->$param = Markup::make_image($object->$param);
+	 			if (!empty($object->$parameter)) {
+	 				// Array of paragraph-based parameters.
+	 				$pbased = array("description", "bio", "status", "blurb");
+	 				if (in_array($parameter, $pbased)) {
+		 				// If the parameter is one of the paragraph-based parameters,
+		 				// offload to the build_longform() function.
+		 				$result = $this->build_longform($object, $parts);
+		 			} else if ($parameter == "photo" && $parts['object'] == "user") {
+		 				// If the parameter is asking for a user's photo, create the
+		 				// user, make a caption and attributes, and make the image.
+		 				$user = User::find_by_id(10);
+		 				$caption = "Photo of " . $user->first_name . " " . $user->last_name . ".";
+		 				$attributes = array("class"=>"parsel_user_photo");
+		 				
+		 				$result = Marker::make_image($user->photo, $caption, $attributes);
 		 			} else {
-	 					$object->$param = stripslashes($object->$param);
+		 				// Otherwise, prepare the content for display in HTML.
+	 					$result = htmlentities(stripslashes($object->$parameter));
 	 				}
- 	 			} else if ($param == 'xlarge' || $param == 'large' || $param == 'medium') {
-	 				$object->$param = $object->full;
-				} else if ($param == 'name') {
-	 				$object->$param = $object->first_name . " " . $object->last_name;
-		 		} else if ($param == 'date') {
+	 			// Not sure if this is necessary
+ 	 			# } else if ($parameter == "xlarge" || $parameter == "large" || $parameter == "medium") {
+	 			#		$object->$parameter = $object->full;
+		 		} else if ($parameter == "date") {
+		 			// If the object is completed, then create the date.
 					if (!empty($object->completed)) {
 						$parts = explode("-", $object->completed);
 						$year = (int)array_shift($parts);
 						$month = month_from_date($object->completed);
 						
 						if (!empty($month) && !empty($year)) {
-							$object->$param = $month . " " . $year;
+							$result = $month . " " . $year;
 						} else if (!empty($month) && empty($year)) {
-							$object->$param = $month;
+							$result = $month;
 						} else if (empty($month) && !empty($year)) {
-							$object->$param = $year;
+							$result = $year;
 						} else {
-							$object->$param = "";
+							$result = "";
 						}
 					}
-		 		} else if ($param == 'email') {
-	 				if ($class_name == 'user') {
-		 				$object->$param = $object->get_email();
-		 			} else {
-		 				$object->$param = '';
-		 			}
-	 			}
-	 				 			
-	 			if (is_array(json_decode($object->$param))) {
+		 		}
+				
+	 			if (!empty($object->$parameter) && is_array(json_decode($object->$parameter))) {
+						// Check if the parameter is an array after passing 
+						// through json_decode()
 	 					$field = Field::find_by_name($param);
-		 				$keys = json_decode($object->$param);
-		 				$string = '';
+		 				$keys = json_decode($object->$parameter);
+		 				$string = "";
 		 				if (count($keys) == 0) {
-		 					$string = "None available";
+		 					$string = "None available.";
 		 				} else {
+		 					// If the array isn't empty, then make a string from
+		 					// the resulting structured data.
 			 				for ($i = 0; $i < count($keys); $i++) {
 			 					if (is_numeric($keys[$i])) {
 			 						$info = $field->get_data_by_id($keys[$i]);
@@ -96,106 +188,253 @@
 				 				}
 			 				}
 		 				}				
-		 			$object->$param = $string;
+		 			$result = $string;
 		 		}
 			}
- 			return $object->$param;			
+ 			return $result;			
  		}
  		
- 		public function index($class_name, $index, $oid) {
- 			$object = call_user_func(array($class_name, 'find_by_sequence'), $index, $oid);
-			return (!empty($object)) ? $object->id : false;
+ 		/**
+ 		 * Convenience function that builds long-form text (paragraphs).
+ 		 * 
+ 		 * @param				$object				object		The object we're getting info from.
+		 * @param				$parts				array			The parts of the tag.
+ 		 *
+ 		 */
+ 		public function build_longform($object, $parts) {
+ 			// For convenience, redefine the parameter var.
+ 			$parameter = $parts['parameters'];
+ 		
+	 		// If the parameter is one of the paragraph-based parameters,
+			// reformat the text and add classes.
+			$class = "parsel_" . $parts['parameters'];
+			$result = $this->reformat($object->$parameter, $class);
+			
+			// If there is a subset group, then we need to get the subset.
+			if (!empty($parts['subset_group'])) {
+				$function = "break_into_" . $parts['subset_group'];
+				$result = $this->$function($result, $parts['subset_group'], $parts['subset']);
+			}
+			
+			return $result;
  		}
  		
- 		public function sub($class_name, $params, $oid) {
- 			$object = call_user_func(array($class_name, 'find_by_id'), $oid);
- 			$param = $params[0];
- 			
-			$content = stripslashes(str_replace("\n\n", "\n", $object->$param));
+ 		/**
+ 		 * Convenience function that breaks long-form text into paragraphs.
+ 		 *
+		 * @param				$text					string		The text to filter.
+		 * @param				$group				string		The subset group.
+ 		 * @param				$subset				string		The comma-separated subset.
+ 		 *
+ 		 */
+ 		public function break_into_paragraphs($text, $group, $subset) {
+ 			// Define the delimiters.
+			$breaks = array("\n\n", "\n");
+					 		
+	 		// Explode the subset into an array.
+			$subset = explode(",", $subset);
 			
-			$unit = substr($params[1], 0, 1);
-			$target = substr($params[1], 1);
+			// Define the system's break string and replace the organic
+			// breaks with something the system can better understand.
+			$parsel_break = "[parsel_break]";
+			$text = str_replace($breaks, $parsel_break, $text);
 			
-			if ($unit == 'p') {
-				$delimiter = "\n";
-
-				if ($target == 1) {
-					$start_pos = 0;
-				} else {
-					$start_pos = strnpos($content, $delimiter, $target-1);
-				}
-				
-				if ($target == substr_count($content, $delimiter)+1) {
-					$end_pos = strlen($content);
-				} else {
-					$end_pos = strnpos($content, $delimiter, $target);
-				}				
-			} else if ($unit == 's') {
-				$delimiter = ".";
-				
-				if ($target == 1) {
-					$start_pos = 0;
-				} else {
-					$start_pos = strnpos($content, $delimiter, $target-1);
-					$start_pos += 2;
-				}
-				
-				if ($target == substr_count($content, $delimiter)+1) {
-					$end_pos = strlen($content);
-				} else {
-					$end_pos = strnpos($content, $delimiter, $target);
-					$end_pos++;
+			// Break the text apart at the system breaks and for each subset
+			// value, get the corresponding part from the explosion.
+			$fragments = "";
+			if ($parts = explode($parsel_break, $text)) {
+				foreach ($subset as $value) {
+					if (array_key_exists($value-1, $parts)) {
+						$fragments .= $parts[$value-1];
+					}
 				}
 			}
 			
-			$sub = '';
-			if ($target <= substr_count($content, $delimiter)+1) {
-				$string = substr($content, $start_pos, ($end_pos-$start_pos));
-				$sub = '<p class="parsel_' . $param . ' ' . $unit . $target . '">' . str_replace(array("<p>", "</p>"), "", stripslashes(Markdown($string))) . '</p>';
+			return $fragments;
+ 		} 
+ 		 
+ 		/**
+ 		 * Convenience function that breaks long-form text into sentences.
+ 		 *
+		 * @param				$text					string		The text to filter.
+		 * @param				$group				string		The subset group.
+ 		 * @param				$subset				string		The comma-separated subset.
+ 		 *
+ 		 */
+ 		public function break_into_sentences($text, $group, $subset) {
+ 			// Define the delimiters.
+			$breaks = array(".  ", ". ", ".");
+	 		
+	 		// Explode the subset into an array.
+			$subset = explode(",", $subset);
+			
+			// Define the system's break string and replace the organic
+			// breaks with something the system can better understand.
+			$parsel_break = "[parsel_break]";
+			$text = str_replace($breaks, $parsel_break, $text);
+			
+			// Break the text apart at the system breaks and for each subset
+			// value, get the corresponding part from the explosion.
+			$fragments = "";
+			if ($parts = explode($parsel_break, $text)) {
+				foreach ($subset as $value) {
+					// Add back the period at the end of each sentence and wrap in
+					// a <span> tag.
+					$content = $parts[$value-1] . ".";
+					$attributes = array("class"=>"parsel_sentence");
+					$html = Marker::make_span($content, $attributes);
+					
+					$fragments .= $html;
+				}
 			}
 			
-			return $sub;
- 		}
+			return $fragments;
+ 		} 
+ 		 
+		/**
+		 * Convenience function that reformats long-form text (paragraphs) 
+		 * into a Parsel-friendly format.
+		 *
+		 * @param				$text					string		The text to reformat.
+		 * @param				$class				string		Optional additional classes to add.
+		 * @return										string		The reformatted text.
+		 *
+		 */
+		public function reformat($text, $class="") {
+			// Characters to be replaced.
+			$replace = array('\r', '\n', '%0a', '%0d');
+			
+			// Replace and reformat.
+			$reformatted = stripslashes(Markdown(htmlentities(str_replace($replace, "\n", $text))));
+			
+			// Create paragraph with classes.
+			$class .= " parsel_paragraph";
+			$paragraph = '<p class="' . $class . '">';
+			
+			// Replace tags with new paragraph.
+			$reformatted = str_replace('<p>', $paragraph, $reformatted);
+
+			return $reformatted;
+		}
  		
- 		public function chain($tobject, $params, $oid=0) {
-			$all_params = $params;
- 			array_unshift($params, $tobject);
-
- 			$class_name = "";
- 			$index = 0;
+ 		/** 
+ 		 * Builds images.
+ 		 * 
+ 		 * @param				$parts				array				The parts of the tag.
+ 		 * @param				$obj_id				int					The current object ID.
+ 		 * @param				$attributes		array				Attributes for the container.
+ 		 * @return										string			The resulting HTML.
+ 		 *
+ 		 */
+ 		public function build_images($parts, $obj_id, $attributes=array()) {
+			// Find all the images for the project, then loop over them and 
+			// fill in our items with the appropriate data.
+			if (empty($parts['subset'])) {
+	 			$images = Image::find_by_pid($obj_id);
+	 		} else {
+	 			$images = Image::find_in_subset($parts['subset'], $obj_id);
+	 		}
+				
+			// Loop over the images, building each as an image and adding it
+			// to our items array.
+			$items['tag'] 			 = "img";
+			$items['children'] 	 = array();
+			$items['attributes'] = array();
 			
-			if (strpos($params[1], "_")) {
- 				$slug = $params[1];
- 			} else {
- 				$slug = '';
- 			}
+			// Make sure there is an image to loop over.
+			if (!empty($images)) {
+				// If we only have one image, we have to wrap it in an array
+				// so that it can be looped over in the foreach()
+				if (count($images) == 1) {
+					$images = array($images);	
+				}
+				
+				// Loop over each image and build the items.
+				foreach ($images as $image) {
+					// Build the image.
+					$item = $this->build_image($image, $parts);
+					
+					// Display the image in different ways depending on the mode.
+					if ($parts['mode'] == "grid") {
+						$item['attributes'] = array("class"=>"parsel_grid_item");
+					} else if ($parts['mode'] == "mesh") {
+						$item['attributes'] = array("class"=>"parsel_mesh_item");
+					} else {
+						// If the images are to be displayed as a list,
+						// or no mode is specified.
+						$item['attributes'] = array("class"=>"parsel_list_item");
+					}
+					
+					if ($parts['object'] == "slideshow") {
+						$item['attributes']['class'] = $item['attributes']['class'] . " parsel_slideshow_next";
+					}
+					
+					$items['children'][] = $item;
+				}
+			}
 			
- 			while ($object = self::is_pair($params, $oid, $slug)) {
- 				if ($object) {
- 					$last = $object;
- 				}
- 				$oid = (!empty($object->id)) ? $object->id : $oid;
- 				$class_name = get_class($object); 
- 				$params = array_splice($params, $index+2);
- 			}
-
- 			$param = array_shift($params);
+			// Make the attributes for the container.
+			if (empty($attributes)) {
+				$attributes['class'] = "parsel_images";
+			} else {
+				$attributes['class'] .= " parsel_images";
+			}
+			
+			$html = "";
+			if (!empty($items['children'])) {
+				$html = Marker::make_div($items, $attributes);
+			}
  			
- 			if (!is_numeric(substr($param, 0, 1)) && is_numeric(substr($param, 1))) {
- 				$index = array_search($param, $all_params);
- 				$sub_params = array_slice($all_params, $index-1);
- 				$last = self::sub($tobject, $sub_params, $oid);
- 				$param = '';
- 			}
- 			if (!empty($param)) {
- 				return self::param($class_name, $param, $oid);
- 			} else {
- 				return $last;
- 			}
-/* 	 			return (!empty($param)) ? self::param($class_name, $param, $oid) : $last; */
+ 			return $html;
  		}
  		
- 		public function social($param, $mode="", $uid=10) {
+ 		public function build_image($image, $parts) {
+ 			// Prevent errors by initializing an empty array in the options
+ 			// if it is empty.
+ 			if (empty($parts['options'])) {
+ 				$parts['options'] = array();
+ 			}
+ 		
+ 			// Set the full index to the full size image.
+ 			// Set the caption index to the caption.
+ 			$data['full'] = $image->full;
+ 			$data['caption'] = $image->caption;
+			
+			// Get the requested size of the image, failsafing back to the 
+			// full-sized image if the requested size does not exist.
+			// The default size is medium.
+			if (in_array("small", $parts['options'])) {
+				$data['source'] = (empty($image->small))  ? $image->full : $image->small;
+			} else if (in_array("medium", $parts['options'])) {
+				$data['source'] = (empty($image->medium)) ? $image->full : $image->medium;
+			} else if (in_array("large", $parts['options'])) {
+				$data['source'] = (empty($image->large))  ? $image->full : $image->large;
+			} else if (in_array("xlarge", $parts['options'])) {
+				$data['source'] = (empty($image->xlarge)) ? $image->full : $image->xlarge;
+			} else if (in_array("full", $parts['options'])) {
+				$data['source'] = $image->full;
+			} else {
+				$data['source'] = $image->medium;
+			}
+			
+			// Convert from an absolute path to relative so that the image can
+			// be outputted.
+			$pos = strpos($data['source'], "/content/");
+			$data['source'] = substr($data['source'], $pos);
+			
+			// Depending on options, include the image's thumbnail and link.
+ 			if (!empty($parts['options']) && in_array("thumbnails", $parts['options'])) {
+ 				$data['thumb'] = $image->thumb;
+ 			}
+ 			
+ 			if (!empty($parts['options']) && in_array("links", $parts['options'])) {
+ 				$data['link'] = $image->link;
+ 			}
+			
+ 			return $data;
+ 		}
+ 		
+ 		public function build_social($param, $mode="", $uid=10) {
  			$user = User::find_by_id($uid);
  			$social = json_decode($user->social);
 			
@@ -208,11 +447,11 @@
 				if ($param == 'twitter') {
 					$twitter = new Twitter("jedmund");
 					$tweets = $twitter->get(3);
-					$list = Markup::make_list("ul", $tweets, array("class"=>"parsel_twitter"), array("class"=>"parsel_tweet"));
+					$list = Marker::make_list("ul", $tweets, array("class"=>"parsel_twitter"), array("class"=>"parsel_tweet"));
 				} else if ($param == 'dribbble') {
 					$dribbble = new Dribbble("jedmund");
 					$shots = $dribbble->get(1);
-					$list = Markup::make_list("ul", $shots, array("class"=>"parsel_dribbble"), array("class"=>"parsel_shot"));
+					$list = Marker::make_list("ul", $shots, array("class"=>"parsel_dribbble"), array("class"=>"parsel_shot"));
 				}
 				return $list;
 			}
@@ -220,210 +459,7 @@
  			return $value;
  		}
  		
- 		public function setting($param, $request_uri) {
- 			if ($param == 'pagename') {
- 				$parts = explode("/", $request_uri);
- 				array_shift($parts);
- 				
- 				if ($parts[0] == 'projects') {
- 					$project = Project::find_by_slug($parts[1]);
- 					$value = $project->title;
- 				} else {
- 					$parts = explode('.', $parts[0]);
- 					$value = ucwords($parts[0]);
- 				}
- 			} else if ($param == 'permalink') {
- 			 	$value = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
- 			} else if ($param == 'adminlink') {
- 				$value = "Built on <a href='http://getfoundation.com/'>Foundation</a> &bull; <a href='/admin'>admin</a>";
- 			} else if ($param == 'about') {
- 				$value = "/about";
- 			} else {
-	 			$object = Setting::find_by_name($param);
-	 			$value = $object->get_value();
-	 		}
- 			return $value;
- 		}
- 		
- 		public function has_pairs($tobject, $params) {
- 			if (!is_array($params)) {
- 				$array[] = $params;
- 				$params = $array;
- 			}
-			
- 			array_unshift($params, $tobject);
- 			$count = 0;
-
- 			if (strpos($params[1], "_")) {
- 				$slug = $params[1];
- 			} else {
- 				$slug = '';
- 			}
- 			
- 			while ($object = self::is_pair($params, 0, $slug)) {
- 				$count++;
- 				$params = array_splice($params, 2);
- 			}
- 			
- 			return $count;
- 		}
- 		
- 		public function even_pairs($tobject, $params) {
- 			$pairs = (self::has_pairs($tobject, $params))*2;
- 			$pcount = count($params)+1;
- 			return ($pcount-$pairs == 0) ? true : false; 
- 		}
- 		
- 		public function is_pair($params, $id=0, $slug='') {
- 			$result = false;
- 			$index = 0;
- 			
- 			if ($index+1 < count($params)) {
-	 			$pair = array_slice($params, $index, 2);
-	 			
-	 			$pair[0] = ucwords($pair[0]);
-	 			$pair[0] = depluralize($pair[0]);
-
-	 			if (class_exists($pair[0])) {
-	 				if (is_numeric($pair[1])) {
-	 					if (!empty($id)) {
-		 					$object = call_user_func(array($pair[0], 'find_by_sequence'), $pair[1], $id);
-						} else {
-							$object = call_user_func(array($pair[0], 'find_by_sequence'), $pair[1]);
-						}
-	 				} else {
-		 				$object = new $pair[0];
-		 				$object_vars = array_keys(get_object_vars($object));
-						
-		 				if (!in_array($pair[1], $object_vars)) {
-							if (in_array("name", $object_vars)) {
-								$object = call_user_func(array($pair[0], 'find_by_name'), $pair[1]);
-							} else if (!empty($slug)) {
-								$object = call_user_func(array($pair[0], 'find_by_slug'), $pair[1]);
-							} else if (in_array("title", $object_vars)) {
-								$object = call_user_func(array($pair[0], 'find_by_title'), $pair[1]);
-							}
-						}
-		 			}
-		 			$result = $object;
- 				}	
- 			}
- 			return $result;
- 		}
- 		
- 	
- 		public function build_nav($mode, $options=array()) {
- 			// Set up an array to put the content in.
- 			$items = array();
- 			
- 			// Find all of the projects, then loop over them and fill in our
- 			// item with the appropriate data.
- 			$projects = Project::find_all();
- 			foreach ($projects as $project) {
- 				$item['value'] = $project->title;
- 				$item['href']  = "/projects/" . $project->slug;
- 				
- 				if (is_array($options)) {
-	 				if (in_array("thumbnails", $options)) {
-		 				$item['thumb'] = $project->path . 'thumb.png';
-	 				}
-	 				
-	 				if (in_array("titles", $options)) {
-	 					$item['title'] = stripslashes($project->title);
-	 				}
-	 				
-	 				if (in_array("blurbs", $options)) {
-	 					$item['blurb'] = stripslashes($project->blurb);
-	 				}
- 				}
- 				
- 				$item['attributes'] = self::style($mode, $options);
-
- 				$items[] = $item;
- 			}
-
- 			$html = Markup::make_nav($mode, $items, "", "");
- 			return $html;
- 		}
- 		
- 		public function build_image($image, $mode, $options) {
- 			if (empty($options)) {
- 				$options = array();
- 			}
- 		
- 			$data['value'] = $image->full;
- 			$data['alt'] = $image->caption;
-			
-			if (in_array("small", $options)) {
-				$data['src'] = $image->small;
-			} else if (in_array("medium", $options)) {
-				$data['src'] = (empty($image->medium)) ? $image->full : $image->medium;
-			} else if (in_array("large", $options)) {
-				$data['src'] = (empty($image->large)) ? $image->full :$image->large;
-			} else if (in_array("xlarge", $options)) {
-				$data['src'] = (empty($image->xlarge)) ? $image->full : $image->xlarge;
-			} else if (in_array("full", $options)) {
-				$data['src'] = $image->full;
-			} else {
-				$data['src'] = $image->medium;
-			}
- 			
- 			if (!empty($options) && in_array("thumbnails", $options)) {
- 				$data['thumb'] = $image->thumb;
- 			}
- 			
- 			if (!empty($options) && in_array("caption", $options)) {
- 				$data['caption'] = $image->caption;
- 			}
- 			
- 			if (!empty($options) && in_array("links", $options)) {
- 				$data['link'] = $image->link;
- 			}
- 			
- 			$data['attributes'] = $this->style($mode, $options);
-			if (empty($data['attributes'])) {
-				$data['attributes'] = array("class"=>"parsel_image");
-			} else {
-				$data['attributes']['class'] .= " parsel_image";
-			}
-
- 			return $data;
- 		}
- 		
- 		public function build_images($mode, $options=array(), $pid=0, $cid=0, $index=0) {
- 			if (empty($index) && !empty($pid)) {
-	 			// Set up an array to put the content in.
-	 			$items = array();
-	 			
-	 			// Find all the images for the project, then loop over them and fill
-	 			// in our items with the appropriate data.
-	 			$images = Image::find_by_pid($pid);
-	 			
-	 			foreach ($images as $image) {
-	 				$item = $this->build_image($image, $mode, $options);
-	 				$items[] = $item;
-	 			}
-	 			
-			} else if (!empty($index) && !empty($pid)) {
-				$image = Image::find_by_sequence($index, $id);
-				$item = $this->build_image($image, $mode, $options);
-				$items[] = $item;
-				
-			} else if (!empty($cid) && empty($pid)) {
-				$image = Image::find_by_id($cid);
-				$item = $this->build_image($image, $mode, $options);
-				$items[] = $item;
-			}
-			
-			$html = '';
-			if (!empty($items)) {
-	 			$html = Markup::make_images($mode, $items, "", "");
-	 		}
-	 		
- 			return $html;
- 		}
-
-	 	public function style($mode, $options) {
+ 	 	public function style($mode, $options) {
 	 		$attributes = array();
 	 		if ($mode == "list") {
 	 			$attributes['class'] = "parsel_list";
