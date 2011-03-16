@@ -53,6 +53,31 @@
 		public $manufacturing_processes;
 		public $materials;
 		
+		/**
+		 * Helper function that replaces unsafe characters and creates a 
+		 * valid slug.
+		 *
+		 * @param			$title			The given title.
+		 * @return		string			The generated slug.
+		 *
+		 */
+		public static function create_slug($title) {
+			$slug = $title;
+			$slug = str_replace(" ", "_", $slug);
+			$slug = str_replace(array("@", "#", "$", "%", "^", 
+																"*", "(", ")", "+", "=", 
+																"`", "~", "/". "<", ">"), "_", $slug);
+			$slug = str_replace("&", "and", $slug);
+			$slug = strtolower($slug);
+			
+			return $slug;
+		}
+		
+		public function permalink() {
+			$link = "/projects/" . $this->slug;
+			return $link;
+		}
+		
 		public function make_thumb_path($mode='thumb') {
 			if ($files = @scandir(PUBLIC_PATH.DS.$this->path)) {
 				if ($mode == 'system') {

@@ -328,65 +328,64 @@
 	 *  @return MIXED   integer         either the position of the $nth occurrence of $needle in $haystack,
 	 *               or boolean         false if it can't be found.
 	 */
-	function strnripos_generic( $haystack, $needle, $nth, $offset, $insensitive, $reverse ) {
+	function strnripos_generic($haystack, $needle, $nth, $offset, $insensitive, $reverse) {
 	    //  If needle is not a string, it is converted to an integer and applied as the ordinal value of a character.
-	    if( ! is_string( $needle ) ) {
-	        $needle = chr( (int) $needle );
+	    if (!is_string($needle)) {
+	        $needle = chr((int) $needle);
 	    }
 	
 	    //  Are the supplied values valid / reasonable?
 	    $len = strlen( $needle );
-	    if( 1 > $nth || 0 === $len ) {
+	    if  (1 > $nth || 0 === $len) {
 	        return false;
 	    }
 	
-	    if( $insensitive ) {
-	        $haystack = strtolower( $haystack );
-	        $needle   = strtolower( $needle   );
+	    if ($insensitive) {
+	        $haystack = strtolower($haystack);
+	        $needle   = strtolower($needle);
 	    }
 	
-	    if( $reverse ) {
-	        $haystack = strrev( $haystack );
-	        $needle   = strrev( $needle   );
+	    if ($reverse) {
+	        $haystack = strrev($haystack);
+	        $needle   = strrev($needle);
 	    }
 	
 	    //  $offset is incremented in the call to strpos, so make sure that the first
 	    //  call starts at the right position by initially decreasing $offset by $len.
 	    $offset -= $len;
-	    do
-	    {
-	        $offset = strpos( $haystack, $needle, $offset + $len );
-	    } while( --$nth  && false !== $offset );
+	    do {
+	        $offset = strpos($haystack, $needle, $offset + $len);
+	    } while(--$nth && false !== $offset);
 	
-	    return false === $offset || ! $reverse ? $offset : strlen( $haystack ) - $offset;
+	    return false === $offset || ! $reverse ? $offset : strlen($haystack) - $offset;
 	}
 	
 	/**
 	 *  @see    strnripos_generic
 	 */
-	function strnpos( $haystack, $needle, $nth, $offset = 0 ) {
-	    return strnripos_generic( $haystack, $needle, $nth, $offset, false, false );
+	function strnpos($haystack, $needle, $nth, $offset = 0) {
+	    return strnripos_generic( $haystack, $needle, $nth, $offset, false, false);
 	}
 	
 	/**
 	 *  @see    strnripos_generic
 	 */
-	function strnipos( $haystack, $needle, $nth, $offset = 0 ) {
-	    return strnripos_generic( $haystack, $needle, $nth, $offset, true, false );
+	function strnipos($haystack, $needle, $nth, $offset = 0) {
+	    return strnripos_generic($haystack, $needle, $nth, $offset, true, false);
 	}
 	
 	/**
 	 *  @see    strnripos_generic
 	 */
-	function strnrpos( $haystack, $needle, $nth, $offset = 0 ) {
-	    return strnripos_generic( $haystack, $needle, $nth, $offset, false, true );
+	function strnrpos($haystack, $needle, $nth, $offset = 0) {
+	    return strnripos_generic($haystack, $needle, $nth, $offset, false, true);
 	}
 	
 	/**
 	 *  @see    strnripos_generic
 	 */
-	function strnripos( $haystack, $needle, $nth, $offset = 0 ) {
-	    return strnripos_generic( $haystack, $needle, $nth, $offset, true, true );
+	function strnripos($haystack, $needle, $nth, $offset = 0) {
+	    return strnripos_generic($haystack, $needle, $nth, $offset, true, true);
 	}
 
 	function is_windows() {
@@ -445,4 +444,21 @@
    	if ($difference == 0) { return "just now."; }
     return "$difference $periods[$j] {$tense}";
 	}
-
+	
+	function strpos_array($haystack, $needles) {
+		if (is_array($needles)) {
+			foreach ($needles as $str) {
+				if (is_array($str)) {
+					$pos = strpos_array($haystack, $str);
+				} else {
+					$pos = strpos($haystack, $str);
+				}
+				
+				if ($pos !== FALSE) {
+					return $pos;
+				}
+			}
+		} else {
+			return strpos($haystack, $needles);
+		}
+	}

@@ -37,7 +37,7 @@
 		$project->fid 				 	 	 = $foundation->id;
 		$project->title 			 		 = $database->escape_value($_POST['title']);
 		$project->blurb 			 		 = $database->escape_value($_POST['blurb']);
-		$project->slug						 = strtolower(str_replace(" ", "_", $project->title));
+		$project->slug						 = Project::create_slug($project->title);
 		
 		// mysql_real_escape_string is breaking nl2br
 		// addslashes seems to work better.

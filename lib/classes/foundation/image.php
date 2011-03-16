@@ -30,62 +30,144 @@
 		
 		
 		/**
-		 * Makes a thumbnail for the image according to coordinates.
+		 * Convenience function that translates the size variable names
+		 * into their abbreviated equivalents.
 		 *
-		 * @param				$coords			Optional array of coordinates.
-		 * @param				path				The path to the newly created image.
+		 * @param				$size				The size name, short or long
+		 * @return			string			The converted string.
 		 *
 		 */
-		public function make_thumbnail($coords=array()) {
-			// If a custom coordinate set hasn't been specified, use what is in
-			// the class as an instance variable.
-			if (empty($coords)) {
-				$coords = json_decode(stripslashes($this->coords));
+		public function convert_name($size) {
+			$result = "";
+			
+			if (strlen($size) < 3) {
+				// If the string length is less than three, we're converting up.
+				switch ($size) {
+					case "sm": $result = "small";  break;
+					case "md": $result = "medium"; break;
+					case "lg": $result = "large";  break;
+					case "xl": $result = "xlarge"; break;
+				}
+			} else {
+				// Otherwise, we're converting down.
+				switch ($size) {
+					case "small":  $result = "sm"; break;
+					case "medium": $result = "md"; break;
+					case "large":  $result = "lg"; break;
+					case "xlarge": $result = "xl"; break;
+				}
 			}
 			
-			// Get the settings for thumbnail width and height.
-			$setting = Setting::find_by_name('thumbnail_width');
-			$settings['w'] = $setting->get_value();
-			
-			$setting = Setting::find_by_name('thumbnail_height');
-			$settings['h'] = $setting->get_value();
-			
-			$ext = substr(strrchr($this->full, '.'), 1);
-			
-				switch ($ext) {
-					case 'jpg': 
-						$source = imagecreatefromjpeg(PUBLIC_PATH.$this->full);
-					break;
-					
-					case 'jpeg':
-						$source = imagecreatefromjpeg(PUBLIC_PATH.$this->full);
-					break;
-					
-					case 'gif':
-						$source = imagecreatefromgif(PUBLIC_PATH.$this->full);
-					break;
-					
-					case 'png':
-						$source = imagecreatefrompng(PUBLIC_PATH.$this->full);
-					break;
-				}
-			
-			$dst_r = imagecreatetruecolor($settings['w'], $settings['h']);
-			imagecopyresampled($dst_r, $source, 0, 0, $coords->x, $coords->y, $settings['w'], $settings['h'], $coords->w, $coords->h);
-			
-			// Create the filename.
-			$mode = "thumb";
-			$name = explode(".", basename($this->full));
-			$name = $name[0];
-			$file = str_replace($name . "." . $ext, $name . "_" . $mode . "." . $ext, $this->full);
-			$path = PUBLIC_PATH.$file;
-			
-			imagejpeg($dst_r, $path, 100);
-			
-			$this->thumb = $file;
-			$this->save();
+			return $result;
 		}
-		 
+		
+		/**
+		 * Checks the path for a certain size of the image.
+		 *
+		 */
+		public function check_path($size) {
+			// Assume that the file does not exist.
+			$exists = false;
+			
+			if (is_file(PUBLIC_PATH.DS.$this->$size)) {
+				// If the file DOES exist, then we set $exists to true,
+				// and that will be returned.
+				$exists = true;
+			} else if ($size != 'full' && !is_file(PUBLIC_PATH.DS.$this->$size)) {
+				// If the size doesn't exist, and the file is not the full image,
+				// we should check to see whether the full file exists.
+				if ($this->check_path('full')) {
+					// If it does, then we can regenerate the broken size.
+					list($width, $height) = getimagesize(PUBLIC_PATH.DS.$this->full);
+										
+					if ($path = $this->generate_size($width, $this->convert_name($size))) {
+						// Resize was successful! Save to database.
+						$search = strpos($size, $user->username);
+						$pos = $search - strlen("/content/");
+						$size = substr($size, strpos($size, "content"));
+						
+						$exists = true;
+						$this->$size = $path;
+						$this->save();
+					} else {
+						// The image might be too small for this size.
+						// Not sure what to do here.
+					}
+				} else {
+					// The image was deleted in the full image check.
+					// Not sure what to do here.
+				}
+			} else if ($size == 'full' && !is_file(PUBLIC_PATH.DS.$this->$size)) {
+				// Otherwise, we delete the image, because its useless.
+				// We also notify the user of the change.
+				$this->delete();
+				$project = Project::find_by_id($this->pid);
+				
+				$notice = new Notice;
+				$notice->type = 1;
+				$notice->text = "Foundation detected that there were missing image files in the project " . $project->title . " and deleted them automatically. Please try to re-upload the image.";
+				$notice->save();
+
+			}
+			
+			return $exists;
+		}
+		
+		/**
+		 * Calculates whether an image size can be generated and
+		 * if it can, generates a size of an image and returns its path.
+		 * If it cannot, the function returns false.
+		 *
+		 * Size can be sm, md, lg, or xl
+		 *
+		 * @param				width				int
+		 * @param				size				string
+		 *
+		 */
+		public function generate_size($width, $size) {			
+			// Get the actual size value from the Settings object.
+			$name = "image_"  . $size . "_width";
+			$setting = Setting::find_by_name($name);
+			$size_value = $setting->get_value();
+			
+			if ($width > $size_value) {
+				$path = $this->scale($size, $size_value);
+			} else {
+				$path = false;
+			}
+			
+			return $path;
+		}
+		
+		/** 
+		 * Generates all sizes of an image.
+		 *
+		 */
+		public function generate_sizes() {
+			$project= Project::find_by_id($this->pid);
+			$user = User::find_by_id($project->uid);
+			
+			list($sm, $md, $lg, $xl) = Setting::image_sizes();
+			list($width, $height) = getimagesize(PUBLIC_PATH.DS.$this->full);
+			
+			// Generate sizes
+			$sizes['small']  = $this->generate_size($width, "sm");
+			$sizes['medium'] = $this->generate_size($width, "md");
+			$sizes['large']  = $this->generate_size($width, "lg");
+			$sizes['xlarge'] = $this->generate_size($width, "xl");
+			
+			foreach ($sizes as $size) {
+				$search = strpos($size, $user->username);
+				$pos = $search - strlen("/content/");
+				$size = substr($size, strpos($size, "content"));
+			}
+			
+			$this->small  = $sizes['small'];
+			$this->medium = $sizes['medium'];
+			$this->large  = $sizes['large'];
+			$this->xlarge = $sizes['xlarge'];
+		}
+		
 		/** 
 		 * Saves the image as a JPG at the given size, with the given quality.
 		 *
@@ -157,55 +239,99 @@
 				}
 			}
 		}
-		
-		/** 
-		 * Generates all sizes of an image.
+
+		/**
+		 * Makes a thumbnail for the image according to coordinates.
+		 *
+		 * @param				$coords			Optional array of coordinates.
+		 * @param				path				The path to the newly created image.
 		 *
 		 */
-		public function generate_sizes() {
-			$project= Project::find_by_id($this->pid);
-			$user = User::find_by_id($project->uid);
-			
-			list($sm, $md, $lg, $xl) = Setting::image_sizes();
-			list($width, $height) = getimagesize(PUBLIC_PATH.DS.$this->full);
-
-			if ($width > $sm) {
-				$this->small = $this->scale('sm', $sm);
-				
-				$search = strpos($this->small, $user->username);
-				$pos = $search - strlen('/content/');
-				
-				$this->small = substr($this->small, strpos($this->small, '/content'));
+		public function make_thumbnail($coords=array()) {
+			// If a custom coordinate set hasn't been specified, use what is in
+			// the class as an instance variable.
+			if (empty($coords)) {
+				$coords = json_decode(stripslashes($this->coords));
 			}
 			
-			if ($width > $md) {
-				$this->medium = $this->scale('md', $md);
-				
-				$search = strpos($this->medium, $user->username);
-				$pos = $search - strlen('/content/');
-
-				$this->medium = substr($this->medium, strpos($this->medium, '/content'));
-			}
+			// Get the settings for thumbnail width and height.
+			$setting = Setting::find_by_name('thumbnail_width');
+			$settings['w'] = $setting->get_value();
 			
-			if ($width > $lg) {
-				$this->large = $this->scale('lg', $lg);
-				
-				$search = strpos($this->large, $user->username);
-				$pos = $search - strlen('/content/');
-
-				$this->large = substr($this->large, strpos($this->large, '/content'));
-			}
+			$setting = Setting::find_by_name('thumbnail_height');
+			$settings['h'] = $setting->get_value();
 			
-			if ($width > $xl) {
-				$this->xlarge = $this->scale('xl', $xl);
-				
-				$search = strpos($this->xlarge, $user->username);
-				$pos = $search - strlen('/content/');
-
-				$this->xlarge = substr($this->xlarge, strpos($this->xlarge, '/content'));
-			}
+			$ext = substr(strrchr($this->full, '.'), 1);
+			
+				switch ($ext) {
+					case 'jpg': 
+						$source = imagecreatefromjpeg(PUBLIC_PATH.$this->full);
+					break;
+					
+					case 'jpeg':
+						$source = imagecreatefromjpeg(PUBLIC_PATH.$this->full);
+					break;
+					
+					case 'gif':
+						$source = imagecreatefromgif(PUBLIC_PATH.$this->full);
+					break;
+					
+					case 'png':
+						$source = imagecreatefrompng(PUBLIC_PATH.$this->full);
+					break;
+				}
+			
+			$dst_r = imagecreatetruecolor($settings['w'], $settings['h']);
+			imagecopyresampled($dst_r, $source, 0, 0, $coords->x, $coords->y, $settings['w'], $settings['h'], $coords->w, $coords->h);
+			
+			// Create the filename.
+			$mode = "thumb";
+			$name = explode(".", basename($this->full));
+			$name = $name[0];
+			$file = str_replace($name . "." . $ext, $name . "_" . $mode . "." . $ext, $this->full);
+			$path = PUBLIC_PATH.$file;
+			
+			imagejpeg($dst_r, $path, 100);
+			
+			$this->thumb = $file;
+			$this->save();
 		}
 		
+		/** 
+		 * Convenience function that performs all of the necessary
+		 * actions to delete an image entirely from the server.
+		 *
+		 */
+		public function erase() {
+			if ($this->full)   @unlink(PUBLIC_PATH.$this->full);
+			if ($this->xlarge) @unlink(PUBLIC_PATH.$this->xlarge);
+			if ($this->large)	 @unlink(PUBLIC_PATH.$this->large);
+			if ($this->medium) @unlink(PUBLIC_PATH.$this->medium);
+			if ($this->small)	 @unlink(PUBLIC_PATH.$this->small);
+			if ($this->thumb)  @unlink(PUBLIC_PATH.$this->thumb);
+
+			$this->delete();
+		}
+
+		/** 
+		 * Returns an array of objects containing safe data about a specfic
+		 * project based on a sequence subset.
+		 * 
+		 * @param				$subset 		string					The sequencee of the object we'll fetch.
+		 * @param				$pid				int							The Project ID to look in.		 
+		 * @return									array, object		The object.
+		 *
+		 */
+		public static function find_in_subset($subset, $pid) {
+			$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table;
+   		$sql .= " WHERE sequence IN (" . $subset . ")";
+   		$sql .= " AND pid = " . $pid;
+   		$sql .= " ORDER by sequence ASC";
+   		
+			$result = self::find_by_sql($sql);
+			return (count($result) > 1) ? $result : array_shift($result);
+		}
+
 		/** 
 		 * Returns an array of objects containing safe data about a specfic
 		 * project based on its sequence.
