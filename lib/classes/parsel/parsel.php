@@ -366,8 +366,6 @@
 			 */
 			public function script() {
 				$scripter = new Scripter($this->contents, $this->tags);
-				$scripter->catalog();
-				$scripter->clean();
 				$this->contents = $scripter->get_contents();
 			}
 			

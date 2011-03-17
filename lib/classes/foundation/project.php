@@ -74,8 +74,7 @@
 		}
 		
 		public function permalink() {
-			$link = "/projects/" . $this->slug;
-			return $link;
+			return "/projects/" . $this->slug;
 		}
 		
 		public function make_thumb_path($mode='thumb') {

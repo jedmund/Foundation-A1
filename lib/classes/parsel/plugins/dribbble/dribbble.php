@@ -8,7 +8,7 @@
 	    function __construct($id) {
         $this->id = $id;
         $this->shots = $this->load();
-        $this->cache_path = DS."lib".DS."classes".DS."parsel".DS."plugins".DS."dribbble".DS.self::CACHE_FNAME;
+        $this->cache_path = PUBLIC_PATH.DS."lib".DS."classes".DS."parsel".DS."plugins".DS."dribbble".DS.self::CACHE_FNAME;
 	    }
 	    
 	    private function load() {	    

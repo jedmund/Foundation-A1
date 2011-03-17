@@ -169,7 +169,7 @@
 	 		var string = response.path;
 	 		if (string.substr(0, 1) == '/') {
 	 			string = string.substr(1);
-	 			response.path = '../../' + string;
+	 			string = '../../' + string;
 	 		} else {
 	 			string = '/' + string;
 	 		}
@@ -182,6 +182,7 @@
 	 		var item  = "<li class='item'></li>";
 	 		
 	 		var image = "<img data-id='" + response.id + "' data-sequence='" + ($('li.item').size()+1) + "' src='" + string + "'>";
+	 		console.log(string);
 	 		$('ul#items').append(item);
 	 		$('li.item:last-child').append(image);
 	 		

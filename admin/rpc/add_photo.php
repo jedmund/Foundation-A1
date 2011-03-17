@@ -9,7 +9,7 @@
 	// The uploader looks for the index in the GET superglobal, so
 	// we have to reset it with the cleaned filename.
 	$_GET['qqfile'] = $file;
-	
+
 	// Accepts: JPG, JPEG, PNG, GIF
 	// Max Filesize: 4MB
 	$allowed_extensions = array("jpg", "jpeg", "png", "gif");
@@ -17,19 +17,25 @@
 
 	// Clean the project ID to prevent tampering. 
 	$id = (!empty($_GET['pid']) && is_numeric($_GET['pid'])) ? $database->escape_value($_GET['pid']) : "";
-	
+
+	$path = "";
 	if (!empty($id)) {
 		$project = Project::find_by_id($id);
+		
+		// Get rid of the beginning slash in the project path.
 		$path = substr($project->path, 1);
 	} else {
 		$path = 'content'.DS.'temp'.DS;
 	}
-
+	
+	// Set an absolute path.
+	$absolute = PUBLIC_PATH.DS.$path;
+	
 	$uploader = new qqFileUploader($allowed_extensions, $size_limit);
-	if ($result = $uploader->handleUpload(PUBLIC_PATH.DS.$path, TRUE) && empty($result['error'])) {
+	if ($result = $uploader->handleUpload($absolute, TRUE) && empty($result['error'])) {
 		// If the file is successfully uploaded, change the file's
 		// permissions so we can continue to modify it in the future.
-		chmod(PUBLIC_PATH.DS.$path.$file, 0777);
+		chmod($absolute.$file, 0777);
 		
 		// Make a new Image object and populate its data.
 		// First, we make absolute paths so that we can scale the image.

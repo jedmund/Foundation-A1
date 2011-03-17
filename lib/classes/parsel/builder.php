@@ -163,7 +163,11 @@
 							$result = "";
 						}
 					}
-		 		}
+		 		} else if ($parameter == "permalink") {
+	 				// If the parameter is asking for a project's permalink, call the function
+	 				// that will create it for us.
+	 				$result = $object->permalink();
+				}
 				
 	 			if (!empty($object->$parameter) && is_array(json_decode($object->$parameter))) {
 						// Check if the parameter is an array after passing 

@@ -156,16 +156,13 @@
 			$sizes['large']  = $this->generate_size($width, "lg");
 			$sizes['xlarge'] = $this->generate_size($width, "xl");
 			
-			foreach ($sizes as $size) {
+			foreach ($sizes as $key=>$size) {
 				$search = strpos($size, $user->username);
 				$pos = $search - strlen("/content/");
-				$size = substr($size, strpos($size, "content"));
+				$size = DS . substr($size, strpos($size, "content"));
+				echo $size . "\n";
+				$this->$key = $size;
 			}
-			
-			$this->small  = $sizes['small'];
-			$this->medium = $sizes['medium'];
-			$this->large  = $sizes['large'];
-			$this->xlarge = $sizes['xlarge'];
 		}
 		
 		/** 
@@ -175,7 +172,7 @@
 		 * @param				$w					The desired width.		 
 		 * @param				$h					The desired height.		 
 		 * @param				$q					The desired JPG quality.		 
-		 * @return			path				The path to the newly created image.		 
+		 * @return				path				The path to the newly created image.		 
 		 *
 		 */
 		public function scale($mode, $w=0, $h=0, $q=80) {

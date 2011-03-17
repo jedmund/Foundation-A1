@@ -60,7 +60,7 @@
 		  		
 		  		if (in_array("thumbnails", $parts['options']) || in_array("thumbnail", $parts['options'])) {
 		  			$overlay = "";
-		  			if (in_array($parts['options'], "overlays") || in_array($parts['options'], "overlay")) {
+		  			if (in_array("overlays", $parts['options']) || in_array("overlay", $parts['options'])) {
 		  				$overlay = Marker::make_div("", array("class"=>"parsel_overlay"));
 		  			}
 		  			
@@ -137,7 +137,6 @@
 	  		
 	  		$html = "";
 	  		if (!empty($images)) {
-	  			echo htmlspecialchars($images);
 	  			if (is_array($parts['options']) && in_array("post-nav", $parts['options'])) {
 		  			$html = $images . $nav;
 		  		} else {

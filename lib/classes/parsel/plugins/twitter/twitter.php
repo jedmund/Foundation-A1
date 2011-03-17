@@ -9,7 +9,7 @@
         $this->id = $id;
         $this->anchors = $anchors;
         $this->tweets = $this->load();
-        $this->cache_path = DS."lib".DS."classes".DS."parsel".DS."plugins".DS."twitter".DS.self::CACHE_FNAME;
+        $this->cache_path = PUBLIC_PATH.DS."lib".DS."classes".DS."parsel".DS."plugins".DS."twitter".DS.self::CACHE_FNAME;
 	    }
 	    
 	    private function load() {	    
