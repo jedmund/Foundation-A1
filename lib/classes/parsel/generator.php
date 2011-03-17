@@ -59,7 +59,14 @@
 		  		}
 		  		
 		  		if (in_array("thumbnails", $parts['options']) || in_array("thumbnail", $parts['options'])) {
+		  			$overlay = "";
+		  			if (in_array($parts['options'], "overlays") || in_array($parts['options'], "overlay")) {
+		  				$overlay = Marker::make_div("", array("class"=>"parsel_overlay"));
+		  			}
+		  			
 		  			$thumb = Marker::make_image($project->thumb, $project->title, array("class"=>"parsel_project_thumb"));
+		  			
+		  			$content = $overlay . $thumb;
 		  			$thumb_link = Marker::make_link($project->permalink(), $thumb);
 		  		}
 					

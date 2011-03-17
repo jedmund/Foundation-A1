@@ -305,7 +305,7 @@
 			$replace = array('\r', '\n', '%0a', '%0d');
 			
 			// Replace and reformat.
-			$reformatted = stripslashes(Markdown(htmlentities(str_replace($replace, "\n", $text))));
+			$reformatted = stripslashes(Markdown(str_replace($replace, "\n", $text)));
 			
 			// Create paragraph with classes.
 			$class .= " parsel_paragraph";
