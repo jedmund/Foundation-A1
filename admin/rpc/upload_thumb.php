@@ -23,7 +23,7 @@
 	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 	$allowed_extensions = array('jpeg', 'jpg', 'png', 'gif');
 	// max file size in bytes
-	$size_limit = 1 * 1024 * 1024;
+	$size_limit = 4 * 1024 * 1024;
 	
 	// Get the file's extension
 	$ext = array_pop(explode('.', $_GET['qqfile']));

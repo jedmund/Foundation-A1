@@ -73,6 +73,10 @@
 			return $slug;
 		}
 		
+		public function permalink() {
+			return "/projects/" . $this->slug;
+		}
+		
 		public function make_thumb_path($mode='thumb') {
 			if ($files = @scandir(PUBLIC_PATH.DS.$this->path)) {
 				if ($mode == 'system') {

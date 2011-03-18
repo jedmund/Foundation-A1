@@ -9,14 +9,13 @@
         $this->id = $id;
         $this->anchors = $anchors;
         $this->tweets = $this->load();
-        $this->cache_path = SLIB_PATH.DS.'twitter'.DS.self::CACHE_FNAME;
+        $this->cache_path = PUBLIC_PATH.DS."lib".DS."classes".DS."parsel".DS."plugins".DS."twitter".DS.self::CACHE_FNAME;
 	    }
 	    
 	    private function load() {	    
         $return = '';
-        $cache = SLIB_PATH.DS.'twitter'.DS.self::CACHE_FNAME;
         
-        $time = filectime($cache);
+        $time = filectime($this->cache_path);
         $life = (time() - $time);
 
         if ($life < (10*60) && $life > 0) {

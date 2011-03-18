@@ -440,3 +440,4 @@
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (17, 'slideshow_transition', 'fade', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (18, 'slideshow_pager', '0', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (19, 'layout', 'default', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (20, 'title_delimiter', 'on', 0);";

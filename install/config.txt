@@ -15,6 +15,9 @@
 		
 	defined('VERSION') ? null :
 		define("VERSION", "A1");
+		
+	defined('BUILD') ? null :
+		define("BUILD", "110");
 
 	defined('DOMAIN') ? null : 
 		define("DOMAIN", "sitedomain");
@@ -82,8 +85,6 @@
 
 // Parsel libraries
 	require_once(PLIB_PATH.DS.'parsel.php');
-	require_once(PLIB_PATH.DS.'markup.php');
-	require_once(PLIB_PATH.DS.'builder.php');
 
 // Markdown libraries
 	require_once(CLASS_PATH.DS.'markdown'.DS.'markdown.php');

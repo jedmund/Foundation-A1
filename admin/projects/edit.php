@@ -35,6 +35,7 @@
 
 			// For each image, we need to strip slashes from captions and coords
 			foreach ($images as $image) {
+				$image->check_path('full');
 				$image->caption = stripslashes($image->caption);
 				$image->coords = stripslashes($image->coords);
 			}

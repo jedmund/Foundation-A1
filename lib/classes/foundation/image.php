@@ -156,16 +156,13 @@
 			$sizes['large']  = $this->generate_size($width, "lg");
 			$sizes['xlarge'] = $this->generate_size($width, "xl");
 			
-			foreach ($sizes as $size) {
+			foreach ($sizes as $key=>$size) {
 				$search = strpos($size, $user->username);
 				$pos = $search - strlen("/content/");
-				$size = substr($size, strpos($size, "content"));
+				$size = DS . substr($size, strpos($size, "content"));
+				echo $size . "\n";
+				$this->$key = $size;
 			}
-			
-			$this->small  = $sizes['small'];
-			$this->medium = $sizes['medium'];
-			$this->large  = $sizes['large'];
-			$this->xlarge = $sizes['xlarge'];
 		}
 		
 		/** 
@@ -175,7 +172,7 @@
 		 * @param				$w					The desired width.		 
 		 * @param				$h					The desired height.		 
 		 * @param				$q					The desired JPG quality.		 
-		 * @return			path				The path to the newly created image.		 
+		 * @return				path				The path to the newly created image.		 
 		 *
 		 */
 		public function scale($mode, $w=0, $h=0, $q=80) {
@@ -314,6 +311,28 @@
 		}
 
 		/** 
+<<<<<<< HEAD
+=======
+		 * Returns an array of objects containing safe data about a specfic
+		 * project based on a sequence subset.
+		 * 
+		 * @param				$subset 		string					The sequencee of the object we'll fetch.
+		 * @param				$pid				int							The Project ID to look in.		 
+		 * @return									array, object		The object.
+		 *
+		 */
+		public static function find_in_subset($subset, $pid) {
+			$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table;
+   		$sql .= " WHERE sequence IN (" . $subset . ")";
+   		$sql .= " AND pid = " . $pid;
+   		$sql .= " ORDER by sequence ASC";
+   		
+			$result = self::find_by_sql($sql);
+			return (count($result) > 1) ? $result : array_shift($result);
+		}
+
+		/** 
+>>>>>>> 32be679
 		 * Returns an array of objects containing safe data about a specfic
 		 * project based on its sequence.
 		 * 

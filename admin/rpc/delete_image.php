@@ -11,14 +11,8 @@
 	
 	if (is_numeric($_POST['id'])) {
 		$image = Image::find_by_id($database->escape_value($_POST['id']));
-		if ($image->full)  	unlink(PUBLIC_PATH.$image->full);
-		if ($image->xlarge) unlink(PUBLIC_PATH.$image->xlarge);
-		if ($image->large)	unlink(PUBLIC_PATH.$image->large);
-		if ($image->medium) unlink(PUBLIC_PATH.$image->medium);
-		if ($image->small)	unlink(PUBLIC_PATH.$image->small);
-		if ($image->thumb) 	unlink(PUBLIC_PATH.$image->thumb);
-		$image->delete();
-
+		$image->erase();
+		
 		$return['type'] = SUCCESS;
 	}	else {
 		$return['type'] = ERROR;
