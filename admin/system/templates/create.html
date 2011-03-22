@@ -108,10 +108,12 @@
 						<p id="nocontent">There is no content in this project.</p>
 					{% else %}
 						{% for image in images %}
-							{% if image.medium != '' %}
+							{% if image.medium != "/" %}
 								{% set source = image.medium %}
-							{% else %}
+							{% elseif image.small != "/" %}
 								{% set source = image.small %}
+							{% else %}
+								{% set source = image.full %}
 							{% endif %}
 							<li class="item">
 								<img data-coords="{{ image.coords }}" data-id="{{ image.id }}" data-link="{{ image.link }}" 
@@ -156,6 +158,6 @@
 	<script src="/admin/system/js/jquery/jquery.masonry.min.js"></script>
 	<script src="/admin/system/js/jquery/fileuploader.js"></script>
 
+	<script src="/admin/system/js/fpage/create.lib.js"></script>
 	<script src="/admin/system/js/fpage/create.js"></script>
-	<script src="/admin/system/js/fpage/create-info.js"></script>
 {% endblock %}

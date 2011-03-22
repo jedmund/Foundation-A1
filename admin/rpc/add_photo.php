@@ -36,7 +36,7 @@
 		// If the file is successfully uploaded, change the file's
 		// permissions so we can continue to modify it in the future.
 		chmod($absolute.$file, 0777);
-		
+
 		// Make a new Image object and populate its data.
 		// First, we make absolute paths so that we can scale the image.
 		$image = new Image();

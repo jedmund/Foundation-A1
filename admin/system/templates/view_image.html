@@ -9,7 +9,6 @@
 	<input type="hidden" id="ch" value="{{ crop.ch }}">
 </div>
 
-
 <div id="image_col1">
 	{% if image.large != '' %}
 		{% set source = image.large %}
@@ -62,5 +61,10 @@
 	</div>
 
 	<input id="link" placeholder="Link this image to a separate page" type="text" disabled>
-	<textarea id="caption" name="caption" placeholder="Add a caption to this image" disabled></textarea>
+	<textarea id="caption" name="caption" placeholder="Add a caption to this image">{{ image.caption }}</textarea>
+	<span id="sequence">
+		<span>#</span>
+		<span id="this_sequence">{{ image.sequence }}</span> 
+		<span>/{{ count }}</span>
+	</span>
 </div>
