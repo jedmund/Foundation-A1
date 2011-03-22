@@ -1,5 +1,12 @@
 RewriteEngine on
 DirectoryIndex index.php
+
+RewriteRule ^$ /index.php [L]
 RewriteRule ^home$ /index.php [L]
 RewriteRule ^about$ /about.php [L]
+
+RewriteCond %{REQUEST_METHOD} GET
 RewriteRule ^projects/([^/]*)$ /project.php?p=$1 [L]
+
+RewriteCond %{REQUEST_METHOD} GET
+RewriteRule ^/?([^/]*\.html?|[^\./]*)[:;,\.]*$ /page.php?p=$1 [L]
