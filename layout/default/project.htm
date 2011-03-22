@@ -1,27 +1,35 @@
-{ include header.htm }
+<!-- The include sentence acts as a concatenator.
+		 It reads the file through Parsel, and adds it onto the current file. -->
+{ include "header.htm" }
 
 <div id="col2">
 	<div id="top">
-		<!-- tag for permalink url: project.permalink -->
-		<a href="{ site.permalink }" rel="permalink">
-			<h1 class="title">{ project.title }</h1>
+		<!-- This sentence will display a permanent link to the current project. -->
+		<a href="{ show the project's permalink }" rel="permalink">
+			<!-- This sentence will display the title of the current project. -->
+			<h1 class="title">{ show the project's title }</h1>
 		</a>
 		
-		<p>{ project.foundation }</p>
-		<p class="client">{ project.client }</p>
-		<p class="date">{ project.date }</p>
-		<a href='{ project.website }'>{ project.website }</a>
+		<!-- These sentences display information about the current project. -->
+		<p>{ show the project's foundation }</p>
+		<p class="client">{ show the project's client }</p>
+		<p class="date">{ show the project's date }</p>
+		<a href="{ show the project's website }">{ show the project's website }</a>
 	</div>
-	{ project.description.p1 }
-  { display images as slideshow }
-	{ project.description.p2 }
-	{ project.description.p3 }
-	{ project.description.p4 }
+	
+	<!-- This sentence displays specific paragraphs of the current 
+			 project's description. -->
+			 
+	<!-- You can target specific sentences and paragraphs with something like
+			 { show the project's description paragraphs #1,3,5 } -->
+			 
+	<!-- If you don't add sentences or paragraphs to the Parsel sentence, it
+			 will display everything. -->
+	{ show the project's description paragraphs #1 }
+	
+	<!-- This sentence creates a slideshow from the curent project's images.
+			 You can also target specific images with the # syntax. -->
+  { generate slideshow from images }
+	{ show the project's description paragraphs #2-10 }
 
-<!--
-	<section id="images">
-		{ display images as slideshow }
-	</section>
--->
-
-{ include footer.htm }
+{ include "footer.htm" }

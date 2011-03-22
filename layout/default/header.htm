@@ -1,22 +1,48 @@
 <!doctype html>
 <html>
 	<head>
-		<!-- how do we get the title? -->
-		<title>{ site.pagename } on { site.title }</title>
+		<!-- This sentence generates an appropriate tag based on the page
+		     that the use is currently on. -->
+		<title>{ generate title }</title>
 		
+		<!-- This sentence imports files from the layout directory.
+				 The format is { import "FILENAME" from FOLDER as TYPE } -->
+				 
+		<!-- FOLDER is optional. TYPE is "css", "javascript" or "image" 
+				 If TYPE is left blank, it will return the URL to the filename. -->
 		{ import "reset.css" from css as css }
 		{ import "style.css" from css as css }
 	</head>
 	
 	<body>
 		<div id="col1">
-			<div id="title"><a href="/home">{ site.title }</a></div>
-			<p id="subtitle">designer <span id="ampersand">&</span> developer</p>
+			<a href="/home">
+				<h1 id="title">
+					<!-- This sentence displays the site's title, 
+							 as set in Settings. -->
+					{ show the site's title }
+				</h1>
+			</a>
+			
+			<p id="subtitle">your profession</p>
+			
 			<nav>
-				{ display nav as list }
+				<!-- This sentence will generate a navigation for 
+						 public projects as a list. 
+						 You can also make a grid or a mesh. -->
+				{ generate a nav as a list }
+				
 				<ul id="sub_nav">
-					<li><a href="{ site.about }">About</a></li>
-					<li><a class="contact" href="mailto:{ user.email }">Contact</a></li>
+					
+					<li>
+						<!-- This sentence will output a link to the About page. -->
+						<a href="{ show the site's about }">About</a>
+					</li>
+					
+						<!-- This sentence will output a link to the Contact page. -->
+					<li>
+						<a href="{ show the site's contact }">Contact</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

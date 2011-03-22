@@ -1,6 +1,9 @@
-{ include header.htm }
+<!-- The include sentence acts as a concatenator.
+		 It reads the file through Parsel, and adds it onto the current file. -->
+{ include "header.htm" }
 
 <div id="col2">
-	<img id="frontpage_photo" src='http://placehold.it/400x600'>
+<!-- This imports the file at the URL given as an image. -->
+{ import "http://placeholder/400x600/" from web as image }
 
-{ include footer.htm }
+{ include "footer.htm" }

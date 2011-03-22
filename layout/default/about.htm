@@ -1,7 +1,12 @@
-{ include header.htm }
+<!-- The include sentence acts as a concatenator.
+		 It reads the file through Parsel, and adds it onto the current file. -->
+{ include "header.htm" }
 
 <div id="col2">
-	<div id="user_photo">{ user.photo }</div>
-	<div id="user_bio">{ user.bio }</div>
+	<!-- These sentences show parts of the user's information. 
+			 The first sentence will show the user's photo as an image.
+			 The second sentence will show the user's bio. -->
+	<div id="user_photo">{ show the user's photo }</div>
+	<div id="user_bio">{ show the user's bio }</div>
 
-{ include footer.htm }
+{ include "footer.htm" }
