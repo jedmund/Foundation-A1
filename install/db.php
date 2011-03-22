@@ -13,7 +13,7 @@
 	 *** f_apparel, f_building_type, f_camers, f_fabric, f_lens, 
 	 *** f_manufacturing_process, f_medium, f_paper, f_print_format,
 	 *** f_print_process, f_product_materials, f_product_type, 
-	 *** f_programming_language, f_software, f_usage
+	 *** f_programming_language, f_software, f_applications
 	 *
 	 */
 	$sql[] = "CREATE TABLE `collaborations` (
@@ -120,7 +120,7 @@
 						) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	
 	
-	$sql[] = "CREATE TABLE `f_usage` (
+	$sql[] = "CREATE TABLE `f_applications` (
 						  `id` int(11) NOT NULL AUTO_INCREMENT,
 						  `value` varchar(300) DEFAULT NULL,
 						  PRIMARY KEY (`id`)
@@ -172,7 +172,11 @@
 						  `coords` varchar(400) DEFAULT NULL,
 						  PRIMARY KEY (`id`)
 						) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-	
+						
+	$sql[] = "CREATE TABLE `image_tag_associations` (
+						  `tid` int(11) DEFAULT NULL,
+						  `iid` int(11) DEFAULT '0'
+						) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 	
 	$sql[] = "CREATE TABLE `notices` (
 						  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -222,6 +226,8 @@
 						  `manufacturing_process` text,
 						  `product_materials` text,
 						  `lens` text,
+						  `application` text,
+						  `medium` text,
 						  PRIMARY KEY (`id`)
 						) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	
@@ -387,10 +393,10 @@
 	$sql[] = "INSERT INTO `f_software` (`id`, `value`) VALUES (20, 'Boinx iStopMotion');";
 	$sql[] = "INSERT INTO `f_software` (`id`, `value`) VALUES (21, 'Querious');";
 	
-	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (1, 'Newspaper');";
-	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (2, 'Poster');";
-	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (3, 'Magazine');";
-	$sql[] = "INSERT INTO `f_usage` (`id`, `value`) VALUES (4, 'Brochure');";
+	$sql[] = "INSERT INTO `f_applications` (`id`, `value`) VALUES (1, 'Newspaper');";
+	$sql[] = "INSERT INTO `f_applications` (`id`, `value`) VALUES (2, 'Poster');";
+	$sql[] = "INSERT INTO `f_applications` (`id`, `value`) VALUES (3, 'Magazine');";
+	$sql[] = "INSERT INTO `f_applications` (`id`, `value`) VALUES (4, 'Brochure');";
 	
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (1, 'website', 'Website', 'What is this project\'s web address?', 'finput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (2, 'software', 'Software', 'What software was used?', 'fstinput');";
@@ -406,7 +412,7 @@
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (12, 'cameras', 'Cameras', 'What kind of cameras were used?', 'fstinput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (13, 'lens', 'Lens', 'What lenses were used?', 'fstinput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (14, 'medium', 'Medium', 'What mediums were used?', 'fstinput');";
-	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (15, 'usage', 'Usage', 'What was the project used for?', 'fstinput');";
+	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (15, 'applications', 'Applications', 'What were the project's applications?', 'fstinput');";
 	$sql[] = "INSERT INTO `fields` (`id`, `name`, `label`, `placeholder`, `type`) VALUES (16, 'building_type', 'Building Type', 'What kind of building is this?', 'fstinput');";
 
 	$sql[] = "INSERT INTO `foundations` (`id`, `uid`, `name`, `props`) VALUES (1, 1, 'Graphic Design', '[2,5,6,9]');";

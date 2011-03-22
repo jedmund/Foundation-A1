@@ -17,7 +17,7 @@
 		define("VERSION", "A1");
 		
 	defined('BUILD') ? null :
-		define("BUILD", "110");
+		define("BUILD", "112");
 
 	defined('DOMAIN') ? null : 
 		define("DOMAIN", "sitedomain");
@@ -75,6 +75,7 @@
 	require_once(FLIB_PATH.DS.'field.php');
 	require_once(FLIB_PATH.DS.'foundation.php');
 	require_once(FLIB_PATH.DS.'image.php');
+	require_once(FLIB_PATH.DS.'image_tag_association.php');
 	require_once(FLIB_PATH.DS.'project.php');
 	require_once(FLIB_PATH.DS.'setting.php');
 	require_once(FLIB_PATH.DS.'tag.php');
