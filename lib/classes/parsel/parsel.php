@@ -78,19 +78,21 @@
 				
 	 			if ($this->get_file_contents()) {
 		 			$this->get_tags();
-	 			}
 	 			
-	 			// Create a Sequencer.
-	 			$this->order = new Sequencer($this->tags);
-	 			
-	 			// Save a copy of the original layout with tags,
-	 			// and then immediately begin processing.
-	 			$this->process();
-	 			
-	 			if ($original) {
-		 			// Maintain Javascript dependencies.
-		 			$this->script();
-	 			}
+		 			// Create a Sequencer.
+		 			$this->order = new Sequencer($this->tags);
+		 			
+		 			// Save a copy of the original layout with tags,
+		 			// and then immediately begin processing.
+		 			$this->process();
+		 			
+		 			if ($original) {
+			 			// Maintain Javascript dependencies.
+			 			$this->script();
+		 			}
+		 		} else {
+		 			$this->error(404);
+		 		}
 	 		}
 	 		
 	 		/**
@@ -214,7 +216,7 @@
 			 */
 	 		public function get_file_contents() {
 	 			$success = false;
-	 			if ($this->contents = file_get_contents($this->path)) {
+	 			if ($this->contents = @file_get_contents($this->path)) {
 	 				$success = true;
 	 			}
 	 			

@@ -206,7 +206,7 @@
 			$tag = "<img ";
 			
 			if (!empty($alt)) {
-				$tag .= "alt='" . $alt . "' ";
+				$tag .= "alt=\"" . $alt . "\" ";
 			}
 			
 			// Add the `parsel_image` class to the attributes and

@@ -309,8 +309,8 @@
 			$replace = array('\r', '\n', '%0a', '%0d');
 			
 			// Replace and reformat.
-			$reformatted = stripslashes(Markdown(str_replace($replace, "\n", $text)));
-			
+			// $reformatted = stripslashes(Markdown(str_replace($replace, "\n", $text)));
+			$reformatted = Markdown(stripslashes($text));
 			// Create paragraph with classes.
 			$class .= " parsel_paragraph";
 			$paragraph = '<p class="' . $class . '">';
@@ -333,10 +333,16 @@
  		public function build_images($parts, $obj_id, $attributes=array()) {
 			// Find all the images for the project, then loop over them and 
 			// fill in our items with the appropriate data.
-			if (empty($parts['subset'])) {
-	 			$images = Image::find_by_pid($obj_id);
-	 		} else {
+			if (!empty($parts['subset'])) {
 	 			$images = Image::find_in_subset($parts['subset'], $obj_id);
+	 		} else {
+		 		if (!empty($parts['filter_value'])) {
+		 			if ($parts['filter_group'] == "tag") {
+		 				$images = Image::find_by_tag($parts['filter_value'], $obj_id);
+		 			}
+	 			} else {
+		 			$images = Image::find_by_pid($obj_id);
+		 		}
 	 		}
 				
 			// Loop over the images, building each as an image and adding it
@@ -393,6 +399,12 @@
  		}
  		
  		public function build_image($image, $parts) {
+ 			// If there is a single image, then it gives us the array in this
+ 			// step, so we should check and shift to prevent errors.
+ 			if (is_array($image)) {
+ 				$image = array_shift($image);
+ 			}
+ 		
  			// Prevent errors by initializing an empty array in the options
  			// if it is empty.
  			if (empty($parts['options'])) {
@@ -407,30 +419,20 @@
 			// Get the requested size of the image, failsafing back to the 
 			// full-sized image if the requested size does not exist.
 			// The default size is medium.
-			if (in_array("small", $parts['options'])) {
-				$data['source'] = (empty($image->small))  ? $image->full : $image->small;
-			} else if (in_array("medium", $parts['options'])) {
-				$data['source'] = (empty($image->medium)) ? $image->full : $image->medium;
-			} else if (in_array("large", $parts['options'])) {
-				$data['source'] = (empty($image->large))  ? $image->full : $image->large;
-			} else if (in_array("xlarge", $parts['options'])) {
-				$data['source'] = (empty($image->xlarge)) ? $image->full : $image->xlarge;
-			} else if (in_array("full", $parts['options'])) {
-				$data['source'] = $image->full;
-			} else {
-				$data['source'] = $image->medium;
+			if ($size = $this->has_size($parts['options'])) {
+				$data['source'] = $this->degrade($image, $size);
 			}
 			
 			// Convert from an absolute path to relative so that the image can
 			// be outputted.
 			$pos = strpos($data['source'], "/content/");
 			$data['source'] = substr($data['source'], $pos);
-			
+
 			// Depending on options, include the image's thumbnail and link.
  			if (!empty($parts['options']) && in_array("thumbnails", $parts['options'])) {
  				$data['thumb'] = $image->thumb;
  			}
- 			
+
  			if (!empty($parts['options']) && in_array("links", $parts['options'])) {
  				$data['link'] = $image->link;
  			}
@@ -438,6 +440,52 @@
  			return $data;
  		}
  		
+ 		/**
+ 		 * Helper function that degrades the image quality if the requested
+ 		 * size is not present.
+ 		 *
+ 		 * @param				$image			Image				The image object to analyze.
+ 		 * @param				$size				string			The size to check for.
+ 		 * @return									string			The available size.
+ 		 *
+ 		 */
+ 		public function degrade($image, $size) {
+ 			$sizes = array("full", "small", "medium", "large", "xlarge");
+			$path = false;
+			
+			if (in_array($size, $sizes)) {
+				if ($image->$size && $image->$size != "/") {
+					$path = $image->$size;
+				} else {
+					$path = $image->full;
+				}
+			}
+			
+			return $path;
+ 		}
+ 		
+ 		/**
+ 		 * Checks whether or not size is declared as an option.
+ 		 *
+ 		 * @param			$options		array				The options from the tag.
+ 		 * @return								string			The first size found.
+ 		 * @return								boolean			False if nothing found.	
+ 		 *
+ 		 */
+ 		public function has_size($options) {
+ 			$sizes = array(1=>"full", 2=>"small", 3=>"medium", 4=>"large", 5=>"xlarge");
+
+ 			$has_size = "medium";
+ 			foreach ($sizes as $size) {
+ 				if ($pos = in_array($size, $options)) {
+	 				if (!empty($sizes[$pos])) {
+						$has_size = $size;
+					}
+				}
+ 			}
+ 			return $has_size;
+ 		}
+
  		public function build_social($param, $mode="", $uid=10) {
  			$user = User::find_by_id($uid);
  			$social = json_decode($user->social);

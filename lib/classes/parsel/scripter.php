@@ -18,7 +18,7 @@
 	
 		public function __construct($contents, $tags) {
 			// Set up instance variables.
-			$this->factory  = "/lib/parsel/js/";
+			$this->factory  = "..".DS."lib".DS."classes".DS."parsel".DS."inc".DS."js".DS;
 			$this->contents = $contents;
 			$this->tags			= $tags;
 			$this->scripts	= array();
@@ -28,8 +28,8 @@
 			$this->catalog();
 			
 			// If the script needs dependencies, add them.
-			if ($this->needs_dependencies()) {
-				$this->add_dependencies();
+			if ($keywords = $this->needs_dependencies()) {
+				$this->add_dependencies($keywords);
 			}
 		}
 	
@@ -75,7 +75,7 @@
 		 *
 		 */
 		public function jquery() {
-			$check   = "!window.jQuery && document.write(\'<script src=\"" . $this->factory . "jquery-1.5.1.min.js\"><\/script>\')";
+			$check   = "!window.jQuery && document.write('<script src=\"" . $this->factory . "jquery-1.5.1.min.js\"><\/script>')";
 			$jquery  = Marker::make_script("", "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js");
 			$jquery .= Marker::make_script($check);
 			
@@ -86,11 +86,11 @@
 		 * This function gets the user's slideshow settings and generates
 		 * the appropriate script.
 		 *
-		 * @param				$options			array				An array of other options.
+		 * @param				$keywords			array				An array of found keywords.
 		 * @return										string			The javascript.
 		 *
 		 */
-		public function slideshow($options=array()) {
+		public function slideshow($keywords=array()) {
 			// Get the slideshow settings.
 			$autoplay = Setting::find_by_name('slideshow_autoplay');
 			$autoplay = $autoplay->get_value();
@@ -107,23 +107,26 @@
 				$text_nav_prev = $text_nav_prev->get_value();
 				$text_nav_next = $text_nav_next->get_value();
 			}
-			
+
 			$pager = Setting::find_by_name('slideshow_pager');
 			$pager = $pager->get_value();
 			
 			$transition = Setting::find_by_name('slideshow_transition');
 			$transition = $transition->get_value();
-			
+
 			// Begin building the jQuery statement.
-			$script = "$('.parsel_slideshow').cycle({";
-			
+			$script  = "$('document').ready(function() {";
+			$script .= "$('.parsel_slideshow_images').each(function() {";
+			$script .= "var \$this = $(this);";
+			$script .= "$(this).cycle({";
+
 			// Select the proper transition
 			$script .= 'fx: "' . $transition . '", ';
-			
+
 			// If the user asked for captions for this particular slideshow,
 			// display them. This is not a stored setting, it is set in Parsel.
-			if (in_array("captions", $options)) {
-				$script .= "after: function() { \$('.caption').html(this.alt); },";
+			if (array_key_exists("captions", $keywords)) {
+				$script .= "after: function() { \$this.parent().find('.parsel_slideshow_caption').html(this.alt); },";
 			}
 			
 			// If the user has defined autoplay, set their defined delay.
@@ -134,21 +137,24 @@
 				$script .= "timeout: " . $delay . ", ";
 			}
 			
-			// If the user has defined text navigation, display it.
-			if ($text_nav) {
-				$script .= "next: '.parsel_slideshow_next',";
-				$script .= "prev: '.parsel_slideshow_prev',";
-			} else {
-				// Otherwise, clicking the image advances the slideshow.
-				// This is not user-changeable.
-				$script .= "next:   '.parsel_slideshow_next',";
-			}
-			
 			if ($pager) {
 				$script .= "pager: '.parsel_slideshow_pager',";
 			}
 			
+			// If the user has defined text navigation, display it.
+			if ($text_nav) {
+				$script .= "next: \$this.parent().find('.parsel_slideshow_prev'),";
+				$script .= "prev: \$this.parent().find('.parsel_slideshow_next')";
+			} else {
+				// Otherwise, clicking the image advances the slideshow.
+				// This is not user-changeable.
+				$script .= "next: \$this.parent().find('.parsel_slideshow_prev'),";
+			}
+			
 			$script .= "});";
+			$script .= "});";
+			$script .= "});";
+
 
 			return Marker::make_script($script);
 		}
@@ -161,14 +167,13 @@
 		 *
 		 */
 		public function needs_dependencies() {
-			$keywords = array("slideshow", "mesh");
+			$keywords = array("slideshow", "mesh", "captions");
 			
 			$dependencies = false;
 			foreach ($this->tags as $tag) {
 				foreach ($keywords as $keyword) {
 					if (strpos($tag, $keyword)) {
-						$dependencies[]['keyword'] = $keyword;
-						$dependencies[]['tag'] = $tag;
+						$dependencies[$keyword] = $tag;
 					}
 				}
 			}
@@ -181,10 +186,10 @@
 		 * This should probably only load what's needed.
 		 *
 		 */
-		public function add_dependencies() {
+		public function add_dependencies($keywords) {
 			$dependencies  = $this->jquery();
 			$dependencies .= Marker::make_script("", ($this->factory . "jquery.cycle.all.min.js"));
-			$dependencies .= $this->slideshow();
+			$dependencies .= $this->slideshow($keywords);
 			$dependencies .= "</head>";
 			
 			$this->contents = str_replace("</head>", $dependencies, $this->contents); 

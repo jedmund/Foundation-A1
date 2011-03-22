@@ -237,14 +237,15 @@
  			$delimiter = ":";
  			$params = array();
  			
- 			// Get rid of any options or modes in the tag.
- 			if (strpos($tag, "as")) {
+			// Get rid of any options or modes in the tag.
+ 			if (strpos($tag, " as ")) {
  				$tag = array_shift(explode("as", $tag));
  			}
- 			
- 			if (strpos($tag, "with")) {
+
+ 			if (strpos($tag, " with ")) {
  				$tag = array_shift(explode("with", $tag));
  			}
+
  			
  			$index = false;	
  			// Split the tag into parts at the delimiter.
@@ -296,14 +297,14 @@
  			$params = array();
  			
  			// Get rid of any options or modes in the tag.
- 			if (strpos($tag, "as")) {
- 				$tag = array_shift(explode("as", $tag));
+ 			if (strpos($tag, " as ")) {
+ 				$tag = array_shift(explode(" as ", $tag));
  			}
  			
- 			if (strpos($tag, "with")) {
- 				$tag = array_shift(explode("with", $tag));
+ 			if (strpos($tag, " with ")) {
+ 				$tag = array_shift(explode(" with ", $tag));
  			}
- 			
+ 			 			
  			if ($subset_group = self::get_subset_group($tag)) {
  				$tag = array_shift(explode($subset_group, $tag));
  			}

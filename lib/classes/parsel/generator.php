@@ -61,16 +61,20 @@
 		  		if (in_array("thumbnails", $parts['options']) || in_array("thumbnail", $parts['options'])) {
 		  			$overlay = "";
 		  			if (in_array("overlays", $parts['options']) || in_array("overlay", $parts['options'])) {
-		  				$overlay = Marker::make_div("", array("class"=>"parsel_overlay"));
+		  				if (in_array("titles", $parts['options']) || in_array("title", $parts['options'])) {
+			  				$overlay = Marker::make_div(htmlentities($project->title), array("class"=>"parsel_overlay"));
+			  			} else {
+			  				$overlay = Marker::make_div("", array("class"=>"parsel_overlay"));
+			  			}
 		  			}
 		  			
 		  			$thumb = Marker::make_image($project->thumb, $project->title, array("class"=>"parsel_project_thumb"));
 		  			
 		  			$content = $overlay . $thumb;
-		  			$thumb_link = Marker::make_link($project->permalink(), $thumb);
+		  			$content_link = Marker::make_link($project->permalink(), $content);
 		  		}
 					
-	  			$item['content'] = $thumb_link . $title_link . $blurb;
+	  			$item['content'] = $content_link . $title_link . $blurb;
 	  			$items[] = $item;
 	  		}
 
@@ -132,8 +136,8 @@
 					$nav  = Marker::make_nav($list, array("class"=>"parsel_slideshow_nav"));
 				}
 
-	  		
-	  		$images = $builder->build_images($parts, $system['obj_id'], array("class"=>"parsel_slideshow"));
+	  		$images = $builder->build_images($parts, $system['obj_id'], array("class"=>"parsel_slideshow_images"));
+	  		$caption = Marker::make_paragraph("", array("class"=>"parsel_slideshow_caption"));
 	  		
 	  		$html = "";
 	  		if (!empty($images)) {
@@ -142,8 +146,15 @@
 		  		} else {
 		  			$html = $nav . $images;
 		  		}
+		  		
+		  		if (is_array($parts['options']) && in_array("post-captions", $parts['options'])) {
+		  			$html = $html . $caption;
+		  		} else {
+		  			$html = $caption . $html;
+		  		}
 				}
 				
+				$html = Marker::make_div($html, array("class"=>"parsel_slideshow"));
 				return $html;
 	  	}
 	  	
@@ -251,13 +262,12 @@
 	  	public function generate_title($parts, $system) {
 	  		$setting = Setting::find_by_name("title");
 	  		$site_title = $setting->get_value();
-	  		
+
 	  		$setting = Setting::find_by_name("title_delimiter");
 	  		$delimiter = $setting->get_value();
 	  		
-	  		
 	  		$content = "";	  		
-	  		if ($system['request_uri'] == "/" || $system['request_uri'] == "/home") {
+	  		if ($system['request_uri'] == ("/" ||  "/home" || "/index" || "/index.php")) {
 	  			$content = $site_title;
 	  		} else if (strpos($system['request_uri'], "projects/") && !empty($system['obj_id'])) {
 					$project = Project::find_by_id($system['obj_id']);
@@ -272,5 +282,4 @@
 
 	  		return $content;
 	  	}
-
 	  }
