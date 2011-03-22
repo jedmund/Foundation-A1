@@ -160,7 +160,6 @@
 				$search = strpos($size, $user->username);
 				$pos = $search - strlen("/content/");
 				$size = DS . substr($size, strpos($size, "content"));
-				echo $size . "\n";
 				$this->$key = $size;
 			}
 		}
@@ -311,10 +310,57 @@
 		}
 
 		/** 
-<<<<<<< HEAD
-=======
 		 * Returns an array of objects containing safe data about a specfic
-		 * project based on a sequence subset.
+		 * image based on its tags.
+		 * 
+		 * @param				$subset 		string					The sequencee of the object we'll fetch.
+		 * @param				$pid				int							The Project ID to look in.		 
+		 * @return									array, object		The object.
+		 *
+		 */
+		public static function find_by_tag($tag, $pid=0) {
+			$tag = Tag::find_by_name($tag);
+			$result = ImageTagAssociation::find_by_tid($tag->id);
+			
+			$images = array();
+			if (!empty($result)) {
+				foreach ($result as $assoc) {
+					$image = Image::find_by_id($assoc->iid);
+					
+					if (!empty($pid)) {
+						if ($pid == $image->pid) {
+							$images[] = $image;
+						}
+					}
+				} 
+			}
+						
+			return self::sort($images);
+		}
+		
+		/**
+		 * Sorts an array of image objects by their sequence.
+		 *
+		 * @param				$images			Array						The array of Image objects.
+		 * @return									Array						The sorted array of Image objects.
+		 *
+		 */
+		public static function sort($images) {
+			$sorted = array();
+			$current = 0;
+			
+			foreach ($images as $image) {
+				$sorted[$image->sequence] = $image;
+			}
+			
+			sort($sorted);
+			
+			return $sorted;
+		}
+
+		/**
+		 * Returns an array of objects containing safe data about a specfic
+		 * image based on a sequence subset.
 		 * 
 		 * @param				$subset 		string					The sequencee of the object we'll fetch.
 		 * @param				$pid				int							The Project ID to look in.		 
@@ -332,9 +378,8 @@
 		}
 
 		/** 
->>>>>>> 32be679
 		 * Returns an array of objects containing safe data about a specfic
-		 * project based on its sequence.
+		 * image based on its sequence.
 		 * 
 		 * @param				$sequence		The sequencee of the object we'll fetch.		 
 		 * @param				$fields			The fields which we want to get.

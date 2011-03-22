@@ -9,71 +9,78 @@
  
  	require_once(LIB_PATH.DS."init".DS."config.php");
 	
-	class Tag {
-		protected static $table = "tags";
-		protected static $fields = array("id", "name");
-		protected static $safe_fields = "id, name";
-		
-		public $id;
-		public $name;		
-		
-		/*
-		 * Accessor methods for the id property.
-		 * 
-		 * @param				$id					The new ID.		 
-		 * @return			integer			The object's current ID.
-		 *
-		 */
-		public function getID() {
-			return $this->id;
-		}
-		
-		public function setID($id) {
-			$this->id = $id;
-		}
-		
-		/** 
-		 * Accessor methods for the name property.
-		 * 
-		 * @param				$name				The new name.		 
-		 * @return			string			The object's current name.
-		 *
-		 */
-		 public function getName() {
-		 	return $this->name;
-		 }
-		 
-		 public function setName($name) {
-		 	$this->name = $name;
-		 }
-		 
+	class ImageTagAssociation {
+		protected static $table = "image_tag_associations";
+		protected static $fields = array("tid", "iid");
+		protected static $safe_fields = "tid, iid";
+
+		public $tid;
+		public $iid;		
+				 
 		/** 
 		 * Returns an array of objects containing safe data about a specfic
-		 * Tag based on its name.
+		 * Tag Association based on its name.
 		 * 
 		 * @param				$name				The name to fetch.		 
 		 * @param				$fields			The fields which we want to get.
 		 * @return			$result			Object containing user information.
 		 *
 		 */
-		public static function find_by_name($name, $fields=0) {
+		 public static function find_by_iid($iid, $fields=0) {
 			global $database;
    		$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table . 
-   					 " WHERE name = '" . $name . "' LIMIT 1";
+   					 " WHERE iid = " . $iid;
 						
 			$result = self::find_by_sql($sql);
-			return !empty($result) ? array_shift($result) : false;		
+			return (count($result) < 2) ? array_shift($result) : $result;
+
 		}
 		
+		/** 
+		 * Returns an array of objects containing safe data about a specfic Tag
+		 * Association based on their ID.
+		 * 
+		 * @param				$tid				The Tag ID to fetch.		 
+		 * @param				$fields			The fields which we want to get.
+		 * @return			$result			Object containing Tag information.
+		 *
+		 */
+		public static function find_by_tid($tid, $fields=0) {
+			global $database;
+   		$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table . 
+   					 " WHERE tid = " . $tid;
+						
+			$result = self::find_by_sql($sql);
+			return (count($result) < 2) ? array_shift($result) : $result;
+		}
+		
+		/** 
+		 * Returns a specfic Tag Association object.
+		 * 
+		 * @param				$tid				The Tag ID of the desired object.		 
+		 * @param				$iid				The Project ID of the desired object.
+		 * @param				$fields			The fields which we want to get.
+		 * @return			$result			Object containing Tag information.
+		 *
+		 */
+		public static function find_specific($tid, $iid, $fields=0) {
+			global $database;
+   		$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table . 
+   					 " WHERE iid = " . $iid . " AND tid = " . $tid . " LIMIT 1";
+						
+			$result = self::find_by_sql($sql);
+			return !empty($result) ? array_shift($result) : false;
+		}
+
 		/********************************************************************
 		 * Database-neutral functions.																			*
 		 *																																	*
 		 ********************************************************************/
 	
 		/** 
-		 * Returns an array containing safe data about all tags.
+		 * Returns an array containing safe data about all foundations.
 		 * 
-		 * @return			$result			Array of objects containing tag information.
+		 * @return			$result			Array of objects containing field information.
 		 *
 		 */
 		public static function find_all($fields=0) {
@@ -84,12 +91,12 @@
 		}
 				
 		/** 
-		 * Returns an array of objects containing safe data about a specfic tag
+		 * Returns an array of objects containing safe data about a specfic field
 		 * based on their ID.
 		 * 
-		 * @param				$id					The tag ID to fetch.		 
+		 * @param				$id					The foundation ID to fetch.		 
 		 * @param				$fields			The fields which we want to get.
-		 * @return			$result			Object containing Tag information.
+		 * @return			$result			Object containing field information.
 		 *
 		 */
 		public static function find_by_id($id, $fields=0) {
@@ -101,6 +108,7 @@
 			return !empty($result) ? array_shift($result) : false;
 		}
 		
+		
 		// Make method find(), get(), whatever, that calls $db->get() with parameters
 		// but also instantiates each object afterwards.
 		// Then, replace the $db->get()s in this class with this method.
@@ -110,7 +118,7 @@
 		 * Performs the given SQL query and returns an array of objects of its results.
 		 * 
 		 * @param			$sql					The SQL query to perform.
-		 * @return		$result				Array of objects containing tag information.
+		 * @return		$result				Array of objects containing foundation information.
 		 *
 		 */
 		public static function find_by_sql($sql="") { 
@@ -123,12 +131,12 @@
 				$object_array[] = self::instantiate($row);
 			}
 			return $object_array;
-		}
-		
+		}		
+				
 		/** 
-		 * Counts how many Tags are currently in the database.
+		 * Counts how many foundations are currently in the database.
 		 * 
-		 * @return		integer			Number of tags.
+		 * @return		integer			Number of foundations.
 		 *
 		 */
 		public static function count_all() {
