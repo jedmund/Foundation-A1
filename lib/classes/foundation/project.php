@@ -74,7 +74,10 @@
 		}
 		
 		public function permalink() {
-			return "/projects/" . $this->slug;
+			$setting = Setting::find_by_name("project_folder_url");
+			$folder = $setting->get_value();
+			
+			return "/" . $folder . "/" . $this->slug;
 		}
 		
 		public function make_thumb_path($mode='thumb') {

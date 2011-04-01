@@ -347,14 +347,76 @@
 		 */
 		public static function sort($images) {
 			$sorted = array();
-			$current = 0;
-			
-			foreach ($images as $image) {
-				$sorted[$image->sequence] = $image;
+
+			for ($i = 0; $i < count($images); $i++) {
+				$found = false;
+				
+				if (count($sorted) == 0) {
+					$iter = 0;
+				} else if (count($sorted) == 1) {
+					$iter = 1;
+				} else {
+					$iter = count($sorted)-1;
+				}
+
+				while (!$found) {
+					if ($iter == 0) {
+						if (empty($sorted)) {
+							$sorted[] = $images[$i];
+						} else {
+							$sorted = array_merge(array($images[$i]), $sorted);
+						}
+						
+						$found = true;
+					} else if ($iter == 1) {
+						if (count($sorted) <= 2) {
+							if (array_key_exists(1, $sorted)) {
+								if ($sorted[1]->sequence < $images[$i]->sequence) {
+									$sorted[] = $images[$i];
+									$found = true;
+								} else {
+									$sorted = array($sorted[0], $images[$i], $sorted[1]);
+									$found = true;
+								}
+							} else {
+								if ($sorted[0]->sequence < $images[$i]->sequence) {
+									$sorted[] = $images[$i];
+									$found = true;
+								} else {
+									$sorted = array_merge(array($images[$i]), $sorted);
+									$found = true;
+								}
+							}
+						} else {
+						  if ($sorted[1]->sequence < $images[$i]->sequence) {
+						  	$split = array_slice($sorted, $iter+1);
+								$first = array_slice($sorted, 0, $iter+1);
+								
+								$first[] = $images[$i];
+								$sorted = array_merge($first, $split);
+								$found = true;
+							} else if ($sorted[0]->sequence < $images[$i]->sequence) {
+								$split = array_slice($sorted, $iter);
+								$first = array_slice($sorted, 0, $iter);
+								
+								$first[] = $images[$i];
+								$sorted = array_merge($first, $split);
+								$found = true;
+							}
+						}
+					} else {
+						if ($sorted[$iter]->sequence < $images[$i]->sequence) {
+							$split = array_slice($sorted, $iter+1);
+							$first = array_slice($sorted, 0, $iter+1);
+							
+							$first[] = $images[$i];
+							$sorted = array_merge($first, $split);
+							$found = true;
+						}
+					}
+					$iter--;
+				}
 			}
-			
-			sort($sorted);
-			
 			return $sorted;
 		}
 
