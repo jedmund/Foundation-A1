@@ -4,17 +4,12 @@
 	{{ title }}
 {% endblock %}
 
+{%block styles %}
+	<link rel="stylesheet" href="/admin/system/styles/settings.css?v=1">
+{% endblock %}
 
 {% block content %}
 {% import "forms.html" as forms %}
-	<div id="top">		
-		{% if settings.title != "" %}
-		<h1 id="site_title" contenteditable="true" tabindex="1">{{ settings.title }}</h1>
-		{% else %}
-		<h1 id="site_title" contenteditable="true" tabindex="1">Your Website's Title</h1>
-		{% endif %}
-	</div>
-
 	<div id="settings">
 		<form action="save.php" method="POST">
 		<!--<div id="settings_col1">
@@ -23,87 +18,157 @@
 		</div>-->
 		<input id="title" name="title" type="hidden" value="{{ settings.title }}">
 		
-		<div id="settings_col1">
-			<fieldset id="layouts">
-				{{ forms.smallselect("layout", "layout", "Select a layout", settings.layout, layouts) }}
-			</fieldset>
-		
-			<fieldset id="thumbnail">
-				<label for="thumbnail_width">Thumbnail Size</label>
-				{{ forms.finput("thumbnail_width", "thumbnail_width", "", "w", settings.thumbnail_width) }} 
-				<p class="unit">x</p>
-				{{ forms.finput("thumbnail_height", "thumbnail_height", "", "h", settings.thumbnail_height) }}
-			</fieldset>
-			
-			<fieldset id="images">
-				<label for="image_sm_width">Image Sizes (Width)</label>
-				
-				<p class="size">small:</p>{{ forms.finput("image_sm_width", "image_sm_width", "", "w", settings.image_sm_width, "px") }}
-				<p class="size">medium:</p>{{ forms.finput("image_md_width", "image_md_width", "", "w", settings.image_md_width, "px") }} 
-				<p class="size">large:</p>{{ forms.finput("image_lg_width", "image_lg_width", "", "w", settings.image_lg_width, "px") }} 	
-				<p class="size">x-large:</p>{{ forms.finput("image_xl_width", "image_xl_width", "", "w", settings.image_xl_width, "px") }} 
-			</fieldset>
-
-			<fieldset>
-				{{ forms.finput("pagination", "pagination", "Pagination", "pages", settings.pagination, "items per page") }} 
-			</fieldset>
-			
-			<div class="alert">
-				<div class="alert_icon"></div>
-				<div class="alert_content">
-					<p>
-						Foundation automatically resizes your existing images when you change a default image size. This is called reprocessing.
-					</p>
+		<div class="col" id="col1">
+			<div class="meta scard">
+				<div class="header">
+					<h2>Meta</h2>
+				</div>
+				<div class="content">
+					<fieldset>
+						{{ forms.finput("title", "title", "Site Title", "Your Foundation's title", settings.title) }}
+					</fieldset>
 					
-					<p>
-						Reprocessing takes some time, but it makes your site smaller and load faster for visitors. Reprocessing runs in the background, so you don't have to wait whenever you save your settings.</p>
-					<p>
-						Your original image will not be modified.
-					</p>
+					<fieldset>
+						{{ forms.finput("title_delimiter", "title_delimiter", "Particle", "A particle to break up the title", settings.title_delimiter) }}
+					</fieldset>
+					
+					<fieldset>
+						{{ forms.finput("site_keywords", "site_keywords", "Keywords", "Some tags that describe your Foundation.", settings.site_keywords) }}
+					</fieldset>
+					
+					<fieldset>
+						<label for="site_description">Description</label>
+						<textarea id="site_description" placeholder="Describe your portfolio in a couple of sentences."></textarea>
+					</fieldset>
 				</div>
 			</div>
 			
-			<fieldset id="slideshow">
-				<label for="delay">Slideshow</label>
-				
-				<p class="size">autoplay?</p>
-				{% if settings.slideshow_autoplay > 0 %}
-					<input name="autoplay" type="checkbox" checked>
-				{% else %}
-					<input name="autoplay" type="checkbox">
-				{% endif %}
-				
-				{{ forms.finput("slideshow_delay", "delay", "", "0", settings.slideshow_delay, "") }}
-				{{ forms.bigselect("slideshow_transition", "slideshow_transition", "", "", settings.slideshow_transition, transitions) }}
-				
-				<p class="size">show text nav?</p>
-				{% if settings.slideshow_text_nav > 0 %}
-					<input id="slideshow_text_nav" name="slideshow_text_nav" type="checkbox" checked>
-				{% else %}
-					<input id="slideshow_text_nav" name="slideshow_text_nav" type="checkbox">
-				{% endif %}
-				
-				<fieldset>
-					{{ forms.finput("slideshow_text_nav_prev", "nav_prev", "", "Previous", settings.slideshow_text_nav_prev, "") }}
-					<p class="size nav_input">/</p>
-					{{ forms.finput("slideshow_text_nav_next", "nav_next", "", "Previous", settings.slideshow_text_nav_next, "") }}
-				</fieldset>
-			</fieldset>
+			<div class="parsel slideshow scard">
+				<div class="header">
+					<h2>Slideshow</h2>
+				</div>
+				<div class="content">
+					<label for="site_title" class="checkbox">Enable Autoplay?</label>
+					{% if settings.slideshow_autoplay > 0 %}
+						<input name="autoplay" type="checkbox" checked>
+					{% else %}
+						<input name="autoplay" type="checkbox">
+					{% endif %}
+					
+					{{ forms.finput("slideshow_delay", "delay", "", "0", settings.slideshow_delay, "") }}
+					
+					<label for="site_title">Transition</label>
+					{{ forms.bigselect("slideshow_transition", "slideshow_transition", "", "", settings.slideshow_transition, transitions) }}
+					
+					<p class="size">show text nav?</p>
+					{% if settings.slideshow_text_nav > 0 %}
+						<input id="slideshow_text_nav" name="slideshow_text_nav" type="checkbox" checked>
+					{% else %}
+						<input id="slideshow_text_nav" name="slideshow_text_nav" type="checkbox">
+					{% endif %}
+					
+					<fieldset>
+						{{ forms.finput("slideshow_text_nav_prev", "nav_prev", "", "Previous", settings.slideshow_text_nav_prev, "") }}
+						<p class="size nav_input">/</p>
+						{{ forms.finput("slideshow_text_nav_next", "nav_next", "", "Previous", settings.slideshow_text_nav_next, "") }}
+					</fieldset>
+				</div>
+			</div>
+		</div>
 		
+		<div class="col" id="col2">
+			<div class="scard">
+				<div class="header">
+					<h2>Layout</h2>
+				</div>
+				<div class="content">
+					{{ forms.smallselect("layout", "layout", "Select a layout", settings.layout, layouts) }}
+				</div>
+			</div>
+			
+			<div class="scard">
+				<div class="header">
+					<h2>Images</h2>
+				</div>
+				<div class="content">
+					<fieldset id="thumbnail">
+						<label for="thumbnail_width">Thumbnail Size</label>
+						{{ forms.finput("thumbnail_width", "thumbnail_width", "", "w", settings.thumbnail_width) }} 
+						<p class="unit">x</p>
+						{{ forms.finput("thumbnail_height", "thumbnail_height", "", "h", settings.thumbnail_height) }}
+					</fieldset>
+					
+					<fieldset id="images">
+						<label for="image_sm_width">Image Sizes (Width)</label>
+						
+						<p class="size">small:</p>{{ forms.finput("image_sm_width", "image_sm_width", "", "w", settings.image_sm_width, "px") }}
+						<p class="size">medium:</p>{{ forms.finput("image_md_width", "image_md_width", "", "w", settings.image_md_width, "px") }} 
+						<p class="size">large:</p>{{ forms.finput("image_lg_width", "image_lg_width", "", "w", settings.image_lg_width, "px") }} 	
+						<p class="size">x-large:</p>{{ forms.finput("image_xl_width", "image_xl_width", "", "w", settings.image_xl_width, "px") }} 
+					</fieldset>
+				</div>
+			</div>
+			
+			<div class="scard">
+				<div class="header">
+					<h2>Group</h2>
+				</div>
+				<div class="content">
+				</div>
+			</div>
+		</div>
+		
+		<div class="col" id="col3">
+			<div class="scard">
+				<div class="header">
+					<h2>APIs</h2>
+				</div>
+				<div class="content">
+					<fieldset>
+						{{ forms.finput("google_analytics", "google_analytics", "Google Analytics", "", settings.google_analytics) }}
+					</fieldset>
+					
+					<fieldset>
+						{{ forms.finput("typekit", "typekit", "Typekit Embed code", "", settings.typekit) }}
+					</fieldset>
+				</div>
+			</div>
+			
+			<div class="scard">
+				<div class="header">
+					<h2>Facebook</h2>
+				</div>
+				<div class="content">
+					<fieldset>
+						{{ forms.finput("facebook_uid", "facebook_uid", "Facebook User ID", "", settings.facebook_uid) }}
+					</fieldset>
+				</div>
+			</div>
+			
+			<div class="foundation scard">
+				<div class="header">
+					<h2>Foundation</h2>
+				</div>
+				<div class="content">
+					{% if settings.version == "A1" %}
+						<span class="version" id="a1">Foundation {{ settings.version }}</span>
+					{% elseif settings.version == "A2" %}
+						<span class="version" id="a2">Foundation {{ settings.version }}</span>
+					{% elseif settings.version == "A3" %}
+						<span class="version" id="a3">Foundation {{ settings.version }}</span>
+					{% elseif settings.version == "A4" %}
+						<span class="version" id="a4">Foundation {{ settings.version }}</span>
+					{% endif %}
+					<span class="build">build {{ settings.build }}</span>
+					
+					<span class="last_version_check">Last version check: {{ settings.last_version_check }}</span>
+				</div>
+			</div>
+			
 			<div class="save">
 				<div class="icon"></div>
 				<input name="submit" type="submit" value="Save Settings">
 			</div>
-		</div>
-		{#
-			{% if settings.header != "" %}
-				{{ forms.uploader("header", "header", "Header", "Upload header image", settings.header) }}
-			{% else %}
-				{{ forms.uploader("header", "header", "Header", "Upload header image") }}
-			{% endif %}
-		#}
-	
-	
 		</div>
 	</form>
 </div>

@@ -22,12 +22,14 @@
 		</div>
 	{% endmacro %}
 
-	{% macro smallselect(name, id, placeholder, default, values) %}
+	{% macro smallselect(name, id, placeholder, default, values, button) %}
 		<div class="fsselect">
 			<input class="fsinput" id="{{ id }}_value" name="{{ name }}" placeholder="{{ placeholder }}" type="hidden" value="{{ default }}">
 			<input class="fsinput" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" type="text" value="{{ default }}" disabled>
 			<div class="fsselect_btn"></div>
-			<div class="fsselect_add_btn"></div>
+			{% if button %}
+				<div class="fsselect_add_btn"></div>
+			{% endif %}
 			<ul class="fsselect_dropdown">
 				{% for value in values %}
 					<!-- These values should be loaded with PHP when you call the UI module -->

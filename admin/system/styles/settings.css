@@ -1,0 +1,192 @@
+/**
+ * Foundation Layout
+ * Settings
+ *
+ */
+ 
+/* Redefining Finputs */
+	.finput,
+	textarea {
+		border: 1px solid #E9E9E9 !important;
+		background: #FFFFFF !important;
+		}
+		
+	.fsselect {
+		width: 270px !important;
+		}
+		
+	.fsinput {
+		width: 220px !important;
+		}
+		
+	.save {
+		width: 110px;
+		}
+		
+
+/* Structure */
+ 
+ 	div#settings div.col {
+ 		margin-right: 40px;
+ 		float: left;
+ 		width: 29.5%;
+ 		}
+ 		
+ 	div#settings div#col3 {
+ 		margin-right: 0;
+ 		}
+ 	
+ 	div.scard {
+ 		margin-bottom: 30px;
+ 		min-height: 140px;
+ 		width: 100%;
+ 		float: left;
+ 		clear: both;
+ 		}
+
+ 	div.scard div.header {
+ 		border-top-right-radius: 5px;
+ 		border-top-left-radius: 5px;
+ 		padding: 6px 20px 0 10px;
+		background: #F29A8C;
+ 		width: 93.25%;
+ 		float: left;
+ 		}
+ 		
+ 	div.scard h2 {
+ 		background: #F2F2F2;
+		padding: 3px 10px;
+		font-weight: 100;
+ 		font-size: 10px;
+ 		display: inline;
+ 		float: left;
+ 		}
+ 		
+ 	div.scard div.content {
+ 		background: #F2F2F2;
+ 		min-height: 100px;
+ 		padding: 10px 20px;
+ 		width: 90%;
+ 		float: left;
+ 		}
+ 		
+ 	
+	div.foundation.scard {
+		min-height: 80px !important;
+		}
+		
+	div.foundation.scard div.content {
+		min-height: 60px !important;
+		}
+ 		
+/* Content-related Styles */
+	div.meta textarea {
+		height: 80px;
+		width: 235px;
+		}
+
+	div.slideshow #slideshow_transition {
+		border: none !important;
+		width: 230px;
+		}
+		
+	.fbselect_dropdown {
+		width: 240px;
+		}
+	div.slideshow input#nav_prev,
+	div.slideshow input#nav_next {
+		width: 112px;
+		}
+		
+	div.slideshow p.nav_input {
+		margin-top: 2px;
+		font-size: 21px;
+		width: 10px;
+		clear: none;
+		}
+
+ 	#settings	fieldset {
+ 		margin-bottom: 20px;
+ 		width: 312px;
+ 		float: left;
+ 		clear: both;
+ 		}
+ 		
+/* Foundation Versions */
+	.version {
+		text-indent: -9999px;
+		height: 19px;
+		width: 130px;
+		float: left;
+		}
+
+	.version#a1 {
+		background: url('../img/foundation-a1.png');
+		}
+		
+	.version#a2 {
+		background: url('../img/foundation-a2.png');
+		}
+		
+	.version#a3 {
+		background: url('../img/foundation-a3.png');
+		}
+		
+	.version#a4 {
+		background: url('../img/foundation-a4.png');
+		}
+		
+	.build {
+		margin-top: 6px;
+		float: left;
+		}
+		
+	.last_version_check {
+		margin-top: 10px;
+		float: left;
+		clear: both;
+		}
+		
+/* Old */
+ 		
+ 	#settings #thumbnail .finput,
+ 	#settings .finput#pagination {
+ 		display: inline;
+		width: 26px;
+		float: left;
+ 		}
+ 		
+ 	#settings #images .finput {
+ 		width: 40px;
+ 		}
+ 		
+ 	#settings label {
+		font-size: 12px !important;
+ 		margin-left: 0;
+ 		display: block;
+ 		width: 100%;
+ 		}
+ 		 		
+ 	#settings .alert {
+ 		float: left;
+ 		clear: both;
+ 		}
+ 		
+ 	#settings .alert .alert_content {
+		height: 165px;
+ 		}
+ 		
+ 	#settings input[type='checkbox'] {
+		margin: 6px 0 10px 1px;
+	 	float: left;
+	 	clear: none;
+	 	}
+	 	
+ 	p.size { 
+ 		margin-top: 7px;
+ 		display: inline;
+ 		font-size: 9px;
+		float: left;
+		clear: both;
+		width: 65px;
+ 		}

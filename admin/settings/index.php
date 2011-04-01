@@ -20,6 +20,17 @@
 			$settings[$setting->get_name()] = $setting->get_value();
 		}
 		
+		// When did we last check for a new version?
+		if (empty($settings['last_version_check'])) {
+			$settings['last_version_check'] = "Never";
+		} else {
+			$settings['last_version_check'] = nicetime($settings['last_version_check']);		
+		}
+		
+		// Get the version and build constants.
+		$settings['version'] = VERSION;
+		$settings['build'] = BUILD;
+		
 		// Get layouts
 		$layout_path = PUBLIC_PATH.DS.'layout';
 		$layouts = array();
@@ -28,7 +39,7 @@
 				$layouts[] = array('name'=>$item);
 			}
 		}
-				
+		
 		// Temporary
 		$start = array(array('name'=>'index'), array('name'=>'about'), array('name'=>'first project'));
 		$transitions = array(array("name" => "None", 			  			"value" => "none"),

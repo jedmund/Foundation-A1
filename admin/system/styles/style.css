@@ -26,7 +26,7 @@
 	
 	em.highlight {
 		padding: 2px 3px;
-		background: #FCB9B2;
+		background: #F29A8C;
 		font-style: normal;
 		}
 			
@@ -291,7 +291,7 @@
 		
 	ul#projects > li:hover .data, 
 	ul#projects > li:hover .thumb {
-		background: #FCB9B2;
+		background: #F29A8C;
 		}
 		
 	ul#archives > li:hover .data, 
@@ -300,7 +300,7 @@
 		}
 		
 	ul#projects .placeholder {
-		background: #FCB9B2;
+		background: #F29A8C;
 		}
 		
 	ul#archives .placeholder {
@@ -314,7 +314,7 @@
  */
  
  	ul#items .placeholder {
- 		background: #FCB9B2;
+ 		background: #F29A8C;
  		float: left;
  		}
  		
@@ -404,7 +404,7 @@
  		
  	li#add_content:hover,
  	li#add_content.selected {
- 		background: #FCB9B2 url('/admin/system/img/addcontent.png') 0 -81px no-repeat;
+ 		background: #F29A8C url('/admin/system/img/addcontent.png') 0 -81px no-repeat;
  		}
  		
  	#items {
@@ -437,7 +437,7 @@
  		}
  		
  	#items .item:hover {
- 		background: #FCB9B2;
+ 		background: #F29A8C;
  		cursor: move;
  		}
  		 			
@@ -554,7 +554,7 @@
 	#crop_btn {
 		text-shadow: 0px 1px 2px #FFDEDC;
 		padding: 5px 0 3px 0;
-		background: #FCB9B2;
+		background: #F29A8C;
 		text-align: center;
 		margin: 1px 0 10px;
 		font-weight: bold;
@@ -583,74 +583,7 @@
 	.thumb {
 		left: 0;
 		}
-		
-/**
- * Foundation Layout
- * Settings
- *
- */
-	div#settings_col1 {
-		margin-right: 30px;
-		position: relative;
-		height: 500px;
-		width: 53.9%;
-		float: left;
-		}
-		
-	div#settings_col2 {
-		position: relative;
-		width: 42%;
-		float: left;
-		}
- 
- 	#settings	fieldset {
- 		margin-bottom: 20px;
- 		width: 312px;
- 		float: left;
- 		clear: both;
- 		}
- 		
- 	#settings #thumbnail .finput,
- 	#settings .finput#pagination {
- 		display: inline;
-		width: 26px;
-		float: left;
- 		}
- 		
- 	#settings #images .finput {
- 		width: 40px;
- 		}
- 		
- 	#settings label {
- 		margin-left: 0;
- 		display: block;
- 		width: 100%;
- 		}
- 		 		
- 	#settings .alert {
- 		float: left;
- 		clear: both;
- 		}
- 		
- 	#settings .alert .alert_content {
-		height: 165px;
- 		}
- 		
- 	#settings input[type='checkbox'] {
-		margin: 6px 0 10px 1px;
-	 	float: left;
-	 	clear: none;
-	 	}
-	 	
- 	p.size { 
- 		margin-top: 7px;
- 		display: inline;
- 		font-size: 9px;
-		float: left;
-		clear: both;
-		width: 65px;
- 		}
- 
+		 
 /** 
  * Foundation Layout
  * Install UI
@@ -938,12 +871,12 @@
 		
 	div.segment:hover {
 		border-bottom: 1px solid #E5978E;
-		background: #FCB9B2;
+		background: #F29A8C;
 		}
  	
 	div.selected_segment {
 		border-bottom: 1px solid #E5978E;
-		background: #FCB9B2; 
+		background: #F29A8C; 
 		font-weight: bold;
 	 	}
 	 	
@@ -993,7 +926,7 @@
  		}
  		
  	ul#field_list li:hover {
- 		background-color: #FCB9B2;
+ 		background-color: #F29A8C;
  		color: #FFFFFF;
  		}
  		
@@ -1010,7 +943,7 @@
 	 	}
 	 	
 	.highlight {
-	 	background-color: #FCB9B2;
+	 	background-color: #F29A8C;
 	 	color: #666666;
 	 	padding: 2px;
 	 	}
