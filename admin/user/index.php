@@ -15,7 +15,8 @@
 		$user = User::find_by_id($_SESSION['uid']);
 		$user->email = $user->get_email();
 		$user->social = json_decode($user->social);
-		$user->bio = stripslashes(str_replace(array('\r', '\n', '%0a', '%0d'), "\n", $user->bio));
+		$user->status = clean($user->status);
+		$user->bio = clean($user->bio);
 		
 		$vars['title'] 	 = "User";
 		$vars['user']		 = $user;

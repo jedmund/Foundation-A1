@@ -462,3 +462,16 @@
 			return strpos($haystack, $needles);
 		}
 	}
+	
+	/**
+	 * Strips slashes and replaces newlines.
+	 *
+	 * @param			$text			string			The string of text to clean.
+	 * @return							string			The cleaned string.
+	 */
+	function clean($text) {
+		$replace = array('\r', '\n', '%0a', '%0d');
+		$newline = "\n";
+		
+		return stripslashes(str_replace($replace, $newline, $text));
+	}
