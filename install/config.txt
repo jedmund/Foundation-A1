@@ -17,7 +17,7 @@
 		define("VERSION", "A1");
 		
 	defined('BUILD') ? null :
-		define("BUILD", "112");
+		define("BUILD", "114");
 
 	defined('DOMAIN') ? null : 
 		define("DOMAIN", "sitedomain");

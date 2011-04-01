@@ -447,3 +447,16 @@
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (18, 'slideshow_pager', '0', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (19, 'layout', 'default', 0);";
 	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (20, 'title_delimiter', 'on', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (21, 'project_folder_url', 'projects', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (22, 'google_analytics', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (23, 'typekit', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (24, 'site_keywords', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (25, 'site_description', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (26, 'last_version_check', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (27, 'facebook_uid', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (28, 'facebook_like_type', 'website', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (29, 'facebook_like_verb', 'like', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (30, 'facebook_like_font', '', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (31, 'facebook_like_width', '300', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (32, 'facebook_like_layout', 'button_count', 0);";
+	$sql[] = "INSERT INTO `settings` (`id`, `name`, `value`, `autoload`) VALUES (33, 'facebook_like_faces', '0', 0);";
