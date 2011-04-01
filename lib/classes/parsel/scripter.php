@@ -143,8 +143,8 @@
 			
 			// If the user has defined text navigation, display it.
 			if ($text_nav) {
-				$script .= "next: \$this.parent().find('.parsel_slideshow_prev'),";
-				$script .= "prev: \$this.parent().find('.parsel_slideshow_next')";
+				$script .= "next: \$this.parent().find('.parsel_slideshow_next'),";
+				$script .= "prev: \$this.parent().find('.parsel_slideshow_prev')";
 			} else {
 				// Otherwise, clicking the image advances the slideshow.
 				// This is not user-changeable.

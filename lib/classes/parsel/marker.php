@@ -62,7 +62,7 @@
 				if ($func_name == "make_link") {
 					$child = call_user_func_array(array("self", $func_name), array($item['href'], $item['content'], $item['attributes']));
 				} else if ($func_name == "make_image") {
-					$child = call_user_func_array(array("self", $func_name), array($item['source'],  $item['caption'], $item['attributes']));
+					$child = call_user_func_array(array("self", $func_name), array($item['source'], $item['caption'], $item['attributes']));
 				} else {
 					$child = call_user_func_array(array("self", $func_name), array($item['content'], $item['attributes']));
 				}

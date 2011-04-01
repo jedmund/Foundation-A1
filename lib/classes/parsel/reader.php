@@ -380,6 +380,54 @@
 			// Return the trimmed result.
  			return $options;
  		}
+ 		
+ 		/**
+ 		 * Extracts the modifiers from the tag, or false if there are no 
+ 		 * modifiers.
+ 		 * 
+ 		 * @param				$tag				string			The tag to extract from.
+ 		 * @return									array				The modifiers from the tag.				
+ 		 *
+ 		 */
+ 		public static function get_modifiers($tag) {
+			$tag = self::sanitize($tag);
+			$option_delimiter = "with";
+			$option_separator = "and";
+			$filter = "from";
+			
+			$modifier_key = array("before", "after", "explicitly");
+			$modifiers = false;
+ 			// If the tag has options, find them inside the phrase.
+ 			// Otherwise, return false, because there is no mode.
+ 			if ($words = self::is_operation($tag)) {
+ 				if (in_array($option_delimiter, $words)) {
+	 				$key = array_search($option_delimiter, $words);
+	 				
+	 				// Split the array at the key.
+	 				$options = array_slice($words, $key+1);
+
+	 				// Find the filter keyword and slice there.
+	 				if ($filter_key = array_search($filter, $options)) {
+		 				$options = array_slice($options, 0, $filter_key);
+		 			}
+
+	 				// If the split array has more than one index, then we need to
+	 				// grab every other key.
+	 				$modifiers = array();
+	 				if (count($options) > 1) {
+		 				for ($i = 0; $i < count($options); $i++) {
+		 					if ($options[$i] != $option_separator &&
+		 							in_array($options[$i], $modifier_key)) {
+		 						$modifiers[] = array("option"		=> trim($options[$i-1]), 
+		 																 "modifier" => trim($options[$i]));
+		 					}
+		 				}		 				
+	 				} 
+	 			}
+ 			} 			
+			// Return the trimmed result.
+ 			return $modifiers;
+ 		}
 
 		/**
 		 * Extracts the filter group from the tag.
@@ -508,9 +556,12 @@
 		 *
 		 */
 		public static function dehyphenate($range) {
-			$pos = strpos($range, "-");
-			$val1 = substr($range, $pos-1, ($pos-($pos-1)));
-			$val2 = substr($range, $pos+1);
+			if ($parts = explode("-", $range)) {
+				if (count($parts) == 2) {
+					$val1 = $parts[0];
+					$val2 = $parts[1];
+				}
+			}
 			
 			$parts = array();
 			for ($i = $val1; $i <= $val2; $i++) {
@@ -539,6 +590,7 @@
 		 		$parts['index']				 = self::get_index($tag);
 		 		$parts['parameters']	 = self::get_parameters($tag);
 		 		$parts['options'] 		 = self::get_options($tag);
+		 		$parts['modifiers']		 = self::get_modifiers($tag);
 		 		$parts['filter_group'] = self::get_filter_group($tag);
 		 		$parts['filter_value'] = self::get_filter_value($tag);
 		 		$parts['subset_group'] = self::get_subset_group($tag);
@@ -563,6 +615,7 @@
  			$string .= "Index: "		 		. self::get_index($tag)				 . "<br>";
  			$string .= "Parameters: "		. self::get_parameters($tag)   . "<br>";
  			$string .= "Options: "			. self::get_options($tag)			 . "<br>";
+ 			$string .= "Modifiers: "		. self::get_modifiers($tag)		 . "<br>";
  			$string .= "Filter Group: " . self::get_filter_group($tag) . "<br>";
  			$string .= "Filter Value: " . self::get_filter_value($tag) . "<br>";
  			$string .= "Subset: " 			. self::get_subset($tag)			 . "<br>";

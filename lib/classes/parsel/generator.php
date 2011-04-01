@@ -135,8 +135,11 @@
 					$list = Marker::make_list("ul", $children);
 					$nav  = Marker::make_nav($list, array("class"=>"parsel_slideshow_nav"));
 				}
-
+				
+				// for now, fake it out
+				$parts['options'][] = "slideshow";
 	  		$images = $builder->build_images($parts, $system['obj_id'], array("class"=>"parsel_slideshow_images"));
+
 	  		$caption = Marker::make_paragraph("", array("class"=>"parsel_slideshow_caption"));
 	  		
 	  		$html = "";
@@ -147,10 +150,21 @@
 		  			$html = $nav . $images;
 		  		}
 		  		
-		  		if (is_array($parts['options']) && in_array("post-captions", $parts['options'])) {
-		  			$html = $html . $caption;
-		  		} else {
-		  			$html = $caption . $html;
+		  		if (is_array($parts['options']) && in_array("captions", $parts['options'])) {
+		  			if (is_array($parts['modifiers'])) {
+		  				$modifier = "after";
+		  				foreach($parts['modifiers'] as $modifier) {
+		  					if ($modifier['option'] == "captions") {
+		  						$modifier = $modifier['modifier'];
+		  					}
+		  				}
+		  			}
+		  			
+		  			if ($modifier == "before") {
+			  			$html = $caption . $html;
+			  		} else {
+			  			$html = $html . $caption;
+			  		}
 		  		}
 				}
 				
@@ -190,21 +204,25 @@
 	  		$tweets = $twitter->get($amount);
 	  		
 	  		$items = array();
-	  		foreach ($tweets as $tweet) {
-	  			$date = Marker::make_span($tweet['date'], array("class"=>"parsel_date"));
-	  			$date_link = Marker::make_link($tweet['href'], $date);
-	  			$text = Marker::make_paragraph($tweet['text']);
-	  			
-	  			$content = $text . $date_link;
-	  			$item['content'] = $content;
-	  			$item['attributes']['class'] = "parsel_tweet"; 
-	  			$items[] = $item; 
-	  		}
+	  		if (!empty($tweets) && is_array($tweets)) {
+		  		foreach ($tweets as $tweet) {
+		  			$date = Marker::make_span($tweet['date'], array("class"=>"parsel_date"));
+		  			$date_link = Marker::make_link($tweet['href'], $date);
+		  			$text = Marker::make_paragraph($tweet['text']);
+		  			
+		  			$content = $text . $date_link;
+		  			$item['content'] = $content;
+		  			$item['attributes']['class'] = "parsel_tweet"; 
+		  			$items[] = $item; 
+		  		}
+		  	} else {
+		  		echo "Oops! Tweets couldn't be loaded at this time.";
+		  	}
 	  		
 	  		$html = Marker::make_list("ul", $items, array("class"=>"parsel_twitter"));
 				return $html;
 	  	}
-	  	
+
 	  	/**
 			 * Helper function to build Dribbble widgets.
 			 *
@@ -260,22 +278,35 @@
 			 *
 			 */
 	  	public function generate_title($parts, $system) {
+	  		$user = User::find_by_id(10);
+	  	
 	  		$setting = Setting::find_by_name("title");
 	  		$site_title = $setting->get_value();
 
 	  		$setting = Setting::find_by_name("title_delimiter");
 	  		$delimiter = $setting->get_value();
 	  		
+	  		$setting = Setting::find_by_name("project_folder_url");
+	  		$folder = $setting->get_value();
+	  		
 	  		$content = "";	  		
-	  		if ($system['request_uri'] == ("/" ||  "/home" || "/index" || "/index.php")) {
+	  		if ($system['request_uri'] == "/" ||  
+			  		$system['request_uri'] == "/home" || 
+			  		$system['request_uri'] == "/index" || 
+			  		$system['request_uri'] == "/index.php") {
 	  			$content = $site_title;
-	  		} else if (strpos($system['request_uri'], "projects/") && !empty($system['obj_id'])) {
+	  			
+	  		} else if (strpos($system['request_uri'], ($folder . "/")) && 
+	  							 !empty($system['obj_id'])) {
 					$project = Project::find_by_id($system['obj_id']);
 	  			$content = $project->title . " " . $delimiter . " " . $site_title;
+	  			
 	  		} else if ($system['request_uri'] == "/projects") {
 	  			$content = "Projects " . $delimiter . " " . $site_title;
+	  			
 				} else if ($system['request_uri'] == "/about") {
-	  			$content = "About " . $delimiter . " " . $site_title;
+	  			$content = "About " . $user->full_name();
+	  			
 	  		} else if ($system['request_uri'] == "/contact") {
 	  			$content = "Content " . $delimiter . " " . $site_title;
 	  		}
