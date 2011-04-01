@@ -24,7 +24,9 @@
 		 *
 		 */
 		function __construct() {
-			session_start();
+			// Suppress the automatic garbage collection bug thats detailed 
+			// at: http://jed.mu/5Z7I
+			@session_start();
 			$this->check_login();
 		}
 			

@@ -56,6 +56,14 @@
 			$this->save();
 		}
 
+		public static function find_by_script($script="", $incomplete=true) {
+			$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table .
+						 " WHERE script = '" . $script . "'" .
+						 " AND incomplete = " . $incomplete . 
+						 " ORDER BY date_execute ASC";
+			return self::find_by_sql($sql);
+		}
+
 		public static function find_incomplete($priority=0) {
 			$sql = "SELECT " . self::$safe_fields . " FROM " . self::$table .
 						 " WHERE completed < 1".
