@@ -360,6 +360,7 @@
 				}
 				
 				// Loop over each image and build the items.
+				// !! REFACTOR THIS NOW
 				foreach ($images as $image) {
 					// Build the image.
 					$item = $this->build_image($image, $parts);
@@ -378,8 +379,45 @@
 					if ($parts['object'] == "slideshow") {
 						$item['attributes']['class'] = $item['attributes']['class'] . " parsel_slideshow_next";
 					}
-					
-					$items['children'][] = $item;
+					if (is_array($parts['options']) && 
+							(in_array("captions", $parts['options']) ||
+							 in_array("caption", $parts['options']))) {
+						// If we are adding captions, we should change the application
+						// flow a bit.
+						
+						// Make the image and caption.
+						$img = Marker::make_image($item['source'], $item['caption'], $item['attributes']);
+						
+						$caption = "";
+						if (!in_array("slideshow", $parts['options'])) {
+							$caption = Marker::make_paragraph($item['caption'], array("class"=>"parsel_caption"));
+						}
+						
+						// Encapsulate in a div depending on the modifiers.
+						$modifier = "after";
+						foreach($parts['modifiers'] as $modifier) {
+							if ($modifier['option'] == ("captions" || "caption")) {
+								$modifier = $modifier['modifier'];
+								break;
+							}
+						}
+						
+						if ($modifier == "after") {
+							$item = $img . $caption;
+						} else {
+							$item = $caption . $img;
+						}
+
+						$items .= $item;
+					} else {
+						$items['children'][] = $item;
+					}
+				}
+				// There is a problem with how we are doing this, so we get "Array"
+				// at the beginning of the string. This fixes it for now. It is 
+				// imperative that we refactor this in the next big update.
+				if (is_string($items)) {
+					$items = substr($items, 5);
 				}
 			}
 			
@@ -414,7 +452,12 @@
  			// Set the full index to the full size image.
  			// Set the caption index to the caption.
  			$data['full'] = $image->full;
- 			$data['caption'] = $image->caption;
+ 			
+ 			if (in_array("captions", $parts['options'])) {
+				$data['caption'] = htmlentities(stripslashes($image->caption));
+		 	} else {
+		 		$data['caption'] = "";
+		 	}
 			
 			// Get the requested size of the image, failsafing back to the 
 			// full-sized image if the requested size does not exist.
